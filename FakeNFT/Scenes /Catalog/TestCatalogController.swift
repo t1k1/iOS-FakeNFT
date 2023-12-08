@@ -7,7 +7,8 @@ final class TestCatalogViewController: UIViewController {
 
     init(servicesAssembly: ServicesAssembly) {
         self.servicesAssembly = servicesAssembly
-        super.init(nibName: nil, bundle: nil)
+        super.init()
+        // super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {

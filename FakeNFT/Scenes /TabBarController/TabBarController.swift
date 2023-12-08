@@ -2,7 +2,7 @@ import UIKit
 
 final class TabBarController: UITabBarController {
 
-    var servicesAssembly: ServicesAssembly!
+   var servicesAssembly: ServicesAssembly!
 
     private let catalogTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.catalog", comment: ""),
@@ -13,12 +13,14 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let catalogController = TestCatalogViewController(
-            servicesAssembly: servicesAssembly
-        )
+      let catalogController = CatalogViewController()
+      //      let catalogController = TestCatalogViewController(
+      //            servicesAssembly: servicesAssembly
+      //        )
         catalogController.tabBarItem = catalogTabBarItem
 
         viewControllers = [catalogController]
+      selectedIndex = 0
 
         view.backgroundColor = .systemBackground
     }
