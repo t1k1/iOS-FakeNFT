@@ -36,5 +36,7 @@ final class TabBarController: UITabBarController {
         selectedIndex = 1
         
         view.backgroundColor = UIColor(named: "White Universal")
+        tabBar.tintColor = UIColor(named: "Blue Universal")
+        tabBar.unselectedItemTintColor = UIColor(named: "Black Universal")
     }
 }

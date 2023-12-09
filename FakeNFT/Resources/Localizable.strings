@@ -6,3 +6,6 @@
 "Error.title" = "Ошибка";
 
 "Tab.cart" = "Корзина";
+"Cart.pay" = "К оплате";
+"Cart.NFT" = "NFT";
+"Cart.ETH" = "ETH";
