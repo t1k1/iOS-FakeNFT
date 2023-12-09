@@ -27,9 +27,9 @@ final class CatalogViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = 179
-        tableView.layer.cornerRadius = 12
         tableView.backgroundColor = .ypWhiteDay
         tableView.register(CatalogCell.self, forCellReuseIdentifier: CatalogCell.reuseIdentifier)
+        tableView.separatorStyle = .none
         //        tableView.delegate = self
         tableView.dataSource = self
         
@@ -49,8 +49,7 @@ final class CatalogViewController: UIViewController {
     
     @objc
     private func didTapSortingButton() {
-        
-        dismiss(animated: true)
+        showSortingAlert()
     }
     
     // MARK: - Private Methods
@@ -75,6 +74,36 @@ final class CatalogViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func showSortingAlert() {
+        let alertController = UIAlertController(
+            title: "Сортировка",
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
+        let sortName = UIAlertAction(
+            title: "По названию",
+            style: .default
+        ) { [weak self] _ in
+            self?.dismiss(animated: true)
+        }
+        
+        let sortQuantity = UIAlertAction(
+            title: "По количеству NFT",
+            style: .default
+        ) { [weak self] _ in
+            self?.dismiss(animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Закрыть", style: .cancel, handler: nil)
+        
+        [sortName, sortQuantity, cancelAction].forEach {
+            alertController.addAction($0)
+        }
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
