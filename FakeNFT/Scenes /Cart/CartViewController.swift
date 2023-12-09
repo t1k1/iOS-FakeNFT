@@ -16,14 +16,14 @@ final class CartViewController: UIViewController {
             target: self,
             action: #selector(didTapSortButton)
         )
-        button.tintColor = UIColor(named: "Black Universal") ?? .black
+        button.tintColor = UIColor(named: "Black Universal")
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "White Universal") ?? .white
+        view.backgroundColor = UIColor(named: "White Universal")
         configureConstraints()
     }
     
