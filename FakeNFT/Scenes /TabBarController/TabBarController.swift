@@ -9,13 +9,13 @@ final class TabBarController: UITabBarController {
     
     private let catalogTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.catalog", comment: ""),
-        image: UIImage(named: "сatalog"),
+        image: UIImage(named: "сatalog") ?? UIImage(systemName: "square.stack.3d.up.fill"),
         tag: 0
     )
     
     private let cartTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.cart", comment: ""),
-        image: UIImage(named: "сart"),
+        image: UIImage(named: "сart") ?? UIImage(systemName: "cart.fill"),
         tag: 1
     )
     
@@ -33,7 +33,7 @@ final class TabBarController: UITabBarController {
         cartController.tabBarItem = cartTabBarItem
         
         viewControllers = [catalogController, cartController]
-        selectedIndex = 0
+        selectedIndex = 1
         
         view.backgroundColor = UIColor(named: "White Universal") ?? .white
     }
