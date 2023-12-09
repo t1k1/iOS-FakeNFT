@@ -2,7 +2,7 @@ import UIKit
 
 final class CartViewController: UIViewController {
     
-    //MARK: - Constants for tableView
+    // MARK: - Mock properties
     private let array: [String] = [
     "first",
     "second",
@@ -16,7 +16,20 @@ final class CartViewController: UIViewController {
     "ten",
     ]
     
-    //MARK: - Constants
+    private let cost: [Float] = [
+        0.51,
+        2.45,
+        2.34,
+        5.42,
+        3,34,
+        4.24,
+        2.45,
+        1.64,
+        2.65,
+        6.43
+    ]
+    
+    // MARK: - Constants
     private let navigationBar: UINavigationBar = {
         let bar = UINavigationBar()
         bar.layer.backgroundColor = UIColor.clear.cgColor
@@ -43,7 +56,7 @@ final class CartViewController: UIViewController {
     
     private let totalLabel: UILabel = {
         let label = UILabel()
-        label.text = "0 \(NSLocalizedString("Cart.NFT", comment: "Number of NFT in cart"))"
+        label.text = "0 \(NSLocalizedString("Cart.NFT", comment: ""))"
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.textColor = UIColor(named: "Black Universal")
@@ -53,7 +66,7 @@ final class CartViewController: UIViewController {
     
     private let costLabel: UILabel = {
         let label = UILabel()
-        label.text = "0 \(NSLocalizedString("Cart.ETH", comment: "Cost of all NFT in ETH"))"
+        label.text = "0 \(NSLocalizedString("Cart.ETH", comment: ""))"
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.textColor = UIColor(named: "Green Universal")
@@ -66,11 +79,12 @@ final class CartViewController: UIViewController {
         table.isScrollEnabled = true
         table.allowsSelection = false
         table.allowsMultipleSelection = false
+        table.separatorStyle = .none
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
     
-    //MARK: - Mutable properties
+    // MARK: - Mutable properties
     private lazy var sortButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(named: "Sort") ?? UIImage(),
@@ -97,12 +111,13 @@ final class CartViewController: UIViewController {
         return button
     }()
     
-    //MARK: - View controller lifecycle methods
+    // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "White Universal")
         configureConstraints()
         tableViewConfiguration()
+        totalLabel.text = "\(array.count) \(NSLocalizedString("Cart.NFT", comment: ""))"
     }
     
     private func tableViewConfiguration() {
@@ -111,7 +126,7 @@ final class CartViewController: UIViewController {
         tableView.register(CartTableViewCell.self, forCellReuseIdentifier: CartTableViewCell.reuseIdentifier)
     }
     
-    //MARK: - Objective-C function
+    // MARK: - Objective-C function
     @objc
     private func didTapSortButton() {
         print("sort button pressed")
@@ -132,11 +147,30 @@ extension CartViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.reuseIdentifier, for: indexPath)
         cell.selectionStyle = .none
-        guard let CartTableViewCell = cell as? CartTableViewCell else {
+        guard let cartTableViewCell = cell as? CartTableViewCell else {
             return UITableViewCell()
         }
-        CartTableViewCell.textLabel?.text = array[indexPath.row]
-        return CartTableViewCell
+        cartTableViewCell.configCell(
+            at: indexPath,
+            image: UIImage(named: "Cart Image \([0,1,2].randomElement() ?? 0)") ?? UIImage(),
+            name: array[indexPath.row],
+            price: cost[indexPath.row],
+            currency: NSLocalizedString("Cart.ETH", comment: "")
+        )
+        let totalCost = cost.reduce(0, +)
+        costLabel.text = "\(totalCost) \(NSLocalizedString("Cart.ETH", comment: ""))"
+        
+        cartTableViewCell.delegate = self
+        return cartTableViewCell
+    }
+}
+
+// MARK: - TableViewCellDelegate
+extension CartViewController: CartTableViewCellDelegate {
+    func didTapCellDeleteButton(_ sender: CartTableViewCell) {
+        let cell = sender
+        let indexPath = tableView.indexPath(for: cell)
+        print("Send from delegate, indexPath is \(indexPath ?? IndexPath(row: 0, section: 0))")
     }
 }
 
@@ -156,8 +190,8 @@ private extension CartViewController {
         view.addSubview(navigationBar)
         navigationBar.addSubview(sortButton)
         NSLayoutConstraint.activate([
-            sortButton.heightAnchor.constraint(equalToConstant: 42),
-            sortButton.widthAnchor.constraint(equalToConstant: 42),
+            sortButton.heightAnchor.constraint(equalToConstant: 44),
+            sortButton.widthAnchor.constraint(equalToConstant: 44),
             sortButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor),
             sortButton.trailingAnchor.constraint(equalTo: navigationBar.trailingAnchor, constant: -9)
         ])

@@ -9,3 +9,4 @@
 "Cart.pay" = "К оплате";
 "Cart.NFT" = "NFT";
 "Cart.ETH" = "ETH";
+"Cart.TableView.Cell.PriceText" = "Цена";
