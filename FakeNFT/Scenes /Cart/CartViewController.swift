@@ -2,32 +2,19 @@ import UIKit
 
 final class CartViewController: UIViewController {
     
-    //MARK: - Mutable properties
-    private lazy var sortButton: UIButton = {
-        let button = UIButton.systemButton(
-            with: UIImage(named: "Sort") ?? UIImage(),
-            target: self,
-            action: #selector(didTapSortButton)
-        )
-        button.tintColor = UIColor(named: "Black Universal")
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private lazy var payButton: UIButton = {
-        let button = UIButton.systemButton(
-            with: UIImage(),
-            target: self,
-            action: #selector(didTapPayButton)
-        )
-        button.backgroundColor = UIColor(named: "Black Universal")
-        button.setTitle(NSLocalizedString("Cart.pay", comment: ""), for: .normal)
-        button.setTitleColor(UIColor(named: "White Universal"), for: .normal)
-        button.layer.cornerRadius = 16
-        button.layer.masksToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    //MARK: - Constants for tableView
+    private let array: [String] = [
+    "first",
+    "second",
+    "third",
+    "fourth",
+    "fiveth",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    ]
     
     //MARK: - Constants
     private let navigationBar: UINavigationBar = {
@@ -74,11 +61,54 @@ final class CartViewController: UIViewController {
         return label
     }()
     
+    private let tableView: UITableView = {
+        let table = UITableView()
+        table.isScrollEnabled = true
+        table.allowsSelection = false
+        table.allowsMultipleSelection = false
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
+    }()
+    
+    //MARK: - Mutable properties
+    private lazy var sortButton: UIButton = {
+        let button = UIButton.systemButton(
+            with: UIImage(named: "Sort") ?? UIImage(),
+            target: self,
+            action: #selector(didTapSortButton)
+        )
+        button.tintColor = UIColor(named: "Black Universal")
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var payButton: UIButton = {
+        let button = UIButton.systemButton(
+            with: UIImage(),
+            target: self,
+            action: #selector(didTapPayButton)
+        )
+        button.backgroundColor = UIColor(named: "Black Universal")
+        button.setTitle(NSLocalizedString("Cart.pay", comment: ""), for: .normal)
+        button.setTitleColor(UIColor(named: "White Universal"), for: .normal)
+        button.layer.cornerRadius = 16
+        button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     //MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "White Universal")
         configureConstraints()
+        tableViewConfiguration()
+    }
+    
+    private func tableViewConfiguration() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(CartTableViewCell.self, forCellReuseIdentifier: CartTableViewCell.reuseIdentifier)
     }
     
     //MARK: - Objective-C function
@@ -91,9 +121,38 @@ final class CartViewController: UIViewController {
     private func didTapPayButton() {
         print("pay button pressed")
     }
+}
+
+// MARK: - TableView Data Source
+extension CartViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return array.count
+    }
     
-    // MARK: - Configure constraints
-    private func configureConstraints() {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.reuseIdentifier, for: indexPath)
+        cell.selectionStyle = .none
+        guard let CartTableViewCell = cell as? CartTableViewCell else {
+            return UITableViewCell()
+        }
+        CartTableViewCell.textLabel?.text = array[indexPath.row]
+        return CartTableViewCell
+    }
+}
+
+
+// MARK: - TableView Delegate
+extension CartViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 140
+    }
+}
+
+
+// MARK: - Configure constraints
+private extension CartViewController {
+    
+    func configureConstraints() {
         view.addSubview(navigationBar)
         navigationBar.addSubview(sortButton)
         NSLayoutConstraint.activate([
@@ -125,11 +184,18 @@ final class CartViewController: UIViewController {
         
         payUIView.addSubview(payButton)
         NSLayoutConstraint.activate([
-
             payButton.topAnchor.constraint(equalTo: payUIView.topAnchor, constant: 16),
             payButton.bottomAnchor.constraint(equalTo: payUIView.bottomAnchor, constant: -16),
             payButton.trailingAnchor.constraint(equalTo: payUIView.trailingAnchor, constant: -16),
             payButton.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 119)
+        ])
+        
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: 20),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: payUIView.topAnchor)
         ])
         
     }
