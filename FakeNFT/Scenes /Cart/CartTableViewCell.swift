@@ -28,7 +28,7 @@ final class CartTableViewCell: UITableViewCell {
     }()
     
     private let ratingImage: UIImageView = {
-        let image = UIImage(named: "stars\([0,1,2,3,4,5].randomElement() ?? 0)")
+        let image = UIImage(named: "stars0")
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -79,7 +79,8 @@ final class CartTableViewCell: UITableViewCell {
         image: UIImage,
         name: String,
         price: Float,
-        currency: String
+        currency: String,
+        rating: Int
     ) {
         let items = CartTableViewCellViewModel(
             nameUILabel: self.nameLabel,
@@ -89,6 +90,8 @@ final class CartTableViewCell: UITableViewCell {
         items.previewUIImageView.image = image
         items.nameUILabel.text = name
         items.priceUILabel.text = "\(round(price*100/100)) \(currency)"
+        let correctRating: Int = Int(round(Double(rating/2)))
+        items.ratingUIImageView.image = UIImage(named: "stars\(correctRating)")
     }
     
     // MARK: - Objective-C functions

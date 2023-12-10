@@ -3,31 +3,44 @@ import UIKit
 final class CartViewController: UIViewController {
     
     // MARK: - Mock properties
-    private let array: [String] = [
-    "first",
-    "second",
-    "third",
-    "fourth",
-    "fiveth",
-    "six",
-    "seven",
-    "eight",
-    "nine",
-    "ten",
+    private var nftArray: [Nft] = [
+    Nft(
+        createdAt: "2023-09-27T23:48:21.462Z[GMT]".dateFromISO8601String(),
+        name: "Myrna Cervantes",
+        images: [],
+        rating: 9,
+        description: "eloquentiam deterruisset tractatos repudiandae nunc a electram",
+        price: 39.37,
+        author: URL(string: "https://priceless_leavitt.fakenfts.org/") ?? URL(fileURLWithPath: ""),
+        id: "c14cf3bc-7470-4eec-8a42-5eaa65f4053c"
+    ),
+    Nft(
+        createdAt: "2023-09-18T00:04:07.524Z[GMT]".dateFromISO8601String(),
+        name: "Melvin Yang",
+        images: [],
+        rating: 8,
+        description: "leo liber nobis nisi animal posidonium facilisi mauris",
+        price: 8.04,
+        author: URL(string: "https://sharp_matsumoto.fakenfts.org/") ?? URL(fileURLWithPath: ""),
+        id: "82570704-14ac-4679-9436-050f4a32a8a0"
+    ),
+    Nft(
+        createdAt: "2023-06-07T18:53:46.914Z[GMT]".dateFromISO8601String(),
+        name: "Mamie Norton",
+        images: [],
+        rating: 6,
+        description: "voluptaria equidem oporteat volutpat nisi interdum quas",
+        price: 31.64,
+        author: URL(string: "https://affectionate_bassi.fakenfts.org/") ?? URL(fileURLWithPath: ""),
+        id: "9810d484-c3fc-49e8-bc73-f5e602c36b40"
+    )]
+    
+    private var nftImages: [UIImage?] = [
+    UIImage(named: "Cart Image 0"),
+    UIImage(named: "Cart Image 1"),
+    UIImage(named: "Cart Image 2")
     ]
     
-    private let cost: [Float] = [
-        0.51,
-        2.45,
-        2.34,
-        5.42,
-        3,34,
-        4.24,
-        2.45,
-        1.64,
-        2.65,
-        6.43
-    ]
     
     // MARK: - Private constants
     private let navigationBar: UINavigationBar = {
@@ -118,7 +131,44 @@ final class CartViewController: UIViewController {
         view.backgroundColor = UIColor(named: "White Universal")
         configureConstraints()
         tableViewConfiguration()
-        totalLabel.text = "\(array.count) \(NSLocalizedString("Cart.NFT", comment: ""))"
+        updateTotalAndCostLabels()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        let random = [0,1,2].randomElement()
+        let newNFT = nftArray[random ?? 0]
+        let image = nftImages[random ?? 0]
+        appendNftArray(with: newNFT, image: image ?? UIImage())
+        updateTableView()
+        updateTotalAndCostLabels()
+    }
+    
+    private func appendNftArray(with nft: Nft, image: UIImage) {
+        nftArray.append(nft)
+        nftImages.append(image)
+    }
+    
+    private func updateTableView() {
+        tableView.reloadData()
+    }
+    
+    private func updateTotalAndCostLabels() {
+        totalLabel.text = "\(calculateTotalNftNumber()) \(NSLocalizedString("Cart.NFT", comment: ""))"
+        costLabel.text = "\(calculateTotalNfsPrice()) \(NSLocalizedString("Cart.ETH", comment: ""))"
+    }
+    
+    private func calculateTotalNftNumber() -> Int {
+        return nftArray.count
+    }
+    
+    private func calculateTotalNfsPrice() -> Float {
+        var eachPrice: [Float] = []
+        nftArray.forEach { nft in
+            eachPrice.append(nft.price)
+        }
+        let totalCost = eachPrice.reduce(0, +)
+        return round(totalCost * 100 / 100)
     }
     
     private func tableViewConfiguration() {
@@ -142,7 +192,7 @@ final class CartViewController: UIViewController {
 // MARK: - TableView Data Source
 extension CartViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return array.count
+        return calculateTotalNftNumber()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -153,13 +203,12 @@ extension CartViewController: UITableViewDataSource {
         }
         cartTableViewCell.configCell(
             at: indexPath,
-            image: UIImage(named: "Cart Image \([0,1,2].randomElement() ?? 0)") ?? UIImage(),
-            name: array[indexPath.row],
-            price: cost[indexPath.row],
-            currency: NSLocalizedString("Cart.ETH", comment: "")
+            image: nftImages[indexPath.row] ?? UIImage(),
+            name: nftArray[indexPath.row].name,
+            price: nftArray[indexPath.row].price,
+            currency: NSLocalizedString("Cart.ETH", comment: ""),
+            rating: nftArray[indexPath.row].rating
         )
-        let totalCost = cost.reduce(0, +)
-        costLabel.text = "\(totalCost) \(NSLocalizedString("Cart.ETH", comment: ""))"
         
         cartTableViewCell.delegate = self
         return cartTableViewCell
