@@ -29,7 +29,7 @@ final class CartViewController: UIViewController {
         6.43
     ]
     
-    // MARK: - Constants
+    // MARK: - Private constants
     private let navigationBar: UINavigationBar = {
         let bar = UINavigationBar()
         bar.layer.backgroundColor = UIColor.clear.cgColor
@@ -84,7 +84,7 @@ final class CartViewController: UIViewController {
         return table
     }()
     
-    // MARK: - Mutable properties
+    // MARK: - Private mutable properties
     private lazy var sortButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(named: "Sort") ?? UIImage(),
@@ -105,6 +105,7 @@ final class CartViewController: UIViewController {
         button.backgroundColor = UIColor(named: "Black Universal")
         button.setTitle(NSLocalizedString("Cart.pay", comment: ""), for: .normal)
         button.setTitleColor(UIColor(named: "White Universal"), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -171,6 +172,10 @@ extension CartViewController: CartTableViewCellDelegate {
         let cell = sender
         let indexPath = tableView.indexPath(for: cell)
         print("Send from delegate, indexPath is \(indexPath ?? IndexPath(row: 0, section: 0))")
+        let vc = CartDeleteItemViewController()
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true)
     }
 }
 
@@ -179,7 +184,7 @@ extension CartViewController: CartTableViewCellDelegate {
 extension CartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
-    }
+    }    
 }
 
 

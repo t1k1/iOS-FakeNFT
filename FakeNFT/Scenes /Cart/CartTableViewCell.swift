@@ -18,7 +18,7 @@ final class CartTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let previewImage: UIImageView = {
+    let previewImage: UIImageView = {
         let image = UIImage()
         let imageView = UIImageView(image: image)
         imageView.layer.cornerRadius = 12

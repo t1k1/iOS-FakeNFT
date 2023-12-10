@@ -7,6 +7,9 @@
 
 "Tab.cart" = "Корзина";
 "Cart.pay" = "К оплате";
+"Cart.delete" = "Удалить";
+"Cart.back" = "Вернуться";
 "Cart.NFT" = "NFT";
 "Cart.ETH" = "ETH";
 "Cart.TableView.Cell.PriceText" = "Цена";
+"Cart.TableView.Cell.Delete" = "Вы уверены, что хотите \n удалить объект из корзины?";
