@@ -16,7 +16,11 @@ final class CatalogCell: UITableViewCell {
     //MARK: - Layout variables
     
     private lazy var catalogImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "Frame 9430.png"))
+        let image = UIImage(named: "Cover1.png")
+        let imageView = UIImageView(image: image)
+        imageView.layer.cornerRadius = 12
+        imageView.contentMode = .top
+        imageView.clipsToBounds = true
         
         return imageView
     }()
@@ -36,6 +40,12 @@ final class CatalogCell: UITableViewCell {
         contentView.backgroundColor = .ypWhiteDay
         addSubViews()
         applyConstraints()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        updateImageSize()
     }
     
     // MARK: - Private Methods
@@ -60,5 +70,29 @@ final class CatalogCell: UITableViewCell {
             footerLabel.trailingAnchor.constraint(equalTo: catalogImageView.trailingAnchor),
             footerLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13)
         ])
+    }
+    
+    private func updateImageSize() {
+        guard let originalImage = catalogImageView.image else {
+            return
+        }
+        
+        let imageViewWidth = catalogImageView.bounds.width
+        let scale = imageViewWidth / originalImage.size.width
+        let newImageHeight = originalImage.size.height * scale
+        
+        let newSize = CGSize(width: imageViewWidth, height: newImageHeight)
+        if let resizedImage = originalImage.resized(to: newSize) {
+            catalogImageView.image = resizedImage
+        }
+    }
+}
+
+extension UIImage {
+    func resized(to newSize: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        defer { UIGraphicsEndImageContext() }
+        draw(in: CGRect(origin: .zero, size: newSize))
+        return UIGraphicsGetImageFromCurrentImageContext()
     }
 }

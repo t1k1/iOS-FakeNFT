@@ -9,25 +9,25 @@
 ## Module 1:
 
 #### Адаптировать приложение для командной работы 
-- Добавить UI Kit элементы (est: 30 min; fact: x min).
-- Добавить Colors (est: 30 min; fact: x min).
-- Верстка TabBar (est: 30 min; fact: x min).
+- Добавить UI Kit элементы (est: 30 min; fact: 30 min).
+- Добавить Colors (est: 30 min; fact: 30 min).
+- Верстка TabBar (est: 30 min; fact: 30 min).
 
 #### Верстка Экран каталога
-- Кнопка сортировки (est: 10 min; fact: x min).
-- TableView (est: 90 min; fact: x min).
-- Ячейки TableView (est: 90 min; fact: x min).
-- action sheets (est: 15 min; fact: x min).
+- Кнопка сортировки (est: 10 min; fact: 10 min).
+- TableView (est: 90 min; fact: 90 min).
+- Ячейки TableView (est: 90 min; fact: 90 min).
+- action sheets (est: 15 min; fact: 15 min).
 
 #### Верстка Экран коллекции NFT
-- ImageView обложка коллекции (est: 10 min; fact: x min).
-- название коллекции (est: 10 min; fact: x min).
-- имя автора коллекции (est: 10 min; fact: x min).
-- текстовое описание коллекции NFT (est: 10 min; fact: x min).
-- CollectionView (est: 90 min; fact: x min).
-- Ячейки CollectionView (est: 90 min; fact: x min).
+- ImageView обложка коллекции (est: 10 min; fact: 15 min).
+- название коллекции (est: 10 min; fact: 5 min).
+- имя автора коллекции (est: 10 min; fact: 5 min).
+- текстовое описание коллекции NFT (est: 10 min; fact: 5 min).
+- CollectionView (est: 90 min; fact: 90 min).
+- Ячейки CollectionView (est: 90 min; fact: 90 min).
 
-`Total:` est: 515 min; fact: x min.
+`Total:` est: 515 min; fact: 505 min.
 
 
 ## Module 2:

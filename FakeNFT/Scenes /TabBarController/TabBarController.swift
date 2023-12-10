@@ -9,21 +9,32 @@ final class TabBarController: UITabBarController {
     
     private let catalogTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.catalog", comment: ""),
-        image: UIImage(named: "сatalog"),
+        image: UIImage(systemName: "rectangle.stack.fill"),
+        tag: 0
+    )
+    
+    private let testCatalogTabBarItem = UITabBarItem(
+        title: "API",
+        image: UIImage(systemName: "icloud.and.arrow.down.fill"),
         tag: 0
     )
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhiteDay
+        tabBar.unselectedItemTintColor = UIColor.ypBlackDay
+        
         let testCatalogController = TestCatalogViewController(
             servicesAssembly: servicesAssembly
         )
         
-        let catalogController = CatalogViewController()
-        catalogController.tabBarItem = catalogTabBarItem
+        let catalogViewController = CatalogViewController()
+        let navigationController = UINavigationController(rootViewController: catalogViewController)
         
-        viewControllers = [catalogController]
+        navigationController.tabBarItem = catalogTabBarItem
+        testCatalogController.tabBarItem = testCatalogTabBarItem
+        
+        viewControllers = [navigationController, testCatalogController]
         selectedIndex = 0
         
         view.backgroundColor = .systemBackground

@@ -13,8 +13,9 @@ final class CatalogViewController: UIViewController {
     
     private lazy var sortingButton: UIButton = {
         let button = UIButton(type: .custom)
-        let image = UIImage(named: "Sort")
+        let image = UIImage(named: "Sort")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
+        button.tintColor = UIColor.ypBlackDay
         button.addTarget(
             self,
             action: #selector(didTapSortingButton),
@@ -30,7 +31,7 @@ final class CatalogViewController: UIViewController {
         tableView.backgroundColor = .ypWhiteDay
         tableView.register(CatalogCell.self, forCellReuseIdentifier: CatalogCell.reuseIdentifier)
         tableView.separatorStyle = .none
-        //        tableView.delegate = self
+        tableView.delegate = self
         tableView.dataSource = self
         
         return tableView
@@ -43,6 +44,11 @@ final class CatalogViewController: UIViewController {
         view.backgroundColor = .ypWhiteDay
         addSubViews()
         applyConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
     
     // MARK: - IBAction
@@ -64,7 +70,7 @@ final class CatalogViewController: UIViewController {
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             sortingButton.heightAnchor.constraint(equalToConstant: 42),
-            sortingButton.heightAnchor.constraint(equalToConstant: 42),
+            sortingButton.widthAnchor.constraint(equalToConstant: 42),
             sortingButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 324),
             sortingButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2),
             sortingButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -9),
@@ -88,6 +94,7 @@ final class CatalogViewController: UIViewController {
             style: .default
         ) { [weak self] _ in
             self?.dismiss(animated: true)
+            //TODO: Module 2
         }
         
         let sortQuantity = UIAlertAction(
@@ -95,6 +102,7 @@ final class CatalogViewController: UIViewController {
             style: .default
         ) { [weak self] _ in
             self?.dismiss(animated: true)
+            //TODO: Module 2
         }
         
         let cancelAction = UIAlertAction(title: "Закрыть", style: .cancel, handler: nil)
@@ -124,5 +132,14 @@ extension CatalogViewController: UITableViewDataSource {
         catalogCell.configureCell()
         
         return catalogCell
+    }
+}
+
+//MARK: - UITableViewDelegate
+
+extension CatalogViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let collectionViewController = CollectionViewController()
+        navigationController?.pushViewController(collectionViewController, animated: true)
     }
 }
