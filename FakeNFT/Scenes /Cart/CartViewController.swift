@@ -5,7 +5,7 @@ final class CartViewController: UIViewController {
     // MARK: - Mock properties
     private var nftArray: [Nft] = [
     Nft(
-        createdAt: "2023-09-27T23:48:21.462Z[GMT]".dateFromISO8601String(),
+        createdAt: "2023-09-27T23:48:21.462Z[GMT]".toDate(),
         name: "Myrna Cervantes",
         images: [],
         rating: 9,
@@ -15,7 +15,7 @@ final class CartViewController: UIViewController {
         id: "c14cf3bc-7470-4eec-8a42-5eaa65f4053c"
     ),
     Nft(
-        createdAt: "2023-09-18T00:04:07.524Z[GMT]".dateFromISO8601String(),
+        createdAt: "2023-09-18T00:04:07.524Z[GMT]".toDate(),
         name: "Melvin Yang",
         images: [],
         rating: 8,
@@ -25,7 +25,7 @@ final class CartViewController: UIViewController {
         id: "82570704-14ac-4679-9436-050f4a32a8a0"
     ),
     Nft(
-        createdAt: "2023-06-07T18:53:46.914Z[GMT]".dateFromISO8601String(),
+        createdAt: "2023-06-07T18:53:46.914Z[GMT]".toDate(),
         name: "Mamie Norton",
         images: [],
         rating: 6,

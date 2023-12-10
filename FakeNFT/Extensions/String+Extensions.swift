@@ -8,14 +8,11 @@
 import Foundation
 
 extension String {
-    func dateFromISO8601String() -> Date {
-        let isoDateFormatter = ISO8601DateFormatter()
-        if let date = isoDateFormatter.date(from: self) {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .long
-            dateFormatter.timeStyle = .none
-            return date
-        }
-        return isoDateFormatter.date(from: self) ?? Date()
+    func toDate() -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ'['ZZZ']"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        return dateFormatter.date(from: self) ?? Date()
     }
 }
