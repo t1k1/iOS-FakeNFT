@@ -39,7 +39,7 @@ final class CartTableViewCell: UITableViewCell {
         let label = UILabel()
         label.text = NSLocalizedString("Cart.TableView.Cell.PriceText", comment: "Price localized text")
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        label.textColor = UIColor(named: "Black Universal")
+        label.textColor = UIColor.ypBlackDay
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
