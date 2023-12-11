@@ -37,8 +37,9 @@ final class CartViewController: UIViewController {
     
     private var visibleNFTArray: [NftViewModel] = []
     
-    
     // MARK: - Private constants
+    private let cartStorage = CartStorageImpl()
+    
     private let navigationBar: UINavigationBar = {
         let bar = UINavigationBar()
         bar.layer.backgroundColor = UIColor.clear.cgColor
@@ -122,17 +123,23 @@ final class CartViewController: UIViewController {
         return button
     }()
     
-    private var sortCondition: Int = SortCondition.byName.rawValue
-    
     // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypWhiteUniversal
-        visibleNFTArray = nftArray
+        setFirstStartConfiguration()
         configureConstraints()
         tableViewConfiguration()
         updateTableView()
         
+    }
+    
+    private func setFirstStartConfiguration() {
+        visibleNFTArray = nftArray
+        if cartStorage.isNotFisrtStart == false {
+            cartStorage.sortCondition = SortCondition.byName.rawValue
+            cartStorage.isNotFisrtStart = true
+        }
     }
     
     private func appendNftArray(with nft: NftViewModel, image: UIImage) {
@@ -146,6 +153,7 @@ final class CartViewController: UIViewController {
     }
     
     private func updateTableView() {
+        let sortCondition = cartStorage.sortCondition
         visibleNFTArray = filterVisibleNFTArray(by: sortCondition)
         tableView.reloadData()
         updateTotalAndCostLabels()
@@ -175,7 +183,7 @@ final class CartViewController: UIViewController {
         tableView.register(CartTableViewCell.self, forCellReuseIdentifier: CartTableViewCell.reuseIdentifier)
     }
     
-    enum SortCondition: Int {
+    private enum SortCondition: Int {
         case byPrice = 0
         case byRating = 1
         case byName = 2
@@ -204,7 +212,7 @@ final class CartViewController: UIViewController {
                     NSLocalizedString("BottomAlert.SortByRating", comment: ""),
                     NSLocalizedString("BottomAlert.SortByName", comment: ""),
                 ]) { selectedIndex in
-                    self.sortCondition = selectedIndex
+                    self.cartStorage.sortCondition = selectedIndex
                     self.updateTableView()
                 }
             }
