@@ -61,8 +61,6 @@ struct DefaultNetworkClient: NetworkClient {
             }
         }
         guard var urlRequest = create(request: request) else { return nil }
-        
-        urlRequest.setValue("a66690d9-233c-4541-a539-179c0a04d8da", forHTTPHeaderField: "X-Practicum-Mobile-Token")
 
         let task = session.dataTask(with: urlRequest) { data, response, error in
             guard let response = response as? HTTPURLResponse else {
@@ -110,25 +108,6 @@ struct DefaultNetworkClient: NetworkClient {
     }
 
     // MARK: - Private
-
-//    func makeHTTPRequest (
-//        path: String,
-//        httpMethod: String,
-//        baseURLString: String) -> URLRequest? {
-//            guard
-//                baseURLString.isValidURL,
-//                let url = URL(string: baseURLString),
-//                let baseURL = URL(string: path, relativeTo: url)
-//            else { return nil }
-//
-//            var request = URLRequest(url: baseURL)
-//            request.httpMethod = httpMethod
-//            request.timeoutInterval = 15
-//            if let token = storage.token {
-//                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//            }
-//            return request
-//        }
     
     private func create(request: NetworkRequest) -> URLRequest? {
         guard let endpoint = request.endpoint else {

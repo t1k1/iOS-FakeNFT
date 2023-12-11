@@ -3,8 +3,8 @@ import UIKit
 final class CartViewController: UIViewController {
     
     // MARK: - Mock properties
-    private var nftArray: [Nft] = [
-    Nft(
+    private var nftArray: [NftForUse] = [
+    NftForUse(
         createdAt: "2023-09-27T23:48:21.462Z[GMT]".toDate(),
         name: "Myrna Cervantes",
         images: [],
@@ -14,7 +14,7 @@ final class CartViewController: UIViewController {
         author: URL(string: "https://priceless_leavitt.fakenfts.org/") ?? URL(fileURLWithPath: ""),
         id: "c14cf3bc-7470-4eec-8a42-5eaa65f4053c"
     ),
-    Nft(
+    NftForUse(
         createdAt: "2023-09-18T00:04:07.524Z[GMT]".toDate(),
         name: "Melvin Yang",
         images: [],
@@ -24,7 +24,7 @@ final class CartViewController: UIViewController {
         author: URL(string: "https://sharp_matsumoto.fakenfts.org/") ?? URL(fileURLWithPath: ""),
         id: "82570704-14ac-4679-9436-050f4a32a8a0"
     ),
-    Nft(
+    NftForUse(
         createdAt: "2023-06-07T18:53:46.914Z[GMT]".toDate(),
         name: "Mamie Norton",
         images: [],
@@ -144,7 +144,7 @@ final class CartViewController: UIViewController {
         updateTotalAndCostLabels()
     }
     
-    private func appendNftArray(with nft: Nft, image: UIImage) {
+    private func appendNftArray(with nft: NftForUse, image: UIImage) {
         nftArray.append(nft)
         nftImages.append(image)
     }
