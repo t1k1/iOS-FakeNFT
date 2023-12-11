@@ -14,7 +14,7 @@ final class CartTableViewCell: UITableViewCell {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.ypBlackUniversal
+        label.textColor = UIColor.ypBlackDay
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -47,7 +47,7 @@ final class CartTableViewCell: UITableViewCell {
     private let priceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        label.textColor = UIColor.ypBlackUniversal
+        label.textColor = UIColor.ypBlackDay
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -59,7 +59,7 @@ final class CartTableViewCell: UITableViewCell {
             target: self,
             action: #selector(didTapDeleteButton(sender: ))
         )
-        button.tintColor = UIColor.ypBlackUniversal
+        button.tintColor = UIColor.ypBlackDay
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -69,7 +69,7 @@ final class CartTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureConstraints()
-        backgroundColor = UIColor.ypWhiteUniversal
+        backgroundColor = UIColor.ypWhiteDay
     }
     
     required init?(coder: NSCoder) {

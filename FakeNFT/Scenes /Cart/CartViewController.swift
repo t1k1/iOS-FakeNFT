@@ -40,6 +40,16 @@ final class CartViewController: UIViewController {
     // MARK: - Private constants
     private let cartStorage = CartStorageImpl()
     
+    private let emptyCartLabel: UILabel = {
+        let label = UILabel()
+        label.text = NSLocalizedString("Cart.empty", comment: "")
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        label.textColor = UIColor.ypBlackDay
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let navigationBar: UINavigationBar = {
         let bar = UINavigationBar()
         bar.layer.backgroundColor = UIColor.clear.cgColor
@@ -69,7 +79,7 @@ final class CartViewController: UIViewController {
         label.text = "0 \(NSLocalizedString("Cart.NFT", comment: ""))"
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        label.textColor = UIColor.ypBlackUniversal
+        label.textColor = UIColor.ypBlackDay
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -90,7 +100,7 @@ final class CartViewController: UIViewController {
         table.allowsSelection = false
         table.allowsMultipleSelection = false
         table.separatorStyle = .none
-        table.backgroundColor = UIColor.ypWhiteUniversal
+        table.backgroundColor = UIColor.ypWhiteDay
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
@@ -102,7 +112,7 @@ final class CartViewController: UIViewController {
             target: self,
             action: #selector(didTapSortButton)
         )
-        button.tintColor = UIColor.ypBlackUniversal
+        button.tintColor = UIColor.ypBlackDay
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -113,9 +123,9 @@ final class CartViewController: UIViewController {
             target: self,
             action: #selector(didTapPayButton)
         )
-        button.backgroundColor = UIColor.ypBlackUniversal
+        button.backgroundColor = UIColor.ypBlackDay
         button.setTitle(NSLocalizedString("Cart.pay", comment: ""), for: .normal)
-        button.setTitleColor(UIColor.ypWhiteUniversal, for: .normal)
+        button.setTitleColor(UIColor.ypWhiteDay, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
@@ -126,12 +136,11 @@ final class CartViewController: UIViewController {
     // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.ypWhiteUniversal
+        view.backgroundColor = UIColor.ypWhiteDay
         setFirstStartConfiguration()
         configureConstraints()
         tableViewConfiguration()
         updateTableView()
-        
     }
     
     private func setFirstStartConfiguration() {
@@ -155,6 +164,7 @@ final class CartViewController: UIViewController {
     private func updateTableView() {
         let sortCondition = cartStorage.sortCondition
         visibleNFTArray = filterVisibleNFTArray(by: sortCondition)
+        isEmptyCartLabelVisible(visibleNFTArray.count == 0)
         tableView.reloadData()
         updateTotalAndCostLabels()
     }
@@ -293,15 +303,24 @@ extension CartViewController: UITableViewDelegate {
 // MARK: - Configure constraints
 private extension CartViewController {
     
+    func sortButtonIsVisible(_ bool: Bool) {
+        if bool {
+            navigationBar.addSubview(sortButton)
+            NSLayoutConstraint.activate([
+                sortButton.heightAnchor.constraint(equalToConstant: 44),
+                sortButton.widthAnchor.constraint(equalToConstant: 44),
+                sortButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor),
+                sortButton.trailingAnchor.constraint(equalTo: navigationBar.trailingAnchor, constant: -9)
+            ])
+        } else {
+            sortButton.removeFromSuperview()
+        }
+    }
+    
     func configureConstraints() {
+        
         view.addSubview(navigationBar)
-        navigationBar.addSubview(sortButton)
-        NSLayoutConstraint.activate([
-            sortButton.heightAnchor.constraint(equalToConstant: 44),
-            sortButton.widthAnchor.constraint(equalToConstant: 44),
-            sortButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor),
-            sortButton.trailingAnchor.constraint(equalTo: navigationBar.trailingAnchor, constant: -9)
-        ])
+        sortButtonIsVisible(true)
         
         view.addSubview(payUIView)
         NSLayoutConstraint.activate([
@@ -338,6 +357,19 @@ private extension CartViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: payUIView.topAnchor)
         ])
-        
+    }
+    
+    func isEmptyCartLabelVisible(_ bool: Bool) {
+        if bool {
+            sortButtonIsVisible(false)
+            view.addSubview(emptyCartLabel)
+            NSLayoutConstraint.activate([
+                emptyCartLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                emptyCartLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant:  -44)
+            ])
+        } else {
+            emptyCartLabel.removeFromSuperview()
+            sortButtonIsVisible(true)
+        }
     }
 }

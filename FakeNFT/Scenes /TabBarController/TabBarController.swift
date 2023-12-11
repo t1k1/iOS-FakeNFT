@@ -35,8 +35,9 @@ final class TabBarController: UITabBarController {
         viewControllers = [catalogController, cartController]
         selectedIndex = 1
         
-        view.backgroundColor = UIColor(named: "White Universal")
-        tabBar.tintColor = UIColor(named: "Blue Universal")
-        tabBar.unselectedItemTintColor = UIColor(named: "Black Universal")
+        view.backgroundColor = UIColor.ypWhiteDay
+        tabBar.backgroundColor = UIColor.ypWhiteDay
+        tabBar.tintColor = UIColor.ypBlueUniversal
+        tabBar.unselectedItemTintColor = UIColor.ypBlackDay
     }
 }

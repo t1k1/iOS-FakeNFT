@@ -31,7 +31,7 @@ final class CartDeleteItemViewController: UIViewController {
         label.text = NSLocalizedString("Cart.TableView.Cell.Delete", comment: "")
         label.numberOfLines = 2
         label.textAlignment = .center
-        label.textColor = UIColor(named: "Black Universal")
+        label.textColor = UIColor.ypBlackDay
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +54,7 @@ final class CartDeleteItemViewController: UIViewController {
             target: self,
             action: #selector(didTapDeleteButton)
         )
-        button.backgroundColor = UIColor.ypBlackUniversal
+        button.backgroundColor = UIColor.ypBlackDay
         button.setTitle(NSLocalizedString("Cart.delete", comment: ""), for: .normal)
         button.setTitleColor(UIColor.ypRedUniversal, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
@@ -70,9 +70,9 @@ final class CartDeleteItemViewController: UIViewController {
             target: self,
             action: #selector(didTapBackButton)
         )
-        button.backgroundColor = UIColor.ypBlackUniversal
+        button.backgroundColor = UIColor.ypBlackDay
         button.setTitle(NSLocalizedString("Cart.back", comment: ""), for: .normal)
-        button.setTitleColor(UIColor.ypWhiteUniversal, for: .normal)
+        button.setTitleColor(UIColor.ypWhiteDay, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
@@ -82,11 +82,11 @@ final class CartDeleteItemViewController: UIViewController {
     
     private lazy var blurredView: UIView = {
         let containerView = UIView()
-        let blurEffect = UIBlurEffect(style: .light)
-        let customBlurEffectView = CustomVisualEffectView(effect: blurEffect, intensity: 0.4)
+        let blurEffect = UIBlurEffect(style: .regular)
+        let customBlurEffectView = CustomVisualEffectView(effect: blurEffect, intensity: 0.5)
         customBlurEffectView.frame = self.view.bounds
         let dimmedView = UIView()
-        dimmedView.backgroundColor = .white.withAlphaComponent(0.4)
+        dimmedView.backgroundColor = UIColor.ypWhiteDay.withAlphaComponent(0.1)
         dimmedView.frame = self.view.bounds
         containerView.addSubview(customBlurEffectView)
         containerView.addSubview(dimmedView)
