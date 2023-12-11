@@ -1,8 +1,18 @@
 import UIKit
 
+protocol CartDeleteItemViewControllerDelegate: AnyObject {
+    func sendDeletedIndexPathBack(indexPath: IndexPath)
+}
+
 final class CartDeleteItemViewController: UIViewController {
     
+    weak var delegate: CartDeleteItemViewControllerDelegate?
+    
     // MARK: - Private constants
+    
+    private let nftImage: UIImage
+    private let indexPath: IndexPath
+    
     private let backgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -71,17 +81,27 @@ final class CartDeleteItemViewController: UIViewController {
     }()
     
     private lazy var blurredView: UIView = {
-            let containerView = UIView()
-            let blurEffect = UIBlurEffect(style: .light)
-            let customBlurEffectView = CustomVisualEffectView(effect: blurEffect, intensity: 0.4)
-            customBlurEffectView.frame = self.view.bounds
-            let dimmedView = UIView()
-            dimmedView.backgroundColor = .white.withAlphaComponent(0.4)
-            dimmedView.frame = self.view.bounds
-            containerView.addSubview(customBlurEffectView)
-            containerView.addSubview(dimmedView)
-            return containerView
-        }()
+        let containerView = UIView()
+        let blurEffect = UIBlurEffect(style: .light)
+        let customBlurEffectView = CustomVisualEffectView(effect: blurEffect, intensity: 0.4)
+        customBlurEffectView.frame = self.view.bounds
+        let dimmedView = UIView()
+        dimmedView.backgroundColor = .white.withAlphaComponent(0.4)
+        dimmedView.frame = self.view.bounds
+        containerView.addSubview(customBlurEffectView)
+        containerView.addSubview(dimmedView)
+        return containerView
+    }()
+    
+    init(nftImage: UIImage, indexPath: IndexPath) {
+        self.nftImage = nftImage
+        self.indexPath = indexPath
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
@@ -90,10 +110,15 @@ final class CartDeleteItemViewController: UIViewController {
         configureConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        imageView.image = nftImage
+    }
+    
     // MARK: - Objective-C functions
     @objc
     private func didTapDeleteButton() {
-        print("delete")
+        delegate?.sendDeletedIndexPathBack(indexPath: indexPath)
     }
     
     @objc

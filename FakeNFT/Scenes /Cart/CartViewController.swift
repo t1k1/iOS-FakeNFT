@@ -3,43 +3,37 @@ import UIKit
 final class CartViewController: UIViewController {
     
     // MARK: - Mock properties
-    private var nftArray: [NftForUse] = [
-    NftForUse(
+    private var nftArray: [NftViewModel] = [
+    NftViewModel(
         createdAt: "2023-09-27T23:48:21.462Z[GMT]".toDate(),
         name: "Myrna Cervantes",
-        images: [],
+        image: UIImage(named: "Cart Image 0"),
         rating: 9,
         description: "eloquentiam deterruisset tractatos repudiandae nunc a electram",
         price: 39.37,
         author: URL(string: "https://priceless_leavitt.fakenfts.org/") ?? URL(fileURLWithPath: ""),
         id: "c14cf3bc-7470-4eec-8a42-5eaa65f4053c"
     ),
-    NftForUse(
+    NftViewModel(
         createdAt: "2023-09-18T00:04:07.524Z[GMT]".toDate(),
         name: "Melvin Yang",
-        images: [],
+        image: UIImage(named: "Cart Image 1"),
         rating: 8,
         description: "leo liber nobis nisi animal posidonium facilisi mauris",
         price: 8.04,
         author: URL(string: "https://sharp_matsumoto.fakenfts.org/") ?? URL(fileURLWithPath: ""),
         id: "82570704-14ac-4679-9436-050f4a32a8a0"
     ),
-    NftForUse(
+    NftViewModel(
         createdAt: "2023-06-07T18:53:46.914Z[GMT]".toDate(),
         name: "Mamie Norton",
-        images: [],
+        image: UIImage(named: "Cart Image 2"),
         rating: 6,
         description: "voluptaria equidem oporteat volutpat nisi interdum quas",
         price: 31.64,
         author: URL(string: "https://affectionate_bassi.fakenfts.org/") ?? URL(fileURLWithPath: ""),
         id: "9810d484-c3fc-49e8-bc73-f5e602c36b40"
     )]
-    
-    private var nftImages: [UIImage?] = [
-    UIImage(named: "Cart Image 0"),
-    UIImage(named: "Cart Image 1"),
-    UIImage(named: "Cart Image 2")
-    ]
     
     
     // MARK: - Private constants
@@ -134,23 +128,19 @@ final class CartViewController: UIViewController {
         updateTotalAndCostLabels()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        let random = [0,1,2].randomElement()
-        let newNFT = nftArray[random ?? 0]
-        let image = nftImages[random ?? 0]
-        appendNftArray(with: newNFT, image: image ?? UIImage())
+    private func appendNftArray(with nft: NftViewModel, image: UIImage) {
+        nftArray.append(nft)
         updateTableView()
-        updateTotalAndCostLabels()
     }
     
-    private func appendNftArray(with nft: NftForUse, image: UIImage) {
-        nftArray.append(nft)
-        nftImages.append(image)
+    private func deleteFromNftArray(at row: Int) {
+        nftArray.remove(at: row)
+        updateTableView()
     }
     
     private func updateTableView() {
         tableView.reloadData()
+        updateTotalAndCostLabels()
     }
     
     private func updateTotalAndCostLabels() {
@@ -185,7 +175,10 @@ final class CartViewController: UIViewController {
     
     @objc
     private func didTapPayButton() {
-        print("pay button pressed")
+        let random = [0,1,2].randomElement()
+        let newNFT = nftArray[random ?? 0]
+        appendNftArray(with: newNFT, image: nftArray[random ?? 0].image ?? UIImage())
+        updateTotalAndCostLabels()
     }
 }
 
@@ -203,7 +196,7 @@ extension CartViewController: UITableViewDataSource {
         }
         cartTableViewCell.configCell(
             at: indexPath,
-            image: nftImages[indexPath.row] ?? UIImage(),
+            image: nftArray[indexPath.row].image ?? UIImage(),
             name: nftArray[indexPath.row].name,
             price: nftArray[indexPath.row].price,
             currency: NSLocalizedString("Cart.ETH", comment: ""),
@@ -219,12 +212,21 @@ extension CartViewController: UITableViewDataSource {
 extension CartViewController: CartTableViewCellDelegate {
     func didTapCellDeleteButton(_ sender: CartTableViewCell) {
         let cell = sender
-        let indexPath = tableView.indexPath(for: cell)
-        print("Send from delegate, indexPath is \(indexPath ?? IndexPath(row: 0, section: 0))")
-        let vc = CartDeleteItemViewController()
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        let vc = CartDeleteItemViewController(nftImage: nftArray[indexPath.row].image ?? UIImage(), indexPath: indexPath)
+        vc.delegate = self
         vc.modalPresentationStyle = .overCurrentContext
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true)
+    }
+}
+
+extension CartViewController: CartDeleteItemViewControllerDelegate {
+    func sendDeletedIndexPathBack(indexPath: IndexPath) {
+        dismiss(animated: true)
+        deleteFromNftArray(at: indexPath.row)
     }
 }
 
