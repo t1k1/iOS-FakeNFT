@@ -1,10 +1,3 @@
-//
-//  String+Extensions.swift
-//  FakeNFT
-//
-//  Created by Admin on 12/10/23.
-//
-
 import Foundation
 
 extension String {

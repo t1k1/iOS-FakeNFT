@@ -54,9 +54,9 @@ final class CartDeleteItemViewController: UIViewController {
             target: self,
             action: #selector(didTapDeleteButton)
         )
-        button.backgroundColor = UIColor(named: "Black Universal")
+        button.backgroundColor = UIColor.ypBlackUniversal
         button.setTitle(NSLocalizedString("Cart.delete", comment: ""), for: .normal)
-        button.setTitleColor(UIColor(named: "Red Universal"), for: .normal)
+        button.setTitleColor(UIColor.ypRedUniversal, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
@@ -70,9 +70,9 @@ final class CartDeleteItemViewController: UIViewController {
             target: self,
             action: #selector(didTapBackButton)
         )
-        button.backgroundColor = UIColor(named: "Black Universal")
+        button.backgroundColor = UIColor.ypBlackUniversal
         button.setTitle(NSLocalizedString("Cart.back", comment: ""), for: .normal)
-        button.setTitleColor(UIColor(named: "White Universal"), for: .normal)
+        button.setTitleColor(UIColor.ypWhiteUniversal, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
@@ -164,33 +164,4 @@ final class CartDeleteItemViewController: UIViewController {
         horizontalStack.addArrangedSubview(deleteButton)
         horizontalStack.addArrangedSubview(backButton)
     }
-}
-
-final class CustomVisualEffectView: UIVisualEffectView {
-    
-    init(effect: UIVisualEffect, intensity: CGFloat) {
-        theEffect = effect
-        customIntensity = intensity
-        super.init(effect: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) { nil }
-    
-    deinit {
-        animator?.stopAnimation(true)
-    }
-    
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        effect = nil
-        animator?.stopAnimation(true)
-        animator = UIViewPropertyAnimator(duration: 1, curve: .linear) { [unowned self] in
-            self.effect = theEffect
-        }
-        animator?.fractionComplete = customIntensity
-    }
-    
-    private let theEffect: UIVisualEffect
-    private let customIntensity: CGFloat
-    private var animator: UIViewPropertyAnimator?
 }

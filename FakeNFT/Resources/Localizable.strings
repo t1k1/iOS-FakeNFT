@@ -13,3 +13,10 @@
 "Cart.ETH" = "ETH";
 "Cart.TableView.Cell.PriceText" = "Цена";
 "Cart.TableView.Cell.Delete" = "Вы уверены, что хотите \n удалить объект из корзины?";
+
+"BottomAlert.Cancel" = "Отмена";
+"BottomAlert.Sort" = "Сортировка";
+"BottomAlert.SortByPrice" = "По цене";
+"BottomAlert.SortByRating" = "По рейнингу";
+"BottomAlert.SortByName" = "По названию";
+

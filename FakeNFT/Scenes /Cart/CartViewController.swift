@@ -35,6 +35,8 @@ final class CartViewController: UIViewController {
         id: "9810d484-c3fc-49e8-bc73-f5e602c36b40"
     )]
     
+    private var visibleNFTArray: [NftViewModel] = []
+    
     
     // MARK: - Private constants
     private let navigationBar: UINavigationBar = {
@@ -46,7 +48,7 @@ final class CartViewController: UIViewController {
     
     private let payUIView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "Light Gray Universal")
+        view.backgroundColor = UIColor.ypLightGreyDay
         view.layer.cornerRadius = 12
         view.layer.masksToBounds = true
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -66,7 +68,7 @@ final class CartViewController: UIViewController {
         label.text = "0 \(NSLocalizedString("Cart.NFT", comment: ""))"
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        label.textColor = UIColor(named: "Black Universal")
+        label.textColor = UIColor.ypBlackUniversal
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -76,7 +78,7 @@ final class CartViewController: UIViewController {
         label.text = "0 \(NSLocalizedString("Cart.ETH", comment: ""))"
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        label.textColor = UIColor(named: "Green Universal")
+        label.textColor = UIColor.ypGreenUniversal
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -87,6 +89,7 @@ final class CartViewController: UIViewController {
         table.allowsSelection = false
         table.allowsMultipleSelection = false
         table.separatorStyle = .none
+        table.backgroundColor = UIColor.ypWhiteUniversal
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
@@ -98,7 +101,7 @@ final class CartViewController: UIViewController {
             target: self,
             action: #selector(didTapSortButton)
         )
-        button.tintColor = UIColor(named: "Black Universal")
+        button.tintColor = UIColor.ypBlackUniversal
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -109,9 +112,9 @@ final class CartViewController: UIViewController {
             target: self,
             action: #selector(didTapPayButton)
         )
-        button.backgroundColor = UIColor(named: "Black Universal")
+        button.backgroundColor = UIColor.ypBlackUniversal
         button.setTitle(NSLocalizedString("Cart.pay", comment: ""), for: .normal)
-        button.setTitleColor(UIColor(named: "White Universal"), for: .normal)
+        button.setTitleColor(UIColor.ypWhiteUniversal, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
@@ -122,7 +125,7 @@ final class CartViewController: UIViewController {
     // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "White Universal")
+        view.backgroundColor = UIColor.ypWhiteUniversal
         configureConstraints()
         tableViewConfiguration()
         updateTotalAndCostLabels()
@@ -167,10 +170,31 @@ final class CartViewController: UIViewController {
         tableView.register(CartTableViewCell.self, forCellReuseIdentifier: CartTableViewCell.reuseIdentifier)
     }
     
+    private func showSortOptions() {
+            presentBottomAlert(
+                title: NSLocalizedString("BottomAlert.Sort", comment: ""),
+                buttons: [
+                    NSLocalizedString("BottomAlert.SortByPrice", comment: ""),
+                    NSLocalizedString("BottomAlert.SortByRating", comment: ""),
+                    NSLocalizedString("BottomAlert.SortByName", comment: ""),
+                ]) { selectedIndex in
+                switch selectedIndex {
+                case 0:
+                    print("User selected Price")
+                case 1:
+                    print("User selected Rating")
+                case 2:
+                    print("User selected Name")
+                default:
+                    break
+                }
+            }
+        }
+    
     // MARK: - Objective-C function
     @objc
     private func didTapSortButton() {
-        print("sort button pressed")
+        showSortOptions()
     }
     
     @objc
@@ -230,14 +254,12 @@ extension CartViewController: CartDeleteItemViewControllerDelegate {
     }
 }
 
-
 // MARK: - TableView Delegate
 extension CartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
     }    
 }
-
 
 // MARK: - Configure constraints
 private extension CartViewController {
