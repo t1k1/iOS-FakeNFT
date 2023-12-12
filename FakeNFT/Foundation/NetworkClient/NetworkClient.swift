@@ -123,7 +123,7 @@ struct DefaultNetworkClient: NetworkClient {
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
             urlRequest.httpBody = dtoEncoded
         }
-
+        urlRequest.setValue("a66690d9-233c-4541-a539-179c0a04d8da", forHTTPHeaderField: "X-Practicum-Mobile-Token")
         return urlRequest
     }
 

@@ -9,6 +9,15 @@ import UIKit
 
 final class CatalogViewController: UIViewController {
     
+    struct CollectionsModel {
+        let name: String
+        let cover: UIImage
+        let nfts: [String]
+        let description: String
+        let author:String
+        let id: String
+    }
+    
     //MARK: - Layout variables
     
     private lazy var sortingButton: UIButton = {
