@@ -39,17 +39,7 @@ final class NftImageCollectionViewCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Functions
 
     func configure(with cellModel: NftDetailCellModel) {
-        let string = cellModel.url.absoluteString
-        var substring = ""
-        if let lastIndex = string.lastIndex(of: ",") {
-            substring = String(string.suffix(from: string.index(after: lastIndex)))
-        }
-        if let imageData = Data(base64Encoded: substring, options: .ignoreUnknownCharacters) {
-            if let image = UIImage(data: imageData) {
-                imageView.image = image
-            }
-        }
-        //imageView.kf.setImage(with: cellModel.url)
+        imageView.kf.setImage(with: cellModel.url)
     }
 }
 
