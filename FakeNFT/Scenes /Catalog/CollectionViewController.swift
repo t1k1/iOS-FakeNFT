@@ -9,7 +9,17 @@ import UIKit
 
 final class CollectionViewController: UIViewController {
     
+   private let sectionCount = 8
+    
     //MARK: - Layout variables
+    
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
+        
+        return scrollView
+    }()
     
     private lazy var catalogImageView: UIImageView = {
         let image = UIImage(named: "Cover1.png")
@@ -20,6 +30,20 @@ final class CollectionViewController: UIViewController {
         imageView.layer.masksToBounds = true
         
         return imageView
+    }()
+    
+    private lazy var backButton: UIButton = {
+        let button = UIButton(type: .custom)
+        let image = UIImage(named: "backward")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.ypBlackDay
+        button.addTarget(
+            self,
+            action: #selector(didTapBackButton),
+            for: .touchUpInside
+        )
+        
+        return button
     }()
     
     private lazy var catalogLabel: UILabel = {
@@ -47,7 +71,7 @@ final class CollectionViewController: UIViewController {
         button.setTitleColor(.ypBlueUniversal, for: .normal)
         button.addTarget(
             self,
-            action: #selector(didTapauthorNameButton),
+            action: #selector(didTapAuthorNameButton),
             for: .touchUpInside
         )
         button.backgroundColor = .clear
@@ -74,6 +98,7 @@ final class CollectionViewController: UIViewController {
             frame: .zero,
             collectionViewLayout: layout
         )
+        collectionView.isScrollEnabled = false
         collectionView.register(
             CollectionCell.self,
             forCellWithReuseIdentifier: CollectionCell.reuseIdentifier
@@ -90,7 +115,12 @@ final class CollectionViewController: UIViewController {
         view.backgroundColor = .ypWhiteDay
         collectionView.dataSource = self
         collectionView.delegate = self
-        addBackButton()
+        
+        if #available(iOS 11, *) {
+                scrollView.contentInsetAdjustmentBehavior = .never
+            } else {
+                automaticallyAdjustsScrollViewInsets = false
+            }
         
         addSubViews()
         applyConstraints()
@@ -98,62 +128,81 @@ final class CollectionViewController: UIViewController {
     
     // MARK: - IBAction
     
-    @objc private func backButtonTapped() {
+    @objc private func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc private func didTapauthorNameButton() {
+    @objc private func didTapAuthorNameButton() {
         //TODO: Module 3
     }
     
     // MARK: - Private Methods
     
     private func addSubViews() {
-        [catalogImageView, catalogLabel, authorLabel, authorNameButton, descriptionLabel, collectionView].forEach {
+        view.addSubview(scrollView)
+        scrollView.addSubview(catalogImageView)
+        scrollView.addSubview(backButton)
+        scrollView.addSubview(catalogLabel)
+        scrollView.addSubview(authorLabel)
+        scrollView.addSubview(authorNameButton)
+        scrollView.addSubview(descriptionLabel)
+        scrollView.addSubview(collectionView)
+        [scrollView, catalogImageView, backButton, catalogLabel, authorLabel, authorNameButton, descriptionLabel, collectionView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview($0)
         }
     }
     
     private func applyConstraints() {
         NSLayoutConstraint.activate([
-            catalogImageView.heightAnchor.constraint(equalToConstant: 310),
-            catalogImageView.widthAnchor.constraint(equalToConstant: 375),
-            catalogImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            catalogImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            catalogImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            catalogLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            catalogImageView.heightAnchor.constraint(equalToConstant: 310),
+            catalogImageView.widthAnchor.constraint(equalToConstant: view.bounds.width),
+            catalogImageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            catalogImageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            catalogImageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            
+            backButton.heightAnchor.constraint(equalToConstant: 24),
+            backButton.widthAnchor.constraint(equalToConstant: 24),
+            backButton.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 9),
+            backButton.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 55),
+            
+            catalogLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
             catalogLabel.topAnchor.constraint(equalTo: catalogImageView.bottomAnchor, constant: 16),
-            catalogLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            catalogLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             
             authorLabel.leadingAnchor.constraint(equalTo: catalogLabel.leadingAnchor),
             authorLabel.topAnchor.constraint(equalTo: catalogLabel.bottomAnchor, constant: 13),
             
             authorNameButton.leadingAnchor.constraint(equalTo: authorLabel.trailingAnchor, constant: 4),
             authorNameButton.centerYAnchor.constraint(equalTo: authorLabel.centerYAnchor),
-//            authorNameButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             descriptionLabel.leadingAnchor.constraint(equalTo: catalogLabel.leadingAnchor),
             descriptionLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 5),
             descriptionLabel.trailingAnchor.constraint(equalTo: catalogLabel.trailingAnchor),
             
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            collectionView.heightAnchor.constraint(equalToConstant: collectionViewHeight),
+            collectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
             collectionView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            collectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
+            collectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
     
-    private func addBackButton() {
-        navigationController?.navigationBar.isHidden = false
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.backward"),
-            style: .plain,
-            target: self,
-            action: #selector(backButtonTapped)
-        )
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.ypBlackDay
+    private var collectionViewHeight: CGFloat {
+        let cellHeight: CGFloat = 192
+        let sectionCount: CGFloat = CGFloat(sectionCount)
+        let numberOfColumns: CGFloat = 3
+        let spacingBetweenCells: CGFloat = 8
+
+        // Вычисляем количество строк в одной секции
+        let numberOfRowsInOneSection = ceil(sectionCount / numberOfColumns)
+
+        // Вычисляем высоту коллекции
+        return cellHeight * numberOfRowsInOneSection + spacingBetweenCells * (numberOfRowsInOneSection - 1)
     }
 }
 
@@ -161,7 +210,7 @@ final class CollectionViewController: UIViewController {
 
 extension CollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return sectionCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -61,9 +61,9 @@ final class CatalogCell: UITableViewCell {
         NSLayoutConstraint.activate([
             catalogImageView.heightAnchor.constraint(equalToConstant: 140),
             catalogImageView.widthAnchor.constraint(equalToConstant: 343),
-            catalogImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            catalogImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             catalogImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            catalogImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            catalogImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             footerLabel.leadingAnchor.constraint(equalTo: catalogImageView.leadingAnchor),
             footerLabel.topAnchor.constraint(equalTo: catalogImageView.bottomAnchor, constant: 4),
