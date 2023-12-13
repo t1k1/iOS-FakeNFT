@@ -6,16 +6,34 @@
 //
 
 import UIKit
+import ProgressHUD
+
+// MARK: - State
+
+enum CatalogDetailState {
+    case initial, loading, failed(Error), data([CollectionsResult])
+}
 
 final class CatalogViewController: UIViewController {
     
-    struct CollectionsModel {
-        let name: String
-        let cover: UIImage
-        let nfts: [String]
-        let description: String
-        let author:String
-        let id: String
+    let servicesAssembly: ServicesAssembly
+    private var collections: [CollectionsModel] = []
+    
+    private let service: CollectionsService
+    private var state = CatalogDetailState.initial {
+        didSet {
+            stateDidChanged()
+        }
+    }
+    
+    init(servicesAssembly: ServicesAssembly, service: CollectionsService) {
+        self.servicesAssembly = servicesAssembly
+        self.service = service
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     //MARK: - Layout variables
@@ -53,6 +71,7 @@ final class CatalogViewController: UIViewController {
         view.backgroundColor = .ypWhiteDay
         addSubViews()
         applyConstraints()
+        state = .loading
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -122,13 +141,51 @@ final class CatalogViewController: UIViewController {
         
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    private func stateDidChanged() {
+        switch state {
+        case .initial:
+            assertionFailure("can't move to initial state")
+        case .loading:
+            ProgressHUD.show()
+            loadCollections()
+        case .data(let collectionsResult):
+            ProgressHUD.dismiss()
+            let collectionsModel = collectionsResult.map { result in
+                CollectionsModel(
+                    createdAt: DateFormatter.defaultDateFormatter.date(from: result.createdAt),
+                    name: result.name,
+                    cover: result.cover,
+                    nfts: result.nfts,
+                    description: result.description,
+                    author: result.author,
+                    id: result.id
+                )
+            }
+            self.collections = collectionsModel
+            tableView.reloadData()
+        case .failed(let error):
+            print("ОШИБКА: \(error)")
+        }
+    }
+    
+    private func loadCollections() {
+        service.loadCollections() { [weak self] result in
+            switch result {
+            case .success(let collectionsResult):
+                self?.state = .data(collectionsResult)
+            case .failure(let error):
+                self?.state = .failed(error)
+            }
+        }
+    }
 }
 
 //MARK: - UITableViewDataSource
 
 extension CatalogViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return collections.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -138,7 +195,10 @@ extension CatalogViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        catalogCell.configureCell()
+        let collection = collections[indexPath.row]
+        let nftCount = collection.nfts.count
+        
+        catalogCell.configureCell(name: collection.name, nftCount: nftCount, cover: collection.cover)
         
         return catalogCell
     }

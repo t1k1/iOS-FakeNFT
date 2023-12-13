@@ -1,5 +1,5 @@
 //
-//  CollectionsModel.swift
+//  CollectionsResult.swift
 //  FakeNFT
 //
 //  Created by Iurii on 13.12.23.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct CollectionsModel {
-    let createdAt: Date?
+struct CollectionsResult: Decodable {
+    let createdAt: String
     let name: String
     let cover: String
     let nfts: [String]
