@@ -24,14 +24,20 @@ enum Statistics {
         static let largeConfig = UIImage.SymbolConfiguration(pointSize: 17, weight: .bold, scale: .large)
         static let forward = UIImage(systemName: "chevron.forward", withConfiguration: largeConfig)
         static let backward = UIImage(systemName: "chevron.backward", withConfiguration: largeConfig)
+
+        static let like = UIImage(systemName: "heart.fill")
     }
 
     // MARK: - UI element's images
     enum Images {
         static let iconCart = UIImage(named: "cart")
+        static let iconCartEmpty = UIImage(named: "cart empty")
+        static let iconCartDelete = UIImage(named: "cart delete")
         static let iconSort = UIImage(named: "Sort")
         static let backward = UIImage(named: "backward")
     }
+
+    // MARK: - UI element's labels
     enum Labels {
         static let tabBarStatistics = NSLocalizedString("Tab.statistics", comment: "")
 
@@ -41,18 +47,5 @@ enum Statistics {
         static let sortingClose = NSLocalizedString("statistics.sort.close", comment: "")
         static let collectionTitle = NSLocalizedString("statistics.collection.title", comment: "")
         static let siteButtonTitle = NSLocalizedString("statistics.siteButton.title", comment: "")
-    }
-
-    enum Dimensions {
-        static let icon42: CGFloat = 42
-        static let icon40: CGFloat = 40
-        static let icon32: CGFloat = 32
-        static let radius12: CGFloat = 12
-    }
-
-    enum Layouts {
-        static let leading16: CGFloat = 16
-        static let spacing20: CGFloat = 20
-        static let spacing8: CGFloat = 8
     }
 }
