@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "Sort@2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
+      "filename" : "Sort@3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }
