@@ -120,9 +120,7 @@ extension CollectionViewController: UICollectionViewDataSource {
                 in: 0...5
             ),
             description: "",
-            price: Float.random(
-                in: 1...3
-            ),
+            price: Float.random(in: 1...3),
             author: "",
             id: ""
         )

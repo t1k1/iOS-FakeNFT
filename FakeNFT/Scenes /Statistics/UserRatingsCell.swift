@@ -48,7 +48,7 @@ final class UserRatingsCell: UITableViewCell {
         return label
     }()
 
-    private let profileImageView: UIImageView = {
+    private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = Statistics.SfSymbols.iconProfile
         imageView.tintColor = .ypBlackDay
@@ -64,6 +64,7 @@ final class UserRatingsCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: cellID)
+        generateMockAvatar()
         configureUI()
     }
 
@@ -86,7 +87,7 @@ final class UserRatingsCell: UITableViewCell {
 
 private extension UserRatingsCell {
     func configureUI() {
-        [mainView, counterLabel, profileImageView, nameLabel, ratingLabel].forEach { contentView.addSubview($0) }
+        [mainView, counterLabel, avatarImageView, nameLabel, ratingLabel].forEach { contentView.addSubview($0) }
 
         NSLayoutConstraint.activate([
             mainView.topAnchor.constraint(equalTo: topAnchor),
@@ -99,13 +100,13 @@ private extension UserRatingsCell {
             counterLabel.widthAnchor.constraint(equalToConstant: .labelHeight2),
             counterLabel.heightAnchor.constraint(equalToConstant: .labelHeight1),
 
-            profileImageView.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
-            profileImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: .spacing16),
-            profileImageView.widthAnchor.constraint(equalToConstant: .avatarSize1),
-            profileImageView.heightAnchor.constraint(equalToConstant: .avatarSize1),
+            avatarImageView.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
+            avatarImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: .spacing16),
+            avatarImageView.widthAnchor.constraint(equalToConstant: .avatarSize1),
+            avatarImageView.heightAnchor.constraint(equalToConstant: .avatarSize1),
 
             nameLabel.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: .spacing16),
+            nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: .spacing16),
             nameLabel.heightAnchor.constraint(equalToConstant: .labelHeight2),
 
             ratingLabel.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
@@ -113,4 +114,16 @@ private extension UserRatingsCell {
             ratingLabel.heightAnchor.constraint(equalToConstant: .labelHeight2)
         ])
     }
+
+    func generateMockAvatar() {
+        switch Int.random(in: 1...4) {
+        case 1: avatarImageView.image = Statistics.SfSymbols.iconProfile
+        case 2: avatarImageView.image = Statistics.Images.avatar1
+        case 3: avatarImageView.image = Statistics.Images.avatar2
+        case 4: avatarImageView.image = Statistics.Images.avatar3
+        default:
+            break
+        }
+    }
+
 }

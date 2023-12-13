@@ -19,7 +19,6 @@ final class UserDetailsViewController: UIViewController {
     private let backButton: UIButton = {
         let object = UIButton()
         object.setImage(Statistics.SfSymbols.backward, for: .normal)
-        // object.frame = CGRect(x: 0, y: 0, width: 8, height: 12) // magic numbers
         return object
     }()
     private let nameLabel: UILabel = {
@@ -27,10 +26,10 @@ final class UserDetailsViewController: UIViewController {
         object.font = .headline3
         return object
     }()
-    private let profileImageView: UIImageView = {
+    private let avatarImageView: UIImageView = {
         let object = UIImageView()
         object.image = Statistics.SfSymbols.iconProfile
-        object.layer.cornerRadius = .avatarRadius2 // magic
+        object.layer.cornerRadius = .avatarRadius2
         object.layer.masksToBounds = true
         return object
     }()
@@ -45,8 +44,8 @@ final class UserDetailsViewController: UIViewController {
         let object = UIButton()
         object.titleLabel?.font = .caption1
         object.layer.borderColor = UIColor.ypBlackDay.cgColor
-        object.layer.borderWidth = .border1 // magic
-        object.layer.cornerRadius = .radius2 // magic
+        object.layer.borderWidth = .border1
+        object.layer.cornerRadius = .radius2
         object.layer.masksToBounds = true
         return object
     }()
@@ -87,6 +86,7 @@ final class UserDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        ganarateMockAvatar()
         configureUI()
     }
 
@@ -128,7 +128,7 @@ private extension UserDetailsViewController {
         view.backgroundColor = .systemBackground
         configureElementValues()
         // configureNavigationBar()
-        [customNavView, backButton, profileImageView, nameLabel, descLabel, siteButton, collectionButton,
+        [customNavView, backButton, avatarImageView, nameLabel, descLabel, siteButton, collectionButton,
         collectionLabel, forwardImageView].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             object.tintColor = .ypBlackDay
@@ -165,46 +165,57 @@ private extension UserDetailsViewController {
             customNavView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
             customNavView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
             customNavView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            customNavView.heightAnchor.constraint(equalToConstant: .navigationBarHeight), // 42), // magic
+            customNavView.heightAnchor.constraint(equalToConstant: .navigationBarHeight),
 
             backButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
             backButton.centerYAnchor.constraint(equalTo: customNavView.centerYAnchor),
-            backButton.widthAnchor.constraint(equalToConstant: .backButtonSize), // 24), // magic
-            backButton.heightAnchor.constraint(equalToConstant: .backButtonSize), // 24), // magic
+            backButton.widthAnchor.constraint(equalToConstant: .backButtonSize),
+            backButton.heightAnchor.constraint(equalToConstant: .backButtonSize),
 
-            profileImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
-            profileImageView.topAnchor.constraint(equalTo: customNavView.bottomAnchor, constant: .spacing20),
-            profileImageView.widthAnchor.constraint(equalToConstant: .avatarSize2), // 70), // magic
-            profileImageView.heightAnchor.constraint(equalToConstant: .avatarSize2), // 70), // magic
+            avatarImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
+            avatarImageView.topAnchor.constraint(equalTo: customNavView.bottomAnchor, constant: .spacing20),
+            avatarImageView.widthAnchor.constraint(equalToConstant: .avatarSize2),
+            avatarImageView.heightAnchor.constraint(equalToConstant: .avatarSize2),
 
-            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: .spacing16),
+            nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: .spacing16),
             nameLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
-            nameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
-            nameLabel.heightAnchor.constraint(equalToConstant: .labelHeight2), // 28), // magic
+            nameLabel.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor),
+            nameLabel.heightAnchor.constraint(equalToConstant: .labelHeight2),
 
             descLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
             descLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
-            descLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: .spacing20),
-            descLabel.heightAnchor.constraint(equalToConstant: .descriptionHeight), // 72), // magic
+            descLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: .spacing20),
+            descLabel.heightAnchor.constraint(equalToConstant: .descriptionHeight),
 
             siteButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
             siteButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
-            siteButton.topAnchor.constraint(equalTo: descLabel.bottomAnchor, constant: .spacing28), // 28), // magic
-            siteButton.heightAnchor.constraint(equalToConstant: .buttonHeight), // 40), // magic
+            siteButton.topAnchor.constraint(equalTo: descLabel.bottomAnchor, constant: .spacing28),
+            siteButton.heightAnchor.constraint(equalToConstant: .buttonHeight),
 
             collectionButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             collectionButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            collectionButton.topAnchor.constraint(equalTo: siteButton.bottomAnchor, constant: .spacing40), // 40), // magic
-            collectionButton.heightAnchor.constraint(equalToConstant: .flowButtonHeight), // 54), // magic
+            collectionButton.topAnchor.constraint(equalTo: siteButton.bottomAnchor, constant: .spacing40),
+            collectionButton.heightAnchor.constraint(equalToConstant: .flowButtonHeight),
 
             collectionLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
             collectionLabel.centerYAnchor.constraint(equalTo: collectionButton.centerYAnchor),
-            collectionLabel.heightAnchor.constraint(equalToConstant: .labelHeight1), //  20), // magic
+            collectionLabel.heightAnchor.constraint(equalToConstant: .labelHeight1),
 
             forwardImageView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
             forwardImageView.centerYAnchor.constraint(equalTo: collectionButton.centerYAnchor),
-            forwardImageView.widthAnchor.constraint(equalToConstant: .iconSize1), // 12), // magic
-            forwardImageView.heightAnchor.constraint(equalToConstant: .iconSize2) // 16) // magic
+            forwardImageView.widthAnchor.constraint(equalToConstant: .iconSize1),
+            forwardImageView.heightAnchor.constraint(equalToConstant: .iconSize2)
         ])
+    }
+
+    func ganarateMockAvatar() {
+        switch Int.random(in: 1...4) {
+        case 1: avatarImageView.image = Statistics.SfSymbols.iconProfile
+        case 2: avatarImageView.image = Statistics.Images.avatar1
+        case 3: avatarImageView.image = Statistics.Images.avatar2
+        case 4: avatarImageView.image = Statistics.Images.avatar3
+        default:
+            break
+        }
     }
 }
