@@ -14,6 +14,7 @@ final class CartTableViewCell: UITableViewCell {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.textColor = UIColor.ypBlackDay
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

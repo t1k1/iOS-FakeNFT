@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "chevron.backward@2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
+      "filename" : "chevron.backward@3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }

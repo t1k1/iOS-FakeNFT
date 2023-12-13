@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "Light@2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
+      "filename" : "Light@3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }

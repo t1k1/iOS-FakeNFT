@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "Property 1=1@2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
+      "filename" : "Property 1=1@3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }
