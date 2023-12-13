@@ -41,6 +41,9 @@
 		3FC8C38B29D242E90081F015 /* ProductDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8C38A29D242E90081F015 /* ProductDetailsTableViewCell.swift */; };
 		3FC8C39129D2453B0081F015 /* ExampleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8C39029D2453B0081F015 /* ExampleRequest.swift */; };
 		3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8C39229D246BA0081F015 /* DateFormatters+Presets.swift */; };
+		8499D9182B29C13B0050E599 /* SwiftGen.config.yml in Resources */ = {isa = PBXBuildFile; fileRef = 8499D9172B29C13B0050E599 /* SwiftGen.config.yml */; };
+		8499D91A2B29C2520050E599 /* Template.stencil in Sources */ = {isa = PBXBuildFile; fileRef = 8499D9192B29C2520050E599 /* Template.stencil */; };
+		8499D9212B29CD8D0050E599 /* Assets.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499D9202B29CD8D0050E599 /* Assets.generated.swift */; };
 		84E8BEBA2B247BC100FC7FCA /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E8BEB92B247BC100FC7FCA /* CartViewController.swift */; };
 		84E8BEBC2B24A2DC00FC7FCA /* CartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E8BEBB2B24A2DC00FC7FCA /* CartTableViewCell.swift */; };
 		84E8BEBE2B24BAE100FC7FCA /* CartTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E8BEBD2B24BAE100FC7FCA /* CartTableViewCellViewModel.swift */; };
@@ -108,6 +111,9 @@
 		3FC8C38A29D242E90081F015 /* ProductDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		3FC8C39029D2453B0081F015 /* ExampleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleRequest.swift; sourceTree = "<group>"; };
 		3FC8C39229D246BA0081F015 /* DateFormatters+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatters+Presets.swift"; sourceTree = "<group>"; };
+		8499D9172B29C13B0050E599 /* SwiftGen.config.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = SwiftGen.config.yml; sourceTree = "<group>"; };
+		8499D9192B29C2520050E599 /* Template.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = Template.stencil; sourceTree = "<group>"; };
+		8499D9202B29CD8D0050E599 /* Assets.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.generated.swift; sourceTree = "<group>"; };
 		84E8BEB92B247BC100FC7FCA /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		84E8BEBB2B24A2DC00FC7FCA /* CartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTableViewCell.swift; sourceTree = "<group>"; };
 		84E8BEBD2B24BAE100FC7FCA /* CartTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTableViewCellViewModel.swift; sourceTree = "<group>"; };
@@ -235,6 +241,7 @@
 		3F68069529CBBAF100B4F915 /* FakeNFT */ = {
 			isa = PBXGroup;
 			children = (
+				8499D9162B29C10D0050E599 /* SwiftGen */,
 				3F68069629CBBAF100B4F915 /* AppDelegate.swift */,
 				3F68069829CBBAF100B4F915 /* SceneDelegate.swift */,
 				E1CD40DA2A96BE9B00BE7FE8 /* Resources */,
@@ -345,6 +352,16 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
+		8499D9162B29C10D0050E599 /* SwiftGen */ = {
+			isa = PBXGroup;
+			children = (
+				8499D9172B29C13B0050E599 /* SwiftGen.config.yml */,
+				8499D9192B29C2520050E599 /* Template.stencil */,
+				8499D9202B29CD8D0050E599 /* Assets.generated.swift */,
+			);
+			path = SwiftGen;
+			sourceTree = "<group>";
+		};
 		84E8BEB82B247BAE00FC7FCA /* Cart */ = {
 			isa = PBXGroup;
 			children = (
@@ -402,6 +419,7 @@
 			buildConfigurationList = 3F6806BD29CBBAF200B4F915 /* Build configuration list for PBXNativeTarget "FakeNFT" */;
 			buildPhases = (
 				3FC8C39529D24CDB0081F015 /* Swiftlint */,
+				8499D91D2B29CD8D0050E599 /* SwiftGen */,
 				3F68068F29CBBAF100B4F915 /* Sources */,
 				3F68069029CBBAF100B4F915 /* Frameworks */,
 				3F68069129CBBAF100B4F915 /* Resources */,
@@ -510,6 +528,7 @@
 			files = (
 				3F6806A329CBBAF200B4F915 /* LaunchScreen.storyboard in Resources */,
 				E1CD40DC2A96BECC00BE7FE8 /* Localizable.strings in Resources */,
+				8499D9182B29C13B0050E599 /* SwiftGen.config.yml in Resources */,
 				3F6806A029CBBAF200B4F915 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -549,6 +568,24 @@
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint --fix && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		8499D91D2B29CD8D0050E599 /* SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftGen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftgen >& /dev/null; then\n  swiftgen config run --config FakeNFT/SwiftGen/SwiftGen.config.yml\nelse\n  echo \"warning: SwiftGen not installed, download from https://github.com/SwiftGen/SwiftGen\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -564,6 +601,8 @@
 				3F478ED129DB476500F6D39E /* Fonts.swift in Sources */,
 				0C79EE6A2A76DE1000EE90EA /* NftDetailAssembly.swift in Sources */,
 				84E8BEC72B2706ED00FC7FCA /* UIViewController+Extensions.swift in Sources */,
+				8499D91A2B29C2520050E599 /* Template.stencil in Sources */,
+				8499D9212B29CD8D0050E599 /* Assets.generated.swift in Sources */,
 				3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */,
 				0CFCB7422A78013E0009A829 /* Nft.swift in Sources */,
 				0CF2C2DD2A783CE600FDC837 /* ErrorView.swift in Sources */,
