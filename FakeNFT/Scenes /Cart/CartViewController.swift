@@ -7,7 +7,7 @@ final class CartViewController: UIViewController {
     NftViewModel(
         createdAt: "2023-09-27T23:48:21.462Z[GMT]".toDate(),
         name: "Cervantes",
-        image: UIImage(named: "Cart Image 0"),
+        image: UIImage.cartImage0,
         rating: 8,
         description: "eloquentiam deterruisset tractatos repudiandae nunc a electram",
         price: 39.37,
@@ -17,7 +17,7 @@ final class CartViewController: UIViewController {
     NftViewModel(
         createdAt: "2023-09-18T00:04:07.524Z[GMT]".toDate(),
         name: "Yang",
-        image: UIImage(named: "Cart Image 1"),
+        image: UIImage.cartImage1,
         rating: 5,
         description: "leo liber nobis nisi animal posidonium facilisi mauris",
         price: 8.04,
@@ -27,7 +27,7 @@ final class CartViewController: UIViewController {
     NftViewModel(
         createdAt: "2023-06-07T18:53:46.914Z[GMT]".toDate(),
         name: "Mamie Norton",
-        image: UIImage(named: "Cart Image 2"),
+        image: UIImage.cartImage2,
         rating: 2,
         description: "voluptaria equidem oporteat volutpat nisi interdum quas",
         price: 31.64,
@@ -38,11 +38,14 @@ final class CartViewController: UIViewController {
     private var visibleNFTArray: [NftViewModel] = []
     
     // MARK: - Private constants
+    
     private let cartStorage = CartStorageImpl()
     
-    private let emptyCartLabel: UILabel = {
+    // MARK: - Private mutable properties
+    
+    private lazy var emptyCartLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Cart.empty", comment: "")
+        label.text = NSLocalizedString("cart.cartViewController.empty", comment: "")
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.textColor = UIColor.ypBlackDay
@@ -50,14 +53,14 @@ final class CartViewController: UIViewController {
         return label
     }()
     
-    private let navigationBar: UINavigationBar = {
+    private lazy var navigationBar: UINavigationBar = {
         let bar = UINavigationBar()
         bar.layer.backgroundColor = UIColor.clear.cgColor
         bar.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 88)
         return bar
     }()
     
-    private let payUIView: UIView = {
+    private lazy var payUIView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.ypLightGreyDay
         view.layer.cornerRadius = 12
@@ -67,16 +70,16 @@ final class CartViewController: UIViewController {
         return view
     }()
     
-    private let payLabelsUIView: UIView = {
+    private lazy var payLabelsUIView: UIView = {
         let view = UIView()
         view.backgroundColor = .red
         view.translatesAutoresizingMaskIntoConstraints = true
         return view
     }()
     
-    private let totalLabel: UILabel = {
+    private lazy var totalLabel: UILabel = {
         let label = UILabel()
-        label.text = "0 \(NSLocalizedString("Cart.NFT", comment: ""))"
+        label.text = "0 \(NSLocalizedString("cart.cartViewController.nft", comment: ""))"
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.textColor = UIColor.ypBlackDay
@@ -84,9 +87,9 @@ final class CartViewController: UIViewController {
         return label
     }()
     
-    private let costLabel: UILabel = {
+    private lazy var costLabel: UILabel = {
         let label = UILabel()
-        label.text = "0 \(NSLocalizedString("Cart.ETH", comment: ""))"
+        label.text = "0 \(NSLocalizedString("cart.cartViewController.eth", comment: ""))"
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.textColor = UIColor.ypGreenUniversal
@@ -94,7 +97,7 @@ final class CartViewController: UIViewController {
         return label
     }()
     
-    private let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let table = UITableView()
         table.isScrollEnabled = true
         table.allowsSelection = false
@@ -105,10 +108,9 @@ final class CartViewController: UIViewController {
         return table
     }()
     
-    // MARK: - Private mutable properties
     private lazy var sortButton: UIButton = {
         let button = UIButton.systemButton(
-            with: UIImage(named: "Sort") ?? UIImage(),
+            with: UIImage.sort,
             target: self,
             action: #selector(didTapSortButton)
         )
@@ -124,7 +126,7 @@ final class CartViewController: UIViewController {
             action: #selector(didTapPayButton)
         )
         button.backgroundColor = UIColor.ypBlackDay
-        button.setTitle(NSLocalizedString("Cart.pay", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("cart.cartViewController.pay", comment: ""), for: .normal)
         button.setTitleColor(UIColor.ypWhiteDay, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         button.layer.cornerRadius = 16
@@ -170,8 +172,8 @@ final class CartViewController: UIViewController {
     }
     
     private func updateTotalAndCostLabels() {
-        totalLabel.text = "\(calculateTotalNftNumber()) \(NSLocalizedString("Cart.NFT", comment: ""))"
-        costLabel.text = "\(calculateTotalNfsPrice()) \(NSLocalizedString("Cart.ETH", comment: ""))"
+        totalLabel.text = "\(calculateTotalNftNumber()) \(NSLocalizedString("cart.cartViewController.nft", comment: ""))"
+        costLabel.text = "\(calculateTotalNfsPrice()) \(NSLocalizedString("cart.cartViewController.eth", comment: ""))"
     }
     
     private func calculateTotalNftNumber() -> Int {
@@ -216,11 +218,11 @@ final class CartViewController: UIViewController {
     
     private func showSortOptions() {
             presentBottomAlert(
-                title: NSLocalizedString("BottomAlert.Sort", comment: ""),
+                title: NSLocalizedString("cart.cartViewController.bottomAlertSort", comment: ""),
                 buttons: [
-                    NSLocalizedString("BottomAlert.SortByPrice", comment: ""),
-                    NSLocalizedString("BottomAlert.SortByRating", comment: ""),
-                    NSLocalizedString("BottomAlert.SortByName", comment: ""),
+                    NSLocalizedString("cart.cartViewController.bottomAlertSortByPrice", comment: ""),
+                    NSLocalizedString("cart.cartViewController.bottomAlertSortByRating", comment: ""),
+                    NSLocalizedString("cart.cartViewController.bottomAlertSortByName", comment: ""),
                 ]) { selectedIndex in
                     self.cartStorage.sortCondition = selectedIndex
                     self.updateTableView()
@@ -262,7 +264,7 @@ extension CartViewController: UITableViewDataSource {
             image: visibleNFTArray[indexPath.row].image ?? UIImage(),
             name: visibleNFTArray[indexPath.row].name,
             price: visibleNFTArray[indexPath.row].price,
-            currency: NSLocalizedString("Cart.ETH", comment: ""),
+            currency: NSLocalizedString("cart.cartViewController.eth", comment: ""),
             rating: visibleNFTArray[indexPath.row].rating
         )
         
@@ -303,8 +305,8 @@ extension CartViewController: UITableViewDelegate {
 // MARK: - Configure constraints
 private extension CartViewController {
     
-    func sortButtonIsVisible(_ bool: Bool) {
-        if bool {
+    func sortButton(isVisible: Bool) {
+        if isVisible {
             navigationBar.addSubview(sortButton)
             NSLayoutConstraint.activate([
                 sortButton.heightAnchor.constraint(equalToConstant: 44),
@@ -320,7 +322,7 @@ private extension CartViewController {
     func configureConstraints() {
         
         view.addSubview(navigationBar)
-        sortButtonIsVisible(true)
+        sortButton(isVisible:true)
         
         view.addSubview(payUIView)
         NSLayoutConstraint.activate([
@@ -361,7 +363,7 @@ private extension CartViewController {
     
     func isEmptyCartLabelVisible(_ bool: Bool) {
         if bool {
-            sortButtonIsVisible(false)
+            sortButton(isVisible:false)
             view.addSubview(emptyCartLabel)
             NSLayoutConstraint.activate([
                 emptyCartLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -369,7 +371,7 @@ private extension CartViewController {
             ])
         } else {
             emptyCartLabel.removeFromSuperview()
-            sortButtonIsVisible(true)
+            sortButton(isVisible:true)
         }
     }
 }

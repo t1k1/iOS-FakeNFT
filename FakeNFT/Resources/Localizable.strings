@@ -6,18 +6,18 @@
 "Error.title" = "Ошибка";
 
 "Tab.cart" = "Корзина";
-"Cart.empty" = "Корзина пуста";
-"Cart.pay" = "К оплате";
-"Cart.delete" = "Удалить";
-"Cart.back" = "Вернуться";
-"Cart.NFT" = "NFT";
-"Cart.ETH" = "ETH";
-"Cart.TableView.Cell.PriceText" = "Цена";
-"Cart.TableView.Cell.Delete" = "Вы уверены, что хотите \n удалить объект из корзины?";
+"cart.cartViewController.empty" = "Корзина пуста";
+"cart.cartViewController.pay" = "К оплате";
+"cart.cartViewController.nft" = "NFT";
+"cart.cartViewController.eth" = "ETH";
+"cart.cartViewController.price" = "Цена";
+"cart.cartViewController.bottomAlertSort" = "Сортировка";
+"cart.cartViewController.bottomAlertSortByPrice" = "По цене";
+"cart.cartViewController.bottomAlertSortByRating" = "По рейнингу";
+"cart.cartViewController.bottomAlertSortByName" = "По названию";
+"cart.cartDeleteItemViewController.delete" = "Удалить";
+"cart.cartDeleteItemViewController.back" = "Вернуться";
+"cart.cartDeleteItemViewController.infoText" = "Вы уверены, что хотите \n удалить объект из корзины?";
 
-"BottomAlert.Cancel" = "Отмена";
-"BottomAlert.Sort" = "Сортировка";
-"BottomAlert.SortByPrice" = "По цене";
-"BottomAlert.SortByRating" = "По рейнингу";
-"BottomAlert.SortByName" = "По названию";
+"extensions.uiViewController.bottomAlertCancel" = "Отмена";
 

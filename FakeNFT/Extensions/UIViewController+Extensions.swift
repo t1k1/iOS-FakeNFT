@@ -12,7 +12,7 @@ extension UIViewController {
             alertController.addAction(action)
         }
         
-        let cancelAction = UIAlertAction(title: NSLocalizedString("BottomAlert.Cancel", comment: ""), style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("extensions.uiViewController.bottomAlertCancel", comment: ""), style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)

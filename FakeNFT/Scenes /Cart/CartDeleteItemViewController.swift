@@ -13,22 +13,24 @@ final class CartDeleteItemViewController: UIViewController {
     private let nftImage: UIImage
     private let indexPath: IndexPath
     
-    private let backgroundView: UIView = {
+    // MARK: - Private mutable properties
+    
+    private lazy var backgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private let imageView: UIImageView = {
-        let image = UIImage(named: "Cart Delete NFT")
+    private lazy var imageView: UIImageView = {
+        let image = UIImage.cartDeleteNFT
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    private let label: UILabel = {
+    private lazy var label: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Cart.TableView.Cell.Delete", comment: "")
+        label.text = NSLocalizedString("cart.cartDeleteItemViewController.infoText", comment: "")
         label.numberOfLines = 2
         label.textAlignment = .center
         label.textColor = UIColor.ypBlackDay
@@ -38,7 +40,7 @@ final class CartDeleteItemViewController: UIViewController {
         return label
     }()
     
-    private let horizontalStack: UIStackView = {
+    private lazy var horizontalStack: UIStackView = {
         let stack = UIStackView()
         stack.spacing = 8
         stack.axis = .horizontal
@@ -47,7 +49,6 @@ final class CartDeleteItemViewController: UIViewController {
         return stack
     }()
     
-    // MARK: - Private mutable properties
     private lazy var deleteButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(),
@@ -55,7 +56,7 @@ final class CartDeleteItemViewController: UIViewController {
             action: #selector(didTapDeleteButton)
         )
         button.backgroundColor = UIColor.ypBlackDay
-        button.setTitle(NSLocalizedString("Cart.delete", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("cart.cartDeleteItemViewController.delete", comment: ""), for: .normal)
         button.setTitleColor(UIColor.ypRedUniversal, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.layer.cornerRadius = 12
@@ -71,7 +72,7 @@ final class CartDeleteItemViewController: UIViewController {
             action: #selector(didTapBackButton)
         )
         button.backgroundColor = UIColor.ypBlackDay
-        button.setTitle(NSLocalizedString("Cart.back", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("cart.cartDeleteItemViewController.back", comment: ""), for: .normal)
         button.setTitleColor(UIColor.ypWhiteDay, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.layer.cornerRadius = 12

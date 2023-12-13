@@ -12,7 +12,9 @@ final class CartTableViewCell: UITableViewCell {
     // MARK: - Private constants
     static let reuseIdentifier = "CartTableViewCell"
     
-    private let nameLabel: UILabel = {
+    //MARK: - Private mutable properties
+    
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.textColor = UIColor.ypBlackDay
@@ -20,7 +22,7 @@ final class CartTableViewCell: UITableViewCell {
         return label
     }()
     
-    let previewImage: UIImageView = {
+    private lazy var previewImage: UIImageView = {
         let image = UIImage()
         let imageView = UIImageView(image: image)
         imageView.layer.cornerRadius = 12
@@ -29,23 +31,23 @@ final class CartTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private let ratingImage: UIImageView = {
-        let image = UIImage(named: "stars0")
+    private lazy var ratingImage: UIImageView = {
+        let image = UIImage.stars0
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    private let priceHeaderLabel: UILabel = {
+    private lazy var priceHeaderLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Cart.TableView.Cell.PriceText", comment: "Price localized text")
+        label.text = NSLocalizedString("cart.cartViewController.price", comment: "Price localized text")
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.textColor = UIColor.ypBlackDay
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let priceLabel: UILabel = {
+    private lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         label.textColor = UIColor.ypBlackDay
@@ -53,10 +55,9 @@ final class CartTableViewCell: UITableViewCell {
         return label
     }()
     
-    //MARK: - Private mutable properties
     private lazy var deleteButton: UIButton = {
         let button = UIButton.systemButton(
-            with: UIImage(named: "cart delete") ?? UIImage(),
+            with: UIImage.cartDelete,
             target: self,
             action: #selector(didTapDeleteButton(sender: ))
         )
@@ -85,16 +86,11 @@ final class CartTableViewCell: UITableViewCell {
         currency: String,
         rating: Int
     ) {
-        let items = CartTableViewCellViewModel(
-            nameUILabel: self.nameLabel,
-            previewUIImageView: self.previewImage,
-            ratingUIImageView: self.ratingImage,
-            priceUILabel: self.priceLabel)
-        items.previewUIImageView.image = image
-        items.nameUILabel.text = name
-        items.priceUILabel.text = "\(round(price*100/100)) \(currency)"
+        self.previewImage.image = image
+        self.nameLabel.text = name
+        self.priceLabel.text = "\(round(price*100/100)) \(currency)"
         let correctRating: Int = Int(round(Double(rating/2)))
-        items.ratingUIImageView.image = UIImage(named: "stars\(correctRating)")
+        self.ratingImage.image = UIImage(named: "stars\(correctRating)")
     }
     
     // MARK: - Objective-C functions
