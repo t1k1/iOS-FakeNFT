@@ -55,6 +55,7 @@
 		E90DF5E72B28D4FD001E0BDC /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DF5E62B28D4FD001E0BDC /* CollectionViewController.swift */; };
 		E90DF5E92B28EF45001E0BDC /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DF5E82B28EF44001E0BDC /* CollectionCell.swift */; };
 		E90DF5EB2B28FBDF001E0BDC /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DF5EA2B28FBDF001E0BDC /* WebViewViewController.swift */; };
+		E964375C2B2A474700C2CB06 /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E964375B2B2A474700C2CB06 /* CGFloat+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +127,7 @@
 		E90DF5E62B28D4FD001E0BDC /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		E90DF5E82B28EF44001E0BDC /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		E90DF5EA2B28FBDF001E0BDC /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
+		E964375B2B2A474700C2CB06 /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -391,6 +393,7 @@
 				E90DF5E02B264A5F001E0BDC /* UserRatingsCell.swift */,
 				E90DF5E82B28EF44001E0BDC /* CollectionCell.swift */,
 				E90DF5E42B28D22F001E0BDC /* UIViewController+Extensions.swift */,
+				E964375B2B2A474700C2CB06 /* CGFloat+Extensions.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -581,6 +584,7 @@
 				3F68069B29CBBAF100B4F915 /* ProductDetailsTableViewController.swift in Sources */,
 				0CFCB7402A78002A0009A829 /* NftService.swift in Sources */,
 				3F6806D529CBBEC700B4F915 /* NetworkTask.swift in Sources */,
+				E964375C2B2A474700C2CB06 /* CGFloat+Extensions.swift in Sources */,
 				0CF2C2DB2A783C1B00FDC837 /* LoadingView.swift in Sources */,
 				3F68069729CBBAF100B4F915 /* AppDelegate.swift in Sources */,
 				3F68069929CBBAF100B4F915 /* SceneDelegate.swift in Sources */,
