@@ -10,7 +10,7 @@ import UIKit
 // MARK: - Class
 
 final class CollectionViewController: UIViewController {
-    // MARK: - Private properties
+    // MARK: - Private UI properties
 
     private let customNavView: UIView = {
         let object = UIView()
@@ -34,8 +34,9 @@ final class CollectionViewController: UIViewController {
         return object
     }()
 
-    private var userDetails: UserDetails
+    // MARK: - Private properties
 
+    private var userDetails: UserDetails
     private let servicesAssembly: ServicesAssembly
     private let cellID = "CollectionCell"
 
@@ -74,8 +75,8 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         CGSize(
-            width: 108,
-            height: 172
+            width: .nftCellWidth, //   116, // 108,  //  with  right space for scrolling
+            height: .nftCellHeight // 192
         )
     }
 
@@ -84,7 +85,7 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
-        8
+        .spacing1
     }
 
     func collectionView(
@@ -92,7 +93,7 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        20
+        .spacing8 // 20
     }
 }
 
@@ -100,7 +101,7 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
 
 extension CollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        30
+        30 // need mock array
     }
 
     func collectionView(
@@ -108,7 +109,7 @@ extension CollectionViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
-        cell.backgroundColor = .ypYellowUniversal
+        // cell.backgroundColor = .ypYellowUniversal
         return cell
     }
 }
@@ -132,7 +133,7 @@ private extension CollectionViewController {
         [customNavView, backButton, collectionLabel, collectionView].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             object.tintColor = .ypBlackDay
-            object.backgroundColor = .ypLightGreyDay
+            //  object.backgroundColor = .ypLightGreyDay
             view.addSubview(object)
         }
         configureConstraints()
@@ -145,33 +146,31 @@ private extension CollectionViewController {
         collectionView.delegate = self
         collectionView.alwaysBounceVertical = true
         collectionView.allowsMultipleSelection = false
-        // collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.verticalScrollIndicatorInsets.right = .zero
     }
 
     func configureConstraints() {
         let safeArea = view.safeAreaLayoutGuide
-        let vSpacing = Statistics.Layouts.spacing20
-        let leading = Statistics.Layouts.leading16
 
         NSLayoutConstraint.activate([
-            customNavView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
-            customNavView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading),
+            customNavView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
+            customNavView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
             customNavView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            customNavView.heightAnchor.constraint(equalToConstant: 42), // magic
+            customNavView.heightAnchor.constraint(equalToConstant: .navigationBarHeight),
 
-            backButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
+            backButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
             backButton.centerYAnchor.constraint(equalTo: customNavView.centerYAnchor),
-            backButton.widthAnchor.constraint(equalToConstant: 24), // magic
-            backButton.heightAnchor.constraint(equalToConstant: 24), // magic
+            backButton.widthAnchor.constraint(equalToConstant: .backButtonSize),
+            backButton.heightAnchor.constraint(equalToConstant: .backButtonSize),
 
             collectionLabel.centerXAnchor.constraint(equalTo: customNavView.centerXAnchor),
             collectionLabel.centerYAnchor.constraint(equalTo: customNavView.centerYAnchor),
-            collectionLabel.heightAnchor.constraint(equalToConstant: 20), // magic
+            collectionLabel.heightAnchor.constraint(equalToConstant: .labelHeight1),
 
-            collectionView.topAnchor.constraint(equalTo: customNavView.bottomAnchor, constant: vSpacing),
-            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
-            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading)
+            collectionView.topAnchor.constraint(equalTo: customNavView.bottomAnchor, constant: .spacing20),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
+            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing8)
         ])
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WebKit
 
 // MARK: - Class
 
@@ -19,10 +20,9 @@ final class WebViewViewController: UIViewController {
     private let backButton: UIButton = {
         let object = UIButton()
         object.setImage(Statistics.SfSymbols.backward, for: .normal)
-        // object.frame = CGRect(x: 0, y: 0, width: 8, height: 12) // magic numbers
         return object
     }()
-    private let webView = UIView()
+    private let webView = WKWebView()
 
     private var url: URL?
 
@@ -44,10 +44,10 @@ final class WebViewViewController: UIViewController {
 
        configureUI()
        configureElementValues()
-       print(#fileID, #function, url)
-//        if let url = URL(string: "https://practicum.yandex.ru/") {
-//            webView.load(URLRequest(url: url))
-//        }
+       print(#fileID, #function, url as Any)
+       if let url {
+           webView.load(URLRequest(url: url))
+       }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -71,32 +71,30 @@ private extension WebViewViewController {
     // MARK: - Private methods to configure UI
     func configureUI() {
         view.backgroundColor = .systemBackground
+
         [customNavView, backButton, webView].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             object.tintColor = .ypBlackDay
-            object.backgroundColor = .ypLightGreyDay
             view.addSubview(object)
         }
 
         let safeArea = view.safeAreaLayoutGuide
-        let vSpacing = Statistics.Layouts.spacing20
-        let leading = Statistics.Layouts.leading16
 
         NSLayoutConstraint.activate([
-            customNavView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
-            customNavView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading),
+            customNavView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
+            customNavView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
             customNavView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            customNavView.heightAnchor.constraint(equalToConstant: 42), // magic
+            customNavView.heightAnchor.constraint(equalToConstant: .navigationBarHeight),
 
-            backButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
+            backButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
             backButton.centerYAnchor.constraint(equalTo: customNavView.centerYAnchor),
-            backButton.widthAnchor.constraint(equalToConstant: 24), // magic
-            backButton.heightAnchor.constraint(equalToConstant: 24), // magic
+            backButton.widthAnchor.constraint(equalToConstant: .backButtonSize),
+            backButton.heightAnchor.constraint(equalToConstant: .backButtonSize),
 
-            webView.topAnchor.constraint(equalTo: customNavView.bottomAnchor, constant: vSpacing),
-            webView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            webView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
-            webView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading)
+            webView.topAnchor.constraint(equalTo: customNavView.bottomAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            webView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
     }
 }

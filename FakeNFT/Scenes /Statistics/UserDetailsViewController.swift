@@ -30,7 +30,7 @@ final class UserDetailsViewController: UIViewController {
     private let profileImageView: UIImageView = {
         let object = UIImageView()
         object.image = Statistics.SfSymbols.iconProfile
-        object.layer.cornerRadius = 35 // magic
+        object.layer.cornerRadius = .avatarRadius2 // magic
         object.layer.masksToBounds = true
         return object
     }()
@@ -45,8 +45,8 @@ final class UserDetailsViewController: UIViewController {
         let object = UIButton()
         object.titleLabel?.font = .caption1
         object.layer.borderColor = UIColor.ypBlackDay.cgColor
-        object.layer.borderWidth = 1 // magic
-        object.layer.cornerRadius = 16 // magic
+        object.layer.borderWidth = .border1 // magic
+        object.layer.cornerRadius = .radius2 // magic
         object.layer.masksToBounds = true
         return object
     }()
@@ -155,61 +155,56 @@ private extension UserDetailsViewController {
         else { return }
         navigationBar.tintColor = .ypBlackDay
         navigationBar.prefersLargeTitles = false
-        // topItem.title = Statistics.Labels.tabBarStatistics + " (need to hide it)"
-        // topItem.titleView?.tintColor = .ypBlackDay
-        // let buttonItem = UIBarButtonItem(customView: backButton)
         topItem.backBarButtonItem = UIBarButtonItem(customView: backButton)
     }
 
     func configureConstraints() {
         let safeArea = view.safeAreaLayoutGuide
-        let vSpacing = Statistics.Layouts.spacing20
-        let leading = Statistics.Layouts.leading16
 
         NSLayoutConstraint.activate([
-            customNavView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
-            customNavView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading),
+            customNavView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
+            customNavView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
             customNavView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            customNavView.heightAnchor.constraint(equalToConstant: 42), // magic
+            customNavView.heightAnchor.constraint(equalToConstant: .navigationBarHeight), // 42), // magic
 
-            backButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
+            backButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
             backButton.centerYAnchor.constraint(equalTo: customNavView.centerYAnchor),
-            backButton.widthAnchor.constraint(equalToConstant: 24), // magic
-            backButton.heightAnchor.constraint(equalToConstant: 24), // magic
+            backButton.widthAnchor.constraint(equalToConstant: .backButtonSize), // 24), // magic
+            backButton.heightAnchor.constraint(equalToConstant: .backButtonSize), // 24), // magic
 
-            profileImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
-            profileImageView.topAnchor.constraint(equalTo: customNavView.bottomAnchor, constant: vSpacing),
-            profileImageView.widthAnchor.constraint(equalToConstant: 70), // magic
-            profileImageView.heightAnchor.constraint(equalToConstant: 70), // magic
+            profileImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
+            profileImageView.topAnchor.constraint(equalTo: customNavView.bottomAnchor, constant: .spacing20),
+            profileImageView.widthAnchor.constraint(equalToConstant: .avatarSize2), // 70), // magic
+            profileImageView.heightAnchor.constraint(equalToConstant: .avatarSize2), // 70), // magic
 
-            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: leading),
-            nameLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading),
+            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: .spacing16),
+            nameLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
             nameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
-            nameLabel.heightAnchor.constraint(equalToConstant: 28), // magic
+            nameLabel.heightAnchor.constraint(equalToConstant: .labelHeight2), // 28), // magic
 
-            descLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
-            descLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading),
-            descLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: vSpacing),
-            descLabel.heightAnchor.constraint(equalToConstant: 72), // magic
+            descLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
+            descLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
+            descLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: .spacing20),
+            descLabel.heightAnchor.constraint(equalToConstant: .descriptionHeight), // 72), // magic
 
-            siteButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
-            siteButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading),
-            siteButton.topAnchor.constraint(equalTo: descLabel.bottomAnchor, constant: 28), // magic
-            siteButton.heightAnchor.constraint(equalToConstant: 40), // magic
+            siteButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
+            siteButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
+            siteButton.topAnchor.constraint(equalTo: descLabel.bottomAnchor, constant: .spacing28), // 28), // magic
+            siteButton.heightAnchor.constraint(equalToConstant: .buttonHeight), // 40), // magic
 
             collectionButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             collectionButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            collectionButton.topAnchor.constraint(equalTo: siteButton.bottomAnchor, constant: 40), // magic
-            collectionButton.heightAnchor.constraint(equalToConstant: 54), // magic
+            collectionButton.topAnchor.constraint(equalTo: siteButton.bottomAnchor, constant: .spacing40), // 40), // magic
+            collectionButton.heightAnchor.constraint(equalToConstant: .flowButtonHeight), // 54), // magic
 
-            collectionLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
+            collectionLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
             collectionLabel.centerYAnchor.constraint(equalTo: collectionButton.centerYAnchor),
-            collectionLabel.heightAnchor.constraint(equalToConstant: 20), // magic
+            collectionLabel.heightAnchor.constraint(equalToConstant: .labelHeight1), //  20), // magic
 
-            forwardImageView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading),
+            forwardImageView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -.spacing16),
             forwardImageView.centerYAnchor.constraint(equalTo: collectionButton.centerYAnchor),
-            forwardImageView.widthAnchor.constraint(equalToConstant: 12), // magic
-            forwardImageView.heightAnchor.constraint(equalToConstant: 16) // magic
+            forwardImageView.widthAnchor.constraint(equalToConstant: .iconSize1), // 12), // magic
+            forwardImageView.heightAnchor.constraint(equalToConstant: .iconSize2) // 16) // magic
         ])
     }
 }

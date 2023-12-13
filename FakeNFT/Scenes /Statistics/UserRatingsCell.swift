@@ -13,7 +13,7 @@ final class UserRatingsCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .ypLightGreyDay
         view.layer.masksToBounds = true
-        view.layer.cornerRadius = Statistics.Dimensions.radius12
+        view.layer.cornerRadius = .radius1
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -53,7 +53,7 @@ final class UserRatingsCell: UITableViewCell {
         imageView.image = Statistics.SfSymbols.iconProfile
         imageView.tintColor = .ypBlackDay
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 14 // magic
+        imageView.layer.cornerRadius = .avatarRadius1
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -77,7 +77,6 @@ final class UserRatingsCell: UITableViewCell {
 
     func configureCell(counter: Int, user: UserDetails) {
         counterLabel.text = String(counter)
-        // profileImageView.image = // TODO: Dummy for now, need to parse the image's urlPhoto
         nameLabel.text = user.name
         ratingLabel.text = String(user.rating)
     }
@@ -89,31 +88,29 @@ private extension UserRatingsCell {
     func configureUI() {
         [mainView, counterLabel, profileImageView, nameLabel, ratingLabel].forEach { contentView.addSubview($0) }
 
-        let leading = Statistics.Layouts.leading16
-
         NSLayoutConstraint.activate([
             mainView.topAnchor.constraint(equalTo: topAnchor),
-            mainView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8), // magic
-            mainView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35), // magic
-            mainView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -leading),
+            mainView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -.spacing8),
+            mainView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: .spacing35),
+            mainView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -.spacing16),
 
             counterLabel.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
             counterLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            counterLabel.widthAnchor.constraint(equalToConstant: 28), // magic
-            counterLabel.heightAnchor.constraint(equalToConstant: 20), // magic
+            counterLabel.widthAnchor.constraint(equalToConstant: .labelHeight2),
+            counterLabel.heightAnchor.constraint(equalToConstant: .labelHeight1),
 
             profileImageView.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
-            profileImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: leading),
-            profileImageView.widthAnchor.constraint(equalToConstant: 28), // magic
-            profileImageView.heightAnchor.constraint(equalToConstant: 28), // magic
+            profileImageView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: .spacing16),
+            profileImageView.widthAnchor.constraint(equalToConstant: .avatarSize1),
+            profileImageView.heightAnchor.constraint(equalToConstant: .avatarSize1),
 
             nameLabel.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: leading),
-            nameLabel.heightAnchor.constraint(equalToConstant: 28), // magic
+            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: .spacing16),
+            nameLabel.heightAnchor.constraint(equalToConstant: .labelHeight2),
 
             ratingLabel.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
-            ratingLabel.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -leading),
-            ratingLabel.heightAnchor.constraint(equalToConstant: 28) // magic
+            ratingLabel.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -.spacing16),
+            ratingLabel.heightAnchor.constraint(equalToConstant: .labelHeight2)
         ])
     }
 }

@@ -13,7 +13,7 @@ final class StatisticsViewController: UIViewController {
         let object = UIButton()
         object.setImage(Statistics.Images.iconSort, for: .normal)
         // object.frame = CGRect(x: 0, y: 0, width: 42, height: 42) // magic numbers
-        object.translatesAutoresizingMaskIntoConstraints = false
+        // object.translatesAutoresizingMaskIntoConstraints = false
         return object
     }()
     private let usersTableView: UITableView = {
@@ -105,7 +105,7 @@ private extension StatisticsViewController {
         usersTableView.alwaysBounceVertical = true
         usersTableView.register(UserRatingsCell.self, forCellReuseIdentifier: cellID)
         sortButton.addTarget(self, action: #selector(sortButtonClicked), for: .touchUpInside)
-        usersTableView.verticalScrollIndicatorInsets.right = 4 // magic
+        usersTableView.verticalScrollIndicatorInsets.right = .spacing4
     }
 }
 
@@ -113,7 +113,7 @@ private extension StatisticsViewController {
 
 extension StatisticsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        88 // magic number
+        .userCellHeight
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -171,13 +171,11 @@ private extension StatisticsViewController {
 
     func configureConstraints() {
         let safeArea = view.safeAreaLayoutGuide
-        let vSpacing = Statistics.Layouts.spacing20
-        let leading = Statistics.Layouts.leading16
 
         NSLayoutConstraint.activate([
-            usersTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
+            usersTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
             usersTableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            usersTableView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: vSpacing),
+            usersTableView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: .spacing20),
             usersTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
     }
