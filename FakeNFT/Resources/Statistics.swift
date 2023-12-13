@@ -35,6 +35,16 @@ enum Statistics {
         static let iconCartDelete = UIImage(named: "cart delete")
         static let iconSort = UIImage(named: "Sort")
         static let backward = UIImage(named: "backward")
+
+        static let nft1 = UIImage(named: "nft1")
+        static let nft2 = UIImage(named: "nft2")
+        static let nft3 = UIImage(named: "nft3")
+        static let nft4 = UIImage(named: "nft4")
+        static let nft5 = UIImage(named: "nft5")
+
+        static let avatar1 = UIImage(named: "avatar1")
+        static let avatar2 = UIImage(named: "avatar2")
+        static let avatar3 = UIImage(named: "avatar3")
     }
 
     // MARK: - UI element's labels

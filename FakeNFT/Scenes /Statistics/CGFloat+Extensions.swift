@@ -10,7 +10,6 @@ import Foundation
 extension CGFloat {
     // MARK: - for UI dimensions
 
-
     /// CGFloat = 12
     static let iconSize1: CGFloat = 12
     /// CGFloat = 18

@@ -75,8 +75,8 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         CGSize(
-            width: .nftCellWidth, //   116, // 108,  //  with  right space for scrolling
-            height: .nftCellHeight // 192
+            width: .nftCellWidth,
+            height: .nftCellHeight
         )
     }
 
@@ -93,7 +93,7 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        .spacing8 // 20
+        .spacing8
     }
 }
 
@@ -108,8 +108,26 @@ extension CollectionViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
-        // cell.backgroundColor = .ypYellowUniversal
+        guard
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+                as? CollectionCell else { return UICollectionViewCell()
+        }
+        cell.viewModel = NftModel(
+            createdAt: Date(),
+            name: "Big NFT Name",
+            images: [],
+            rating: Int.random(
+                in: 0...5
+            ),
+            description: "",
+            price: Float.random(
+                in: 1...3
+            ),
+            author: "",
+            id: ""
+        )
+        cell.isLiked = Bool.random()
+        cell.isInCart = Bool.random()
         return cell
     }
 }
