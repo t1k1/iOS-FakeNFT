@@ -159,6 +159,8 @@ private extension StatisticsViewController {
         else { return }
         navigationBar.tintColor = .ypBlackDay
         navigationBar.prefersLargeTitles = false
+        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.shadowImage = UIImage()
         let sortButtonItem = UIBarButtonItem(customView: sortButton)
         topItem.setRightBarButton(sortButtonItem, animated: true)
     }

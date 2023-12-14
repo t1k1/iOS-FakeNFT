@@ -53,6 +53,13 @@ final class TabBarController: UITabBarController {
         selectedIndex = 3
         tabBar.isTranslucent = false
         tabBar.unselectedItemTintColor = .ypBlackDay
+
+        let appearance = tabBar.standardAppearance
+        appearance.configureWithOpaqueBackground()
+        appearance.shadowImage = nil
+        appearance.shadowColor = nil
+        tabBar.standardAppearance = appearance
+
         view.backgroundColor = .systemBackground
     }
 }

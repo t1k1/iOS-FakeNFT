@@ -185,27 +185,13 @@ private extension CollectionCell {
         case 1:
             star1ImageView.tintColor = .ypYellowUniversal
         case 2:
-//            star1ImageView.tintColor = .ypYellowUniversal
-//            star2ImageView.tintColor = .ypYellowUniversal
             [star1ImageView, star2ImageView].forEach { $0.tintColor = .ypYellowUniversal }
         case 3:
-//            star1ImageView.tintColor = .ypYellowUniversal
-//            star2ImageView.tintColor = .ypYellowUniversal
-//            star3ImageView.tintColor = .ypYellowUniversal
             [star1ImageView, star2ImageView, star3ImageView].forEach { $0.tintColor = .ypYellowUniversal }
         case 4:
-//            star1ImageView.tintColor = .ypYellowUniversal
-//            star2ImageView.tintColor = .ypYellowUniversal
-//            star3ImageView.tintColor = .ypYellowUniversal
-//            star4ImageView.tintColor = .ypYellowUniversal
             [star1ImageView, star2ImageView, star3ImageView, star4ImageView]
                 .forEach { $0.tintColor = .ypYellowUniversal }
         case 5:
-//            star1ImageView.tintColor = .ypYellowUniversal
-//            star2ImageView.tintColor = .ypYellowUniversal
-//            star3ImageView.tintColor = .ypYellowUniversal
-//            star4ImageView.tintColor = .ypYellowUniversal
-//            star5ImageView.tintColor = .ypYellowUniversal
             [star1ImageView, star2ImageView, star3ImageView, star4ImageView, star5ImageView]
                 .forEach { $0.tintColor = .ypYellowUniversal }
 
