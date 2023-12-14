@@ -1,14 +1,15 @@
 Кеменов Сергей Васильевич
 <br /> Когорта: 8
 <br /> Группа: 5
+<br /> Архитектура: MVC
+<br /> Весткар: Кодом
 <br /> Эпик: Статистика
-<br /> Ссылка: [GitHub Project](https://github.com/users/SKemenov/projects/3/views/3) 
-
+<br /> Декомпозиция эпика: [GitHub Project](https://github.com/users/SKemenov/projects/3/views/5) 
 
 # Statistics Flow Decomposition
 
 
-## Statistics 1-3:
+## Stat1-3
 
 #### Ресурсы
 - Добавить ресурсы в проект (est: 3 h; fact: x h)
@@ -97,7 +98,7 @@
 `Total sprint:` est: 26 h; fact: x h.
 
 
-## Statistics 2-3:
+## Stat 2-3:
 
 #### API
 - Подключение API (est: 8 h; fact: x h)
@@ -139,7 +140,7 @@
 `Total sprint:` est: 26 h; fact: x h.
 
 
-## Statistics 3-3:
+## Stat 3-3:
 
 #### Верстка
 - Индикатор загрузки (est: 1 h; fact: x h)
@@ -183,12 +184,12 @@
 `Total sprint:` est: 27 h; fact: x h.
 
 
-## Другое
+## Необязательная часть
  
-#### Алерт - не удалось загрузить данные 
-
-#### ланчскрин
-
-#### онбоардинг
+- Алерт - не удалось загрузить данные 
+- ланчскрин кодом
+- онбоардинг
+- темная тема
+- локализация на другие языки
 
 
