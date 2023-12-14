@@ -74,7 +74,7 @@ final class UserDetailsViewController: UIViewController {
     init(servicesAssembly: ServicesAssembly, user: UserDetails) {
         self.servicesAssembly = servicesAssembly
         self.userDetails = user
-        super.init(nibName: nil, bundle: nil)
+         super.init(nibName: nil, bundle: nil)
         hidesBottomBarWhenPushed = true
     }
 
@@ -86,7 +86,7 @@ final class UserDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        ganarateMockAvatar()
+        generateMockAvatar()
         configureUI()
     }
 
@@ -101,17 +101,14 @@ final class UserDetailsViewController: UIViewController {
 private extension UserDetailsViewController {
     @objc func backButtonCLicked() {
         navigationController?.popViewController(animated: true)
-        // dismiss(animated: true)
     }
     @objc func siteButtonCLicked() {
-        print(#fileID, #function)
-        let url = URL(string: userDetails.urlSite.isEmpty ? "https://practicum.yandex.ru/" : userDetails.urlSite)
+         let url = URL(string: userDetails.urlSite.isEmpty ? "https://practicum.yandex.ru/" : userDetails.urlSite)
         let nextController = WebViewViewController(url: url)
         navigationController?.pushViewController(nextController, animated: true)
     }
 
     @objc func collectionButtonCLicked() {
-        print(#fileID, #function)
         let nextController = CollectionViewController(
             servicesAssembly: servicesAssembly,
             user: userDetails
@@ -127,13 +124,14 @@ private extension UserDetailsViewController {
     func configureUI() {
         view.backgroundColor = .systemBackground
         configureElementValues()
-        // configureNavigationBar()
+
         [customNavView, backButton, avatarImageView, nameLabel, descLabel, siteButton, collectionButton,
         collectionLabel, forwardImageView].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             object.tintColor = .ypBlackDay
             view.addSubview(object)
         }
+
         configureConstraints()
     }
 
@@ -208,8 +206,8 @@ private extension UserDetailsViewController {
         ])
     }
 
-    func ganarateMockAvatar() {
-        switch Int.random(in: 1...4) {
+    func generateMockAvatar() {
+        switch userDetails.avatarId {
         case 1: avatarImageView.image = Statistics.SfSymbols.iconProfile
         case 2: avatarImageView.image = Statistics.Images.avatar1
         case 3: avatarImageView.image = Statistics.Images.avatar2

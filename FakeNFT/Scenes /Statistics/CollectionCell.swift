@@ -13,7 +13,6 @@ final class CollectionCell: UICollectionViewCell {
     // MARK: - Private UI properties
     private let nftImageView: UIImageView = {
         let object = UIImageView()
-        // object.backgroundColor = .green
         object.layer.cornerRadius = .radius1
         object.layer.masksToBounds = true
         return object
@@ -43,7 +42,6 @@ final class CollectionCell: UICollectionViewCell {
 
     private let horizontalStackView: UIStackView = {
         let object = UIStackView()
-        // object.backgroundColor = .yellow
         object.axis = .horizontal
         object.distribution = .equalCentering
         object.alignment = .center
@@ -55,12 +53,10 @@ final class CollectionCell: UICollectionViewCell {
         let object = UIImageView()
         object.image = Statistics.Images.iconCartEmpty
         object.tintColor = .ypBlackDay
-        // object.backgroundColor = .green
         return object
     }()
     private let verticalStackView: UIStackView = {
         let object = UIStackView()
-        // object.backgroundColor = .blue
         object.axis = .vertical
         object.distribution = .equalSpacing
         object.spacing = .spacing4
@@ -174,22 +170,6 @@ private extension CollectionCell {
     }
 }
 
-extension Float {
-    static let twoFractionDigits: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
-        return formatter
-    }()
-    var priceFormatted: String {
-        let string = Float.twoFractionDigits.string(for: self) ?? ""
-        let changeDotToComma = String(string.map { $0 == "." ? "," : $0 })
-        let currencyCode = " ETH"
-        return changeDotToComma + currencyCode
-    }
-}
-
 // MARK: - Mock data
 
 private extension CollectionCell {
@@ -198,8 +178,6 @@ private extension CollectionCell {
         genegateMockNftImage()
         genegateMockName()
         nftPriceLabel.text = Float.random(in: 1...3).priceFormatted
-        isLiked = Bool.random()
-        isInCart = Bool.random()
     }
 
     func genegateMockRating() {
@@ -207,25 +185,31 @@ private extension CollectionCell {
         case 1:
             star1ImageView.tintColor = .ypYellowUniversal
         case 2:
-            star1ImageView.tintColor = .ypYellowUniversal
-            star2ImageView.tintColor = .ypYellowUniversal
+//            star1ImageView.tintColor = .ypYellowUniversal
+//            star2ImageView.tintColor = .ypYellowUniversal
+            [star1ImageView, star2ImageView].forEach { $0.tintColor = .ypYellowUniversal }
         case 3:
-            star1ImageView.tintColor = .ypYellowUniversal
-            star2ImageView.tintColor = .ypYellowUniversal
-            star3ImageView.tintColor = .ypYellowUniversal
+//            star1ImageView.tintColor = .ypYellowUniversal
+//            star2ImageView.tintColor = .ypYellowUniversal
+//            star3ImageView.tintColor = .ypYellowUniversal
+            [star1ImageView, star2ImageView, star3ImageView].forEach { $0.tintColor = .ypYellowUniversal }
         case 4:
-            star1ImageView.tintColor = .ypYellowUniversal
-            star2ImageView.tintColor = .ypYellowUniversal
-            star3ImageView.tintColor = .ypYellowUniversal
-            star4ImageView.tintColor = .ypYellowUniversal
+//            star1ImageView.tintColor = .ypYellowUniversal
+//            star2ImageView.tintColor = .ypYellowUniversal
+//            star3ImageView.tintColor = .ypYellowUniversal
+//            star4ImageView.tintColor = .ypYellowUniversal
+            [star1ImageView, star2ImageView, star3ImageView, star4ImageView]
+                .forEach { $0.tintColor = .ypYellowUniversal }
         case 5:
-            star1ImageView.tintColor = .ypYellowUniversal
-            star2ImageView.tintColor = .ypYellowUniversal
-            star3ImageView.tintColor = .ypYellowUniversal
-            star4ImageView.tintColor = .ypYellowUniversal
-            star5ImageView.tintColor = .ypYellowUniversal
-        default:
-            break
+//            star1ImageView.tintColor = .ypYellowUniversal
+//            star2ImageView.tintColor = .ypYellowUniversal
+//            star3ImageView.tintColor = .ypYellowUniversal
+//            star4ImageView.tintColor = .ypYellowUniversal
+//            star5ImageView.tintColor = .ypYellowUniversal
+            [star1ImageView, star2ImageView, star3ImageView, star4ImageView, star5ImageView]
+                .forEach { $0.tintColor = .ypYellowUniversal }
+
+        default: break
         }
     }
 
@@ -234,13 +218,12 @@ private extension CollectionCell {
         case 1: nftNameLabel.text = "Archie"
         case 2: nftNameLabel.text = "Emma"
         case 3: nftNameLabel.text = "Stella"
-        case 4: nftNameLabel.text = "Stella Artua"
+        case 4: nftNameLabel.text = "Tomas"
         case 5: nftNameLabel.text = "Toast"
-        case 6: nftNameLabel.text = "Fresh Toast"
+        case 6: nftNameLabel.text = "Fresh"
         case 7: nftNameLabel.text = "Zeus"
         case 8: nftNameLabel.text = "Odin"
-        default:
-            break
+        default: break
         }
     }
 
@@ -251,8 +234,7 @@ private extension CollectionCell {
         case 3: nftImageView.image = Statistics.Images.nft3
         case 4: nftImageView.image = Statistics.Images.nft4
         case 5: nftImageView.image = Statistics.Images.nft5
-        default:
-            break
+        default: break
         }
     }
 }

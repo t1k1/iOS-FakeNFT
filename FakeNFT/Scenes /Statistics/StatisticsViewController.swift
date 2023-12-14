@@ -7,45 +7,43 @@
 
 import UIKit
 
+// MARK: - Class
+
 final class StatisticsViewController: UIViewController {
     // MARK: - Private IO properties
     private let sortButton: UIButton = {
         let object = UIButton()
         object.setImage(Statistics.Images.iconSort, for: .normal)
-        // object.frame = CGRect(x: 0, y: 0, width: 42, height: 42) // magic numbers
-        // object.translatesAutoresizingMaskIntoConstraints = false
         return object
     }()
     private let usersTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.isScrollEnabled = true
-        tableView.allowsSelection = true
-        tableView.separatorColor = .clear
-        return tableView
+        let object = UITableView()
+        object.translatesAutoresizingMaskIntoConstraints = false
+        object.isScrollEnabled = true
+        object.allowsSelection = true
+        object.separatorColor = .clear
+        return object
     }()
 
-    // MARK: - public properties
-
-    let mockUsers: [UserDetails] = [
-        UserDetails(urlPhoto: "", name: "Alex", rating: 112, description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Bill", rating: 98, description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Alla", rating: 72, description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Mads", rating: 71, description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Timothée", rating: 51, description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Lea", rating: 23, description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Eric", rating: 11, description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Padre Cornelius", rating: 81, description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Neo", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Triniti", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Morpheus", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Corban", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Leeloo", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Zorg", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(urlPhoto: "", name: "Konstantin", rating: Int.random(in: 10...100), description: "", urlSite: "")
+    private let mockUsers: [UserDetails] = [
+        UserDetails(avatarId: 1, name: "Alex", rating: 112, description: "", urlSite: ""),
+        UserDetails(avatarId: 2, name: "Bill", rating: 98, description: "", urlSite: ""),
+        UserDetails(avatarId: 3, name: "Alla", rating: 72, description: "", urlSite: ""),
+        UserDetails(avatarId: 4, name: "Mads", rating: 71, description: "", urlSite: ""),
+        UserDetails(avatarId: 1, name: "Timothée", rating: 51, description: "", urlSite: ""),
+        UserDetails(avatarId: 2, name: "Lea", rating: 23, description: "", urlSite: ""),
+        UserDetails(avatarId: 3, name: "Eric", rating: 11, description: "", urlSite: ""),
+        UserDetails(avatarId: 4, name: "Padre Cornelius", rating: 81, description: "", urlSite: ""),
+        UserDetails(avatarId: 1, name: "Neo", rating: Int.random(in: 10...100), description: "", urlSite: ""),
+        UserDetails(avatarId: 2, name: "Triniti", rating: Int.random(in: 10...100), description: "", urlSite: ""),
+        UserDetails(avatarId: 3, name: "Morpheus", rating: Int.random(in: 10...100), description: "", urlSite: ""),
+        UserDetails(avatarId: 4, name: "Corban", rating: Int.random(in: 10...100), description: "", urlSite: ""),
+        UserDetails(avatarId: 2, name: "Leeloo", rating: Int.random(in: 10...100), description: "", urlSite: ""),
+        UserDetails(avatarId: 3, name: "Zorg", rating: Int.random(in: 10...100), description: "", urlSite: ""),
+        UserDetails(avatarId: 1, name: "Konstantin", rating: Int.random(in: 10...100), description: "", urlSite: "")
     ]
-    let servicesAssembly: ServicesAssembly
-    let cellID = "UserRatingsCell"
+    private let servicesAssembly: ServicesAssembly
+    private let cellID = "UserRatingsCell"
 
     // MARK: - Inits
 
@@ -81,12 +79,9 @@ private extension StatisticsViewController {
             buttons: [Statistics.Labels.sortingByName, Statistics.Labels.sortingByRating]
         ) { selectedIndex in
             switch selectedIndex {
-            case 0:
-                self.sortingByNameClicked()
-            case 1:
-                self.sortingByRatingClicked()
-            default:
-                break
+            case 0: self.sortingByNameClicked()
+            case 1: self.sortingByRatingClicked()
+            default: break
             }
         }
     }
@@ -118,8 +113,7 @@ extension StatisticsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         usersTableView.deselectRow(at: indexPath, animated: false)
-        // print(#fileID, #function)
-        let nextController = UserDetailsViewController(
+         let nextController = UserDetailsViewController(
             servicesAssembly: servicesAssembly,
             user: mockUsers[indexPath.row]
         )

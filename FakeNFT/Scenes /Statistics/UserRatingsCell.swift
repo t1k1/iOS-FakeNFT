@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - class
+
 final class UserRatingsCell: UITableViewCell {
     // MARK: - Private properties
     private let mainView: UIView = {
@@ -17,7 +19,6 @@ final class UserRatingsCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
@@ -27,7 +28,6 @@ final class UserRatingsCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     private let ratingLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
@@ -37,7 +37,6 @@ final class UserRatingsCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     private let counterLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
@@ -47,7 +46,6 @@ final class UserRatingsCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = Statistics.SfSymbols.iconProfile
@@ -57,14 +55,12 @@ final class UserRatingsCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
     private let cellID = "UserRatingsCell"
 
     // MARK: - Inits
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: cellID)
-        generateMockAvatar()
         configureUI()
     }
 
@@ -76,10 +72,13 @@ final class UserRatingsCell: UITableViewCell {
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: .zero, left: .zero, bottom: 8, right: .zero))
     }
 
+    // MARK: - Public methods
+
     func configureCell(counter: Int, user: UserDetails) {
         counterLabel.text = String(counter)
         nameLabel.text = user.name
         ratingLabel.text = String(user.rating)
+        generateMockAvatar(avatarId: user.avatarId)
     }
 }
 
@@ -115,8 +114,8 @@ private extension UserRatingsCell {
         ])
     }
 
-    func generateMockAvatar() {
-        switch Int.random(in: 1...4) {
+    func generateMockAvatar(avatarId: Int) {
+        switch avatarId {
         case 1: avatarImageView.image = Statistics.SfSymbols.iconProfile
         case 2: avatarImageView.image = Statistics.Images.avatar1
         case 3: avatarImageView.image = Statistics.Images.avatar2
@@ -125,5 +124,4 @@ private extension UserRatingsCell {
             break
         }
     }
-
 }

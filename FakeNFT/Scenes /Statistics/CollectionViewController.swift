@@ -10,7 +10,7 @@ import UIKit
 // MARK: - Class
 
 final class CollectionViewController: UIViewController {
-    // MARK: - Private UI properties
+    // MARK: - Private properties
 
     private let customNavView: UIView = {
         let object = UIView()
@@ -33,8 +33,6 @@ final class CollectionViewController: UIViewController {
         object.register(CollectionCell.self, forCellWithReuseIdentifier: cellID)
         return object
     }()
-
-    // MARK: - Private properties
 
     private var userDetails: UserDetails
     private let servicesAssembly: ServicesAssembly
@@ -101,7 +99,7 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
 
 extension CollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        30 // need mock array
+        30 // a dummy instead of the real nft array
     }
 
     func collectionView(
@@ -114,13 +112,11 @@ extension CollectionViewController: UICollectionViewDataSource {
         }
         cell.viewModel = NftModel(
             createdAt: Date(),
-            name: "Big NFT Name",
+            name: "",
             images: [],
-            rating: Int.random(
-                in: 0...5
-            ),
+            rating: 0,
             description: "",
-            price: Float.random(in: 1...3),
+            price: Float(0),
             author: "",
             id: ""
         )
@@ -134,7 +130,6 @@ extension CollectionViewController: UICollectionViewDataSource {
 
 private extension CollectionViewController {
     @objc func backButtonCLicked() {
-        print(#fileID, #function)
         navigationController?.popViewController(animated: true)
     }
 }
@@ -149,7 +144,6 @@ private extension CollectionViewController {
         [customNavView, backButton, collectionLabel, collectionView].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             object.tintColor = .ypBlackDay
-            //  object.backgroundColor = .ypLightGreyDay
             view.addSubview(object)
         }
         configureConstraints()

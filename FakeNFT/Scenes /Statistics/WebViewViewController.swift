@@ -11,7 +11,7 @@ import WebKit
 // MARK: - Class
 
 final class WebViewViewController: UIViewController {
-    // MARK: - Private UI properties
+    // MARK: - Private properties
 
     private let customNavView: UIView = {
         let object = UIView()
@@ -23,7 +23,6 @@ final class WebViewViewController: UIViewController {
         return object
     }()
     private let webView = WKWebView()
-
     private var url: URL?
 
     // MARK: - Inits
@@ -39,12 +38,12 @@ final class WebViewViewController: UIViewController {
     }
 
     // MARK: - Life circle
+
    override func viewDidLoad() {
         super.viewDidLoad()
 
        configureUI()
        configureElementValues()
-       print(#fileID, #function, url as Any)
        if let url {
            webView.load(URLRequest(url: url))
        }
@@ -60,7 +59,6 @@ final class WebViewViewController: UIViewController {
 
 private extension WebViewViewController {
     @objc func backButtonCLicked() {
-        print(#fileID, #function)
         navigationController?.popViewController(animated: true)
     }
 

@@ -8,7 +8,7 @@
 import UIKit
 
 struct UserDetails: Hashable {
-    let urlPhoto: String
+    let avatarId: Int
     let name: String
     let rating: Int
     let description: String
