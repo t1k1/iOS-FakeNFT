@@ -43,7 +43,17 @@ final class CatalogCell: UITableViewCell {
         footerLabel.text = "\(name) (\(nftCount))"
         
         let imageURL = URL(string: cover)
-        catalogImageView.kf.setImage(with: imageURL)
+        catalogImageView.kf.indicatorType = .activity
+        
+        catalogImageView.kf.setImage(with: imageURL, placeholder: nil, options: nil, progressBlock: nil) { [weak self] result in
+            switch result {
+            case .success(let value):
+                self?.catalogImageView.image = value.image
+            case .failure(let error):
+                print("Error loading image: \(error)")
+            }
+            self?.catalogImageView.kf.indicatorType = .none
+        }
     }
     
     // MARK: - Private Methods

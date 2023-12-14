@@ -121,16 +121,22 @@ final class CatalogViewController: UIViewController {
             title: "По названию",
             style: .default
         ) { [weak self] _ in
-            self?.dismiss(animated: true)
-            //TODO: Module 2
+            guard let self = self else { return }
+            ProgressHUD.show()
+            self.collections = self.collections.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+            tableView.reloadData()
+            self.dismiss(animated: true)
+            ProgressHUD.dismiss()
         }
         
         let sortQuantity = UIAlertAction(
             title: "По количеству NFT",
             style: .default
         ) { [weak self] _ in
-            self?.dismiss(animated: true)
-            //TODO: Module 2
+            guard let self = self else { return }
+            self.collections.sort { $0.nfts.count > $1.nfts.count }
+            tableView.reloadData()
+            self.dismiss(animated: true)
         }
         
         let cancelAction = UIAlertAction(title: "Закрыть", style: .cancel, handler: nil)
