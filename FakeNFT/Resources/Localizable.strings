@@ -4,3 +4,20 @@
 "Error.unknown" = "Произошла неизвестная ошибка";
 "Error.repeat" = "Повторить";
 "Error.title" = "Ошибка";
+
+"Tab.cart" = "Корзина";
+"cart.cartViewController.empty" = "Корзина пуста";
+"cart.cartViewController.pay" = "К оплате";
+"cart.cartViewController.nft" = "NFT";
+"cart.cartViewController.eth" = "ETH";
+"cart.cartViewController.price" = "Цена";
+"cart.cartViewController.bottomAlertSort" = "Сортировка";
+"cart.cartViewController.bottomAlertSortByPrice" = "По цене";
+"cart.cartViewController.bottomAlertSortByRating" = "По рейнингу";
+"cart.cartViewController.bottomAlertSortByName" = "По названию";
+"cart.cartDeleteItemViewController.delete" = "Удалить";
+"cart.cartDeleteItemViewController.back" = "Вернуться";
+"cart.cartDeleteItemViewController.infoText" = "Вы уверены, что хотите \n удалить объект из корзины?";
+
+"extensions.uiViewController.bottomAlertCancel" = "Отмена";
+

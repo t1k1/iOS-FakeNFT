@@ -1,25 +1,43 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-
-    var servicesAssembly: ServicesAssembly!
-
+    
+    let servicesAssembly = ServicesAssembly(
+        networkClient: DefaultNetworkClient(),
+        nftStorage: NftStorageImpl()
+    )
+    
     private let catalogTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.catalog", comment: ""),
-        image: UIImage(systemName: "square.stack.3d.up.fill"),
+        image: UIImage(named: "сatalog"),
         tag: 0
     )
-
+    
+    private let cartTabBarItem = UITabBarItem(
+        title: NSLocalizedString("Tab.cart", comment: ""),
+        image: UIImage(named: "сart"),
+        tag: 1
+    )
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let catalogController = TestCatalogViewController(
             servicesAssembly: servicesAssembly
         )
+        
         catalogController.tabBarItem = catalogTabBarItem
-
-        viewControllers = [catalogController]
-
-        view.backgroundColor = .systemBackground
+        
+        let cartController = CartViewController()
+        
+        cartController.tabBarItem = cartTabBarItem
+        
+        viewControllers = [catalogController, cartController]
+        selectedIndex = 1
+        
+        view.backgroundColor = UIColor.ypWhiteDay
+        tabBar.backgroundColor = UIColor.ypWhiteDay
+        tabBar.tintColor = UIColor.ypBlueUniversal
+        tabBar.unselectedItemTintColor = UIColor.ypBlackDay
     }
 }
