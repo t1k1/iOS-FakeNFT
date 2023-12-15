@@ -12,26 +12,23 @@ import UIKit
 final class CollectionViewController: UIViewController {
     // MARK: - Private properties
 
-    private let customNavView: UIView = {
-        let object = UIView()
-        return object
-    }()
+    private let customNavView = UIView()
     private let backButton: UIButton = {
-        let object = UIButton()
-        object.setImage(Statistics.SfSymbols.backward, for: .normal)
-        object.contentMode = .scaleAspectFill
-        return object
+        let button = UIButton()
+        button.setImage(Statistics.SfSymbols.backward, for: .normal)
+        button.contentMode = .scaleAspectFill
+        return button
     }()
     private let collectionLabel: UILabel = {
-        let object = UILabel()
-        object.font = .bodyBold
-        object.textAlignment = .natural
-        return object
+        let label = UILabel()
+        label.font = .bodyBold
+        label.textAlignment = .natural
+        return label
     }()
     private lazy var collectionView: UICollectionView = {
-        let object = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        object.register(CollectionCell.self, forCellWithReuseIdentifier: cellID)
-        return object
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.register(CollectionCell.self, forCellWithReuseIdentifier: cellID)
+        return collectionView
     }()
 
     private var userDetails: UserDetails
@@ -51,7 +48,7 @@ final class CollectionViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Life circle
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,14 +136,18 @@ private extension CollectionViewController {
 private extension CollectionViewController {
 
     func configureUI() {
-        view.backgroundColor = .systemBackground
+        configureViews()
         configureElementValues()
+        configureConstraints()
+    }
+
+    func configureViews() {
+        view.backgroundColor = .systemBackground
         [customNavView, backButton, collectionLabel, collectionView].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             object.tintColor = .ypBlackDay
             view.addSubview(object)
         }
-        configureConstraints()
     }
 
     func configureElementValues() {

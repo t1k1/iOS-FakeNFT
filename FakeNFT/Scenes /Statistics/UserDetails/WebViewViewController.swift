@@ -13,15 +13,8 @@ import WebKit
 final class WebViewViewController: UIViewController {
     // MARK: - Private properties
 
-    private let customNavView: UIView = {
-        let object = UIView()
-        return object
-    }()
-    private let backButton: UIButton = {
-        let object = UIButton()
-        object.setImage(Statistics.SfSymbols.backward, for: .normal)
-        return object
-    }()
+    private let customNavView = UIView()
+    private let backButton = UIButton()
     private let webView = WKWebView()
     private var url: URL?
 
@@ -37,13 +30,11 @@ final class WebViewViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Life circle
+    // MARK: - Lifecycle
 
    override func viewDidLoad() {
-        super.viewDidLoad()
-
+       super.viewDidLoad()
        configureUI()
-       configureElementValues()
        if let url {
            webView.load(URLRequest(url: url))
        }
@@ -61,21 +52,33 @@ private extension WebViewViewController {
     @objc func backButtonCLicked() {
         navigationController?.popViewController(animated: true)
     }
+}
 
-    func configureElementValues() {
-        backButton.addTarget(self, action: #selector(backButtonCLicked), for: .touchUpInside)
+// MARK: - Private methods to configure UI
+
+private extension WebViewViewController {
+
+    func configureUI() {
+        configureViews()
+        configureElementValues()
+        configureConstraints()
     }
 
-    // MARK: - Private methods to configure UI
-    func configureUI() {
+    func configureViews() {
         view.backgroundColor = .systemBackground
-
         [customNavView, backButton, webView].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             object.tintColor = .ypBlackDay
             view.addSubview(object)
         }
+    }
 
+    func configureElementValues() {
+        backButton.setImage(Statistics.SfSymbols.backward, for: .normal)
+        backButton.addTarget(self, action: #selector(backButtonCLicked), for: .touchUpInside)
+    }
+
+    func configureConstraints() {
         let safeArea = view.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([

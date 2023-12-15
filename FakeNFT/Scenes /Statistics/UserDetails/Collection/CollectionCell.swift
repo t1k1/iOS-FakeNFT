@@ -11,80 +11,81 @@ import UIKit
 
 final class CollectionCell: UICollectionViewCell {
     // MARK: - Private UI properties
+
     private let nftImageView: UIImageView = {
-        let object = UIImageView()
-        object.layer.cornerRadius = .radius1
-        object.layer.masksToBounds = true
-        return object
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = .radius1
+        imageView.layer.masksToBounds = true
+        return imageView
     }()
     private let likeImageView: UIImageView = {
-        let object = UIImageView()
-        object.image = Statistics.SfSymbols.like
-        object.tintColor = .ypLightGreyDay
-        return object
+        let imageView = UIImageView()
+        imageView.image = Statistics.SfSymbols.like
+        imageView.tintColor = .ypLightGreyDay
+        return imageView
     }()
     private let ratingStackView: UIStackView = {
-        let object = UIStackView()
-        object.axis = .horizontal
-        object.distribution = .fillEqually
-        object.spacing = .spacing2
-        object.translatesAutoresizingMaskIntoConstraints = false
-        return object
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = .spacing2
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     private let star1ImageView = UIImageView()
     private let star2ImageView = UIImageView()
     private let star3ImageView = UIImageView()
     private let star4ImageView = UIImageView()
     private let star5ImageView = UIImageView()
-
+    // TODO: Need to make real buttons
     private let likeButtonDummyView = UIView()
     private let cartButtonDummyView = UIView()
 
     private let horizontalStackView: UIStackView = {
-        let object = UIStackView()
-        object.axis = .horizontal
-        object.distribution = .equalCentering
-        object.alignment = .center
-        object.spacing = .zero
-        object.translatesAutoresizingMaskIntoConstraints = false
-        return object
-    }()
-    private let cartImageView: UIImageView = {
-        let object = UIImageView()
-        object.image = Statistics.Images.iconCartEmpty
-        object.tintColor = .ypBlackDay
-        return object
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        stackView.spacing = .zero
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     private let verticalStackView: UIStackView = {
-        let object = UIStackView()
-        object.axis = .vertical
-        object.distribution = .equalSpacing
-        object.spacing = .spacing4
-        object.translatesAutoresizingMaskIntoConstraints = false
-        return object
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.spacing = .spacing4
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    private let cartImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = Statistics.Images.iconCartEmpty
+        imageView.tintColor = .ypBlackDay
+        return imageView
     }()
     private let nftNameLabel: UILabel = {
-        let object = UILabel()
-        object.numberOfLines = 2
-        object.textAlignment = .natural
-        object.textColor = .ypBlackDay
-        object.font = .bodyBold
-        return object
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.textAlignment = .natural
+        label.textColor = .ypBlackDay
+        label.font = .bodyBold
+        return label
     }()
     private let nftPriceLabel: UILabel = {
-        let object = UILabel()
-        object.numberOfLines = 1
-        object.textAlignment = .natural
-        object.textColor = .ypBlackDay
-        object.font = .caption3
-        return object
+        let label = UILabel()
+        label.numberOfLines = 1
+        label.textAlignment = .natural
+        label.textColor = .ypBlackDay
+        label.font = .caption3
+        return label
     }()
 
     // MARK: - Public properties
 
     var viewModel: NftModel? {
         didSet {
-            genegateMockCell()
+            generateMockCell()
         }
     }
 
@@ -93,6 +94,7 @@ final class CollectionCell: UICollectionViewCell {
             likeImageView.tintColor = isLiked ? .ypRedUniversal : .ypLightGreyDay
         }
     }
+
     var isInCart = false {
         didSet {
             cartImageView.image = isInCart ? Statistics.Images.iconCartDelete : Statistics.Images.iconCartEmpty
@@ -114,7 +116,13 @@ final class CollectionCell: UICollectionViewCell {
 // MARK: - Configure TrackerCell UI Section
 
 private extension CollectionCell {
+
     func configureUI() {
+        configureViews()
+        configureConstraints()
+    }
+
+    func configureViews() {
         [nftNameLabel, nftPriceLabel].forEach { verticalStackView.addArrangedSubview($0) }
 
         [verticalStackView, cartButtonDummyView].forEach { horizontalStackView.addArrangedSubview($0) }
@@ -130,7 +138,9 @@ private extension CollectionCell {
             object.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview(object)
         }
+    }
 
+    func configureConstraints() {
         NSLayoutConstraint.activate([
             nftImageView.topAnchor.constraint(equalTo: topAnchor),
             nftImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -173,7 +183,7 @@ private extension CollectionCell {
 // MARK: - Mock data
 
 private extension CollectionCell {
-    func genegateMockCell() {
+    func generateMockCell() {
         genegateMockRating()
         genegateMockNftImage()
         genegateMockName()

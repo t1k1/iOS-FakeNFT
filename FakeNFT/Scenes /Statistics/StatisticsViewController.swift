@@ -10,19 +10,20 @@ import UIKit
 // MARK: - Class
 
 final class StatisticsViewController: UIViewController {
-    // MARK: - Private IO properties
+    // MARK: - Private properties
+
     private let sortButton: UIButton = {
-        let object = UIButton()
-        object.setImage(Statistics.Images.iconSort, for: .normal)
-        return object
+        let button = UIButton()
+        button.setImage(Statistics.Images.iconSort, for: .normal)
+        return button
     }()
     private let usersTableView: UITableView = {
-        let object = UITableView()
-        object.translatesAutoresizingMaskIntoConstraints = false
-        object.isScrollEnabled = true
-        object.allowsSelection = true
-        object.separatorColor = .clear
-        return object
+        let table = UITableView()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.isScrollEnabled = true
+        table.allowsSelection = true
+        table.separatorColor = .clear
+        return table
     }()
 
     private let mockUsers: [UserDetails] = [
@@ -56,13 +57,14 @@ final class StatisticsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Life circle
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configureElements()
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
@@ -146,10 +148,14 @@ extension StatisticsViewController: UITableViewDataSource {
 
 private extension StatisticsViewController {
     func configureUI() {
-        view.backgroundColor = .systemBackground
-        view.addSubview(usersTableView)
+        configureViews()
         configureNavigationBar()
         configureConstraints()
+    }
+
+    func configureViews() {
+        view.backgroundColor = .systemBackground
+        view.addSubview(usersTableView)
     }
 
     func configureNavigationBar() {

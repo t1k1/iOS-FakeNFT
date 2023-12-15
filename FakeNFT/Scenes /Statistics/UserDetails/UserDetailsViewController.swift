@@ -12,57 +12,39 @@ import UIKit
 final class UserDetailsViewController: UIViewController {
     // MARK: - Private UI properties
 
-    private let customNavView: UIView = {
-        let object = UIView()
-        return object
-    }()
-    private let backButton: UIButton = {
-        let object = UIButton()
-        object.setImage(Statistics.SfSymbols.backward, for: .normal)
-        return object
-    }()
-    private let nameLabel: UILabel = {
-        let object = UILabel()
-        object.font = .headline3
-        return object
-    }()
+    private let customNavView = UIView()
+    private let backButton = UIButton()
+    private let nameLabel = UILabel()
+    private let collectionButton = UIButton()
+    private let forwardImageView = UIImageView()
     private let avatarImageView: UIImageView = {
-        let object = UIImageView()
-        object.image = Statistics.SfSymbols.iconProfile
-        object.layer.cornerRadius = .avatarRadius2
-        object.layer.masksToBounds = true
-        return object
+        let imageView = UIImageView()
+        imageView.image = Statistics.SfSymbols.iconProfile
+        imageView.layer.cornerRadius = .avatarRadius2
+        imageView.layer.masksToBounds = true
+        return imageView
     }()
     private let descLabel: UILabel = {
-        let object = UILabel()
-        object.numberOfLines = 4
-        object.lineBreakMode = .byWordWrapping
-        object.font = .caption2
-        return object
+        let label = UILabel()
+        label.numberOfLines = 4
+        label.lineBreakMode = .byWordWrapping
+        label.font = .caption2
+        return label
     }()
     private let siteButton: UIButton = {
-        let object = UIButton()
-        object.titleLabel?.font = .caption1
-        object.layer.borderColor = UIColor.ypBlackDay.cgColor
-        object.layer.borderWidth = .border1
-        object.layer.cornerRadius = .radius2
-        object.layer.masksToBounds = true
-        return object
-    }()
-    private let collectionButton: UIButton = {
-        let object = UIButton()
-        return object
+        let button = UIButton()
+        button.titleLabel?.font = .caption1
+        button.layer.borderColor = UIColor.ypBlackDay.cgColor
+        button.layer.borderWidth = .border1
+        button.layer.cornerRadius = .radius2
+        button.layer.masksToBounds = true
+        return button
     }()
     private let collectionLabel: UILabel = {
-        let object = UILabel()
-        object.font = .bodyBold
-        object.textAlignment = .natural
-        return object
-    }()
-    private let forwardImageView: UIImageView = {
-        let object = UIImageView()
-        object.image = Statistics.SfSymbols.forward
-        return object
+        let label = UILabel()
+        label.font = .bodyBold
+        label.textAlignment = .natural
+        return label
     }()
 
     private let desc = "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT. "
@@ -82,7 +64,7 @@ final class UserDetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Life circle
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,8 +84,9 @@ private extension UserDetailsViewController {
     @objc func backButtonCLicked() {
         navigationController?.popViewController(animated: true)
     }
+
     @objc func siteButtonCLicked() {
-         let url = URL(string: userDetails.urlSite.isEmpty ? "https://practicum.yandex.ru/" : userDetails.urlSite)
+        let url = URL(string: userDetails.urlSite.isEmpty ? "https://practicum.yandex.ru/" : userDetails.urlSite)
         let nextController = WebViewViewController(url: url)
         navigationController?.pushViewController(nextController, animated: true)
     }
@@ -122,8 +105,15 @@ private extension UserDetailsViewController {
 private extension UserDetailsViewController {
 
     func configureUI() {
-        view.backgroundColor = .systemBackground
         configureElementValues()
+        configureViews()
+        configureConstraints()
+    }
+
+    func configureViews() {
+        view.backgroundColor = .systemBackground
+        nameLabel.font = .headline3
+        siteButton.setTitleColor(.ypBlackDay, for: .normal)
 
         [customNavView, backButton, avatarImageView, nameLabel, descLabel, siteButton, collectionButton,
         collectionLabel, forwardImageView].forEach { object in
@@ -131,30 +121,29 @@ private extension UserDetailsViewController {
             object.tintColor = .ypBlackDay
             view.addSubview(object)
         }
-
-        configureConstraints()
     }
 
     func configureElementValues() {
+        backButton.setImage(Statistics.SfSymbols.backward, for: .normal)
+        forwardImageView.image = Statistics.SfSymbols.forward
+        siteButton.setTitle(Statistics.Labels.siteButtonTitle, for: .normal)
         nameLabel.text = userDetails.name
         descLabel.text = userDetails.description.isEmpty ? desc + desc + desc : userDetails.description
-        siteButton.setTitle(Statistics.Labels.siteButtonTitle, for: .normal)
-        siteButton.setTitleColor(.ypBlackDay, for: .normal)
         collectionLabel.text = Statistics.Labels.collectionTitle + " (\(userDetails.rating))"
         backButton.addTarget(self, action: #selector(backButtonCLicked), for: .touchUpInside)
         siteButton.addTarget(self, action: #selector(siteButtonCLicked), for: .touchUpInside)
         collectionButton.addTarget(self, action: #selector(collectionButtonCLicked), for: .touchUpInside)
     }
 
-    func configureNavigationBar() {
-        guard
-            let navigationBar = navigationController?.navigationBar,
-            let topItem = navigationBar.topItem
-        else { return }
-        navigationBar.tintColor = .ypBlackDay
-        navigationBar.prefersLargeTitles = false
-        topItem.backBarButtonItem = UIBarButtonItem(customView: backButton)
-    }
+//    func configureNavigationBar() {
+//        guard
+//            let navigationBar = navigationController?.navigationBar,
+//            let topItem = navigationBar.topItem
+//        else { return }
+//        navigationBar.tintColor = .ypBlackDay
+//        navigationBar.prefersLargeTitles = false
+//        topItem.backBarButtonItem = UIBarButtonItem(customView: backButton)
+//    }
 
     func configureConstraints() {
         let safeArea = view.safeAreaLayoutGuide

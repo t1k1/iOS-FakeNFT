@@ -67,12 +67,13 @@ final class UserRatingsCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Public methods
+
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: .zero, left: .zero, bottom: 8, right: .zero))
     }
-
-    // MARK: - Public methods
 
     func configureCell(counter: Int, user: UserDetails) {
         counterLabel.text = String(counter)
@@ -85,9 +86,17 @@ final class UserRatingsCell: UITableViewCell {
 // MARK: - Configure CategoryCell UI Section
 
 private extension UserRatingsCell {
-    func configureUI() {
-        [mainView, counterLabel, avatarImageView, nameLabel, ratingLabel].forEach { contentView.addSubview($0) }
 
+    func configureUI() {
+        configureViews()
+        configureConstraints()
+    }
+
+    func configureViews() {
+        [mainView, counterLabel, avatarImageView, nameLabel, ratingLabel].forEach { contentView.addSubview($0) }
+    }
+
+    func configureConstraints() {
         NSLayoutConstraint.activate([
             mainView.topAnchor.constraint(equalTo: topAnchor),
             mainView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -.spacing8),
