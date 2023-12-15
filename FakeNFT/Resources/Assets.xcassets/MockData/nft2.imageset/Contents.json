@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "cart empty.png",
+      "filename" : "nft2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "cart empty@2x.png",
+      "filename" : "nft2@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "cart empty@3x.png",
+      "filename" : "nft2@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

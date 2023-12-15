@@ -1,16 +1,18 @@
 {
   "images" : [
     {
-      "filename" : "Property 1=Delete.png",
-      "idiom" : "iphone",
+      "filename" : "cart delete.png",
+      "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "idiom" : "iphone",
+      "filename" : "cart delete@2x.png",
+      "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "idiom" : "iphone",
+      "filename" : "cart delete@3x.png",
+      "idiom" : "universal",
       "scale" : "3x"
     }
   ],
