@@ -1,6 +1,13 @@
+//
+//  NftRequest.swift
+//  FakeNFT
+//
+//  Created by Iurii on 15.12.23.
+//
+
 import Foundation
 
-struct NFTRequestTest: NetworkRequest {
+struct NftRequest: NetworkRequest {
 
     let id: String
 

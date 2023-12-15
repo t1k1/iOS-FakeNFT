@@ -14,9 +14,9 @@ final class CollectionCell: UICollectionViewCell {
     static let reuseIdentifier = "CollectionCell"
     
     private lazy var nftImageView: UIImageView = {
-        let image = UIImage(named: "NFT card")
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
         imageView.layer.cornerRadius = 12
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         
         return imageView
@@ -36,8 +36,7 @@ final class CollectionCell: UICollectionViewCell {
     }()
     
     private lazy var starsImageView: UIImageView = {
-        let image = UIImage(named: "stars3")
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         
         return imageView
@@ -45,7 +44,6 @@ final class CollectionCell: UICollectionViewCell {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Archie"
         label.textColor = .ypBlackDay
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         
@@ -54,7 +52,6 @@ final class CollectionCell: UICollectionViewCell {
     
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
-        label.text = "1 ETH"
         label.textColor = .ypBlackDay
         label.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         
@@ -85,6 +82,28 @@ final class CollectionCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Public Methods
+    
+    func configure(imagesString: String, rating: Int, name:String, price: Float) {
+        let imageURL = URL(string: imagesString)
+        let level = Int(ceil(Double(rating) / 2.0))
+        
+        nftImageView.kf.indicatorType = .activity
+        nftImageView.kf.setImage(with: imageURL) { [weak self] result in
+            switch result {
+            case .success(let value):
+                self?.nftImageView.image = value.image
+            case .failure(let error):
+                print("Error loading image: \(error)")
+            }
+            self?.nftImageView.kf.indicatorType = .none
+        }
+        
+        starsImageView.image = UIImage(named: "stars\(level)")
+        nameLabel.text = name
+        priceLabel.text = "\(price) ETH"
     }
     
     // MARK: - IBAction

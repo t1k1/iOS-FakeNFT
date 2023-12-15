@@ -6,10 +6,15 @@
 //
 
 import UIKit
+import ProgressHUD
+
+// MARK: - State
+
+enum NftDetailState {
+    case initial, loading, failed(Error), data(NftResult)
+}
 
 final class CollectionViewController: UIViewController {
-    
-    private let sectionCount = 8
     
     var catalogString = ""
     var authorNameString = ""
@@ -17,6 +22,28 @@ final class CollectionViewController: UIViewController {
     var catalogImageString = ""
     var nftsIdString: [String] = []
     
+    private let service: NftService
+    let servicesAssembly: ServicesAssembly
+    
+    private var nfts: [NftModel] = []
+    private var collectionViewHeightConstraint: NSLayoutConstraint?
+    private var state = NftDetailState.initial {
+        didSet {
+            stateDidChanged()
+        }
+    }
+    
+    // MARK: - Init
+    
+    init(servicesAssembly: ServicesAssembly, service: NftService) {
+        self.servicesAssembly = servicesAssembly
+        self.service = service
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - Layout variables
     
@@ -127,11 +154,12 @@ final class CollectionViewController: UIViewController {
         } else {
             automaticallyAdjustsScrollViewInsets = false
         }
-        
+        loadCatalogImage()
+        state = .loading
         addSubViews()
         applyConstraints()
         
-        loadCatalogImage()
+        
     }
     
     // MARK: - IBAction
@@ -192,23 +220,31 @@ final class CollectionViewController: UIViewController {
             descriptionLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 5),
             descriptionLabel.trailingAnchor.constraint(equalTo: catalogLabel.trailingAnchor),
             
-            collectionView.heightAnchor.constraint(equalToConstant: collectionViewHeight),
+            //            collectionView.heightAnchor.constraint(equalToConstant: collectionViewHeight),
             collectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
             collectionView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24),
             collectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             collectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
+        collectionViewHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: collectionViewHeight)
+        collectionViewHeightConstraint?.isActive = true
     }
     
     private var collectionViewHeight: CGFloat {
         let cellHeight: CGFloat = 192
-        let sectionCount: CGFloat = CGFloat(sectionCount)
+        let sectionCount: CGFloat = CGFloat(nfts.count)
         let numberOfColumns: CGFloat = 3
         let spacingBetweenCells: CGFloat = 8
         
         let numberOfRowsInOneSection = ceil(sectionCount / numberOfColumns)
         
         return cellHeight * numberOfRowsInOneSection + spacingBetweenCells * (numberOfRowsInOneSection - 1)
+    }
+    
+    private func updateCollectionViewHeight() {
+        collectionView.collectionViewLayout.invalidateLayout()
+        let newHeight = collectionViewHeight
+        collectionViewHeightConstraint?.constant = newHeight
     }
     
     private func loadCatalogImage() {
@@ -229,13 +265,59 @@ final class CollectionViewController: UIViewController {
             self?.catalogImageView.kf.indicatorType = .none
         }
     }
+    
+    private func stateDidChanged() {
+        switch state {
+        case .initial:
+            assertionFailure("can't move to initial state")
+        case .loading:
+            ProgressHUD.show()
+            loadNft()
+        case .data(let nftResult):
+            let nftModel = NftModel(
+                createdAt: DateFormatter.defaultDateFormatter.date(from: nftResult.createdAt),
+                name: nftResult.name,
+                images: nftResult.images,
+                rating: nftResult.rating,
+                description: nftResult.description,
+                price: nftResult.price,
+                author: nftResult.author,
+                id: nftResult.id
+            )
+            self.nfts.append(nftModel)
+            updateCollectionViewHeight()
+            collectionView.reloadData()
+            ProgressHUD.dismiss()
+        case .failed(let error):
+            ProgressHUD.dismiss()
+            print("ОШИБКА: \(error)")
+        }
+    }
+    
+    private func loadNft() {
+        let dispatchGroup = DispatchGroup()
+        for id in nftsIdString {
+            dispatchGroup.enter()
+            service.loadNft(id: id) { [weak self] result in
+                defer {
+                    dispatchGroup.leave()
+                }
+                switch result {
+                case .success(let nftResult):
+                    self?.state = .data(nftResult)
+                case .failure(let error):
+                    self?.state = .failed(error)
+                }
+            }
+        }
+    }
 }
 
 // MARK: - UICollectionViewDataSource
 
 extension CollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sectionCount
+        return nfts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -244,6 +326,13 @@ extension CollectionViewController: UICollectionViewDataSource {
             withReuseIdentifier: CollectionCell.reuseIdentifier,
             for: indexPath
         ) as! CollectionCell
+        
+        let nft = nfts[indexPath.row]
+        
+        guard let imagesString = nft.images.first else {
+            return cell
+        }
+        cell.configure(imagesString: imagesString, rating: nft.rating, name: nft.name, price: nft.price)
         
         return cell
     }

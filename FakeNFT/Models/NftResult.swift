@@ -1,14 +1,14 @@
 //
-//  NftModel.swift
+//  NftResult.swift
 //  FakeNFT
 //
-//  Created by Aleksey Kolesnikov on 13.12.2023.
+//  Created by Iurii on 15.12.23.
 //
 
 import Foundation
 
-public struct NftModel {
-    let createdAt: Date?
+public struct NftResult: Decodable {
+    let createdAt: String
     let name: String
     let images: [String]
     let rating: Int

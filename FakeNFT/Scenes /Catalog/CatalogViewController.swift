@@ -156,7 +156,6 @@ final class CatalogViewController: UIViewController {
             ProgressHUD.show()
             loadCollections()
         case .data(let collectionsResult):
-            ProgressHUD.dismiss()
             let collectionsModel = collectionsResult.map { result in
                 CollectionsModel(
                     createdAt: DateFormatter.defaultDateFormatter.date(from: result.createdAt),
@@ -170,7 +169,9 @@ final class CatalogViewController: UIViewController {
             }
             self.collections = collectionsModel
             tableView.reloadData()
+            ProgressHUD.dismiss()
         case .failed(let error):
+            ProgressHUD.dismiss()
             print("ОШИБКА: \(error)")
         }
     }
@@ -214,7 +215,10 @@ extension CatalogViewController: UITableViewDataSource {
 
 extension CatalogViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let collectionViewController = CollectionViewController()
+        let collectionViewController = CollectionViewController(
+            servicesAssembly: servicesAssembly,
+            service: servicesAssembly.nftService
+        )
         let collection = collections[indexPath.row]
         collectionViewController.catalogString = collection.name
         collectionViewController.authorNameString = collection.author

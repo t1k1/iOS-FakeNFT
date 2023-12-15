@@ -4,6 +4,7 @@ final class TabBarController: UITabBarController {
     
     let servicesAssembly = ServicesAssembly(
         networkClient: DefaultNetworkClient(),
+        nftStorageTest: NftStorageImplTest(),
         nftStorage: NftStorageImpl()
     )
     

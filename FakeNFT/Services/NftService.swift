@@ -1,6 +1,13 @@
+//
+//  NftService.swift
+//  FakeNFT
+//
+//  Created by Iurii on 15.12.23.
+//
+
 import Foundation
 
-typealias NftCompletion = (Result<Nft, Error>) -> Void
+typealias NftCompletion = (Result<NftResult, Error>) -> Void
 
 protocol NftService {
     func loadNft(id: String, completion: @escaping NftCompletion)
@@ -22,8 +29,8 @@ final class NftServiceImpl: NftService {
             return
         }
 
-        let request = NFTRequest(id: id)
-        networkClient.send(request: request, type: Nft.self) { [weak storage] result in
+        let request = NftRequest(id: id)
+        networkClient.send(request: request, type: NftResult.self) { [weak storage] result in
             switch result {
             case .success(let nft):
                 storage?.saveNft(nft)
