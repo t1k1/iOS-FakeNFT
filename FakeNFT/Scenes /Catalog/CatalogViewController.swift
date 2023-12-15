@@ -215,6 +215,12 @@ extension CatalogViewController: UITableViewDataSource {
 extension CatalogViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let collectionViewController = CollectionViewController()
+        let collection = collections[indexPath.row]
+        collectionViewController.catalogString = collection.name
+        collectionViewController.authorNameString = collection.author
+        collectionViewController.descriptionString = collection.description
+        collectionViewController.catalogImageString = collection.cover
+        collectionViewController.nftsIdString = collection.nfts
         collectionViewController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(collectionViewController, animated: true)
     }

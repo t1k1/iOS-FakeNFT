@@ -9,7 +9,14 @@ import UIKit
 
 final class CollectionViewController: UIViewController {
     
-   private let sectionCount = 8
+    private let sectionCount = 8
+    
+    var catalogString = ""
+    var authorNameString = ""
+    var descriptionString = ""
+    var catalogImageString = ""
+    var nftsIdString: [String] = []
+    
     
     //MARK: - Layout variables
     
@@ -22,8 +29,7 @@ final class CollectionViewController: UIViewController {
     }()
     
     private lazy var catalogImageView: UIImageView = {
-        let image = UIImage(named: "Cover1.png")
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 12
         imageView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
@@ -48,7 +54,7 @@ final class CollectionViewController: UIViewController {
     
     private lazy var catalogLabel: UILabel = {
         let label = UILabel()
-        label.text = "Peach"
+        label.text = catalogString
         label.textColor = .ypBlackDay
         label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         
@@ -66,7 +72,7 @@ final class CollectionViewController: UIViewController {
     
     private lazy var authorNameButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("John Doe", for: .normal)
+        button.setTitle(authorNameString, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         button.setTitleColor(.ypBlueUniversal, for: .normal)
         button.addTarget(
@@ -81,7 +87,7 @@ final class CollectionViewController: UIViewController {
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Персиковый — как облака над закатным солнцем в океане. В этой коллекции совмещены трогательная нежность и живая игривость сказочных зефирных зверей."
+        label.text = descriptionString
         label.textColor = .ypBlackDay
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.numberOfLines = 0
@@ -117,13 +123,15 @@ final class CollectionViewController: UIViewController {
         collectionView.delegate = self
         
         if #available(iOS 11, *) {
-                scrollView.contentInsetAdjustmentBehavior = .never
-            } else {
-                automaticallyAdjustsScrollViewInsets = false
-            }
+            scrollView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
         
         addSubViews()
         applyConstraints()
+        
+        loadCatalogImage()
     }
     
     // MARK: - IBAction
@@ -197,12 +205,29 @@ final class CollectionViewController: UIViewController {
         let sectionCount: CGFloat = CGFloat(sectionCount)
         let numberOfColumns: CGFloat = 3
         let spacingBetweenCells: CGFloat = 8
-
-        // Вычисляем количество строк в одной секции
+        
         let numberOfRowsInOneSection = ceil(sectionCount / numberOfColumns)
-
-        // Вычисляем высоту коллекции
+        
         return cellHeight * numberOfRowsInOneSection + spacingBetweenCells * (numberOfRowsInOneSection - 1)
+    }
+    
+    private func loadCatalogImage() {
+        guard let imageURL = URL(string: catalogImageString) else {
+            return
+        }
+        
+        catalogImageView.kf.indicatorType = .activity
+        
+        catalogImageView.kf.setImage(with: imageURL) { [weak self] result in
+            switch result {
+            case .success(let value):
+                self?.catalogImageView.image = value.image
+            case .failure(let error):
+                print("Error loading image: \(error)")
+            }
+            
+            self?.catalogImageView.kf.indicatorType = .none
+        }
     }
 }
 

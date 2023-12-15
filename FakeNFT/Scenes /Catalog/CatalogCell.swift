@@ -45,7 +45,7 @@ final class CatalogCell: UITableViewCell {
         let imageURL = URL(string: cover)
         catalogImageView.kf.indicatorType = .activity
         
-        catalogImageView.kf.setImage(with: imageURL, placeholder: nil, options: nil, progressBlock: nil) { [weak self] result in
+        catalogImageView.kf.setImage(with: imageURL) { [weak self] result in
             switch result {
             case .success(let value):
                 self?.catalogImageView.image = value.image
