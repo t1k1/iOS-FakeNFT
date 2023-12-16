@@ -2,6 +2,50 @@ import UIKit
 
 final class CartPayViewController: UIViewController {
     
+    // MARK: - Mock properties
+    private var criptoArray: [CriptoViewModel] = [
+        CriptoViewModel(
+            title: "BTC",
+            name: "Bitcoin",
+            image: UIImage.criptoBTC,
+            id: "1"),
+        CriptoViewModel(
+            title: "DOGE",
+            name: "Dogecoin",
+            image: UIImage.criptoDOGE,
+            id: "2"),
+        CriptoViewModel(
+            title: "USDT",
+            name: "Tether",
+            image: UIImage.criptoUSDT,
+            id: "3"),
+        CriptoViewModel(
+            title: "APE",
+            name: "Apecoin",
+            image: UIImage.criptoAPE,
+            id: "4"),
+        CriptoViewModel(
+            title: "SOL",
+            name: "Solana",
+            image: UIImage.criptoSOL,
+            id: "5"),
+        CriptoViewModel(
+            title: "ETH",
+            name: "Ethereum",
+            image: UIImage.criptoETH,
+            id: "6"),
+        CriptoViewModel(
+            title: "ADA",
+            name: "Cardano",
+            image: UIImage.criptoADA,
+            id: "7"),
+        CriptoViewModel  (
+            title: "SHIB",
+            name: "Shiba Inu",
+            image: UIImage.criptoSHIB,
+            id: "8"),
+    ]
+    
     // MARK: - Private mutable properties
     private lazy var titleBackgroundView: UIView = {
         let view = UIView()
@@ -55,12 +99,31 @@ final class CartPayViewController: UIViewController {
         return button
     }()
     
+    private lazy var collectionView: UICollectionView = {
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        return collection
+    }()
+    
     // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypWhiteDay
         navigationController?.navigationBar.isHidden = true
+        collectionViewConfig()
         configureConstraints()
+        
+    }
+    
+    private func collectionViewConfig() {
+        /// Make VC a dataSource of collectionView, to config Cell
+        collectionView.dataSource = self
+        /// Register Cell
+        collectionView.register(CartPayCollectionViewCell.self, forCellWithReuseIdentifier: CartPayCollectionViewCell().cellIdentifier)
+        /// Make VC a delegate of collectionView, to config Header and Footer
+        collectionView.delegate = self
+        /// disable multiple selection
+        collectionView.allowsMultipleSelection = false
     }
     
     // MARK: - Objective-C function
@@ -73,9 +136,54 @@ final class CartPayViewController: UIViewController {
     private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
+}
+
+// MARK: - CollectionViewDataSource
+extension CartPayViewController: UICollectionViewDataSource {
+    /// Number of sections
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    /// Number of items in section
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return criptoArray.count
+    }
     
-    // MARK: - Configure constraints
-    private func configureConstraints() {
+    /// Cell for item
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CartPayCollectionViewCell().cellIdentifier, for: indexPath) as? CartPayCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.configure(with: indexPath)
+        return cell
+    }
+}
+
+// MARK: - CollectionViewDelegateFlowLayout
+extension CartPayViewController: UICollectionViewDelegateFlowLayout {
+    /// Set layout width and height
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: (collectionView.bounds.width / 2 - 3.5) - 16, height: 46)
+    }
+    /// Set layout horizontal spacing
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 7
+    }
+    /// Set layout vertical spacing
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 7
+    }
+    /// Set section insets
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let sectionInsets = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
+        return sectionInsets
+    }
+}
+
+// MARK: - Configure constraints
+private extension CartPayViewController {
+    
+    func configureConstraints() {
         view.addSubview(titleBackgroundView)
         titleBackgroundView.addSubview(backButton)
         NSLayoutConstraint.activate([
@@ -106,6 +214,14 @@ final class CartPayViewController: UIViewController {
             payButton.trailingAnchor.constraint(equalTo: bottomBackgroundView.trailingAnchor, constant: -12),
             payButton.bottomAnchor.constraint(equalTo: bottomBackgroundView.bottomAnchor, constant: -50)
         ])
+        
+        view.addSubview(collectionView)
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: titleBackgroundView.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomBackgroundView.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
-    
 }
+
