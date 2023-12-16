@@ -145,6 +145,11 @@ final class CartViewController: UIViewController {
         updateTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     private func setFirstStartConfiguration() {
         visibleNFTArray = nftArray
         if cartStorage.isNotFisrtStart == false {
@@ -238,13 +243,6 @@ final class CartViewController: UIViewController {
     
     @objc
     private func didTapPayButton() {
-//        var numbers: [Int] = []
-//        nftArray.forEach{ nft in numbers.append(nftArray.firstIndex(where: { $0.name == nft.name } ) ?? 0) }
-//        let random = numbers.randomElement()
-//        let newNFT = nftArray[random ?? 0]
-//        appendNftArray(with: newNFT, image: nftArray[random ?? 0].image ?? UIImage())
-//        updateTotalAndCostLabels()
-        //UINavigationController(rootViewController: CartViewController)
         let vc = CartPayViewController()
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)

@@ -33,8 +33,6 @@ final class TabBarController: UITabBarController {
         
         viewControllers = [catalogController, navigationController]
         
-        selectedIndex = 1
-        
         view.backgroundColor = UIColor.ypWhiteDay
         tabBar.backgroundColor = UIColor.ypWhiteDay
         tabBar.tintColor = UIColor.ypBlueUniversal

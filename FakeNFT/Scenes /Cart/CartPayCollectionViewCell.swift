@@ -9,6 +9,8 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         view.layer.cornerRadius = 12
         view.layer.masksToBounds = true
         view.backgroundColor = UIColor.ypLightGreyDay
+        view.layer.borderWidth = 0
+        view.layer.borderColor = UIColor.ypBlackDay.cgColor
         view.frame = CGRect(x: 0, y: 0, width: contentView.bounds.width, height: contentView.bounds.height)
         return view
     }()
@@ -56,11 +58,13 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
     
     func configure(name: String,
                    title: String,
-                   image: UIImage
+                   image: UIImage,
+                   borderWidth: CGFloat
     ) {
         cellCriptoLabel.text = name
         cellAbbreviatedLabel.text = title
         cellCriptoImageView.image = image
+        cellBackgroundSquare.layer.borderWidth = borderWidth
     }
     
     

@@ -46,6 +46,9 @@ final class CartPayViewController: UIViewController {
             id: "8"),
     ]
     
+    private var selectionArray: [CGFloat] = []
+    private var selectedCripto: CriptoViewModel?
+    
     // MARK: - Private mutable properties
     private lazy var titleBackgroundView: UIView = {
         let view = UIView()
@@ -131,6 +134,9 @@ final class CartPayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypWhiteDay
+        criptoArray.enumerated().forEach { (index, item) in
+            selectionArray.append(0)
+        }
         collectionViewConfig()
         configureConstraints()
     }
@@ -166,6 +172,23 @@ final class CartPayViewController: UIViewController {
     }
 }
 
+// MARK: - CollectionViewDelegate
+extension CartPayViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        var array: [CGFloat] = []
+        criptoArray.enumerated().forEach { (index, item) in
+            array.append(0)
+        }
+        let selectedItem = indexPath.row
+        array.remove(at: selectedItem)
+        array.insert(1, at: selectedItem)
+        selectionArray = array
+        selectedCripto = criptoArray[selectedItem]
+        print("\(String(describing: selectedCripto?.name)) selected")
+        collectionView.reloadData()
+    }
+}
+
 // MARK: - CollectionViewDataSource
 extension CartPayViewController: UICollectionViewDataSource {
     /// Number of sections
@@ -185,7 +208,8 @@ extension CartPayViewController: UICollectionViewDataSource {
         cell.configure(
             name: "\(criptoArray[indexPath.row].name)",
             title: "\(criptoArray[indexPath.row].title)",
-            image: criptoArray[indexPath.row].image)
+            image: criptoArray[indexPath.row].image,
+            borderWidth: selectionArray[indexPath.row])
         return cell
     }
 }
