@@ -131,9 +131,13 @@ final class CartPayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypWhiteDay
-        navigationController?.navigationBar.isHidden = true
         collectionViewConfig()
         configureConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func collectionViewConfig() {
@@ -157,7 +161,8 @@ final class CartPayViewController: UIViewController {
     
     @objc
     private func userAgreementTapped() {
-        print("user agreement tapped")
+        let vc = WebViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
