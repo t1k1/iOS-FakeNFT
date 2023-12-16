@@ -21,6 +21,8 @@
 
 "cart.cartPayViewController.title" = "Выберите способ оплаты";
 "cart.cartPayViewController.pay" = "Оплатить";
+"cart.cartPayViewController.agreement" = "Совершая покупку, вы соглашаетесь с условиями";
+"cart.cartPayViewController.agreementLink" = "Пользовательского соглашения";
 
 "extensions.uiViewController.bottomAlertCancel" = "Отмена";
 

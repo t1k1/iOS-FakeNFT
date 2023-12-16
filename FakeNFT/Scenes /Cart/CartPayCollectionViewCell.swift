@@ -15,11 +15,19 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
     
     private lazy var cellCriptoLabel: UILabel = {
         var label = UILabel()
-        label.text = "Bitcoin \nBTC"
+        label.text = "Bitcoin"
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 2
         label.textColor = UIColor.ypBlackDay
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var cellAbbreviatedLabel: UILabel = {
+        var label = UILabel()
+        label.text = "BTC"
+        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        label.textColor = UIColor.ypGreenUniversal
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -46,10 +54,13 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with
-                   indexPath: IndexPath
+    func configure(name: String,
+                   title: String,
+                   image: UIImage
     ) {
-        self.indexPath = indexPath
+        cellCriptoLabel.text = name
+        cellAbbreviatedLabel.text = title
+        cellCriptoImageView.image = image
     }
     
     
@@ -59,11 +70,12 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         configureInsideElements(
             background: cellBackgroundSquare,
             label: cellCriptoLabel,
+            abbreviated: cellAbbreviatedLabel,
             image: cellCriptoImageView
         )
     }
     
-    private func configureInsideElements(background: UIView, label: UILabel, image: UIImageView) {
+    private func configureInsideElements(background: UIView, label: UILabel, abbreviated: UILabel, image: UIImageView) {
         background.addSubview(image)
         NSLayoutConstraint.activate([
             image.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 12),
@@ -75,8 +87,13 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 4),
             label.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -12),
-            label.topAnchor.constraint(equalTo: background.topAnchor),
-            label.bottomAnchor.constraint(equalTo: background.bottomAnchor)
+            label.topAnchor.constraint(equalTo: background.topAnchor, constant: 5)
+        ])
+        background.addSubview(abbreviated)
+        NSLayoutConstraint.activate([
+            abbreviated.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 4),
+            abbreviated.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -12),
+            abbreviated.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -5)
         ])
     }
     

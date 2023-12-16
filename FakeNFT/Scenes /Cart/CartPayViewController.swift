@@ -83,6 +83,28 @@ final class CartPayViewController: UIViewController {
         return view
     }()
     
+    private lazy var userAgreementLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        label.adjustsFontSizeToFitWidth = true
+        label.text = NSLocalizedString("cart.cartPayViewController.agreement", comment: "")
+        label.textColor = UIColor.ypBlackDay
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var userAgreementLinkLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        label.text = NSLocalizedString("cart.cartPayViewController.agreementLink", comment: "")
+        label.textColor = UIColor.ypBlueUniversal
+        label.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(userAgreementTapped))
+        label.addGestureRecognizer(tapGesture)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var payButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(),
@@ -112,7 +134,6 @@ final class CartPayViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         collectionViewConfig()
         configureConstraints()
-        
     }
     
     private func collectionViewConfig() {
@@ -136,6 +157,11 @@ final class CartPayViewController: UIViewController {
     private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
+    
+    @objc
+    private func userAgreementTapped() {
+        print("user agreement tapped")
+    }
 }
 
 // MARK: - CollectionViewDataSource
@@ -154,7 +180,10 @@ extension CartPayViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CartPayCollectionViewCell().cellIdentifier, for: indexPath) as? CartPayCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.configure(with: indexPath)
+        cell.configure(
+            name: "\(criptoArray[indexPath.row].name)",
+            title: "\(criptoArray[indexPath.row].title)",
+            image: criptoArray[indexPath.row].image)
         return cell
     }
 }
@@ -215,6 +244,20 @@ private extension CartPayViewController {
             payButton.bottomAnchor.constraint(equalTo: bottomBackgroundView.bottomAnchor, constant: -50)
         ])
         
+        bottomBackgroundView.addSubview(userAgreementLabel)
+        NSLayoutConstraint.activate([
+            userAgreementLabel.leadingAnchor.constraint(equalTo: bottomBackgroundView.leadingAnchor, constant: 16),
+            userAgreementLabel.trailingAnchor.constraint(equalTo: bottomBackgroundView.trailingAnchor, constant: -16),
+            userAgreementLabel.topAnchor.constraint(equalTo: bottomBackgroundView.topAnchor, constant: 16)
+        ])
+        
+        bottomBackgroundView.addSubview(userAgreementLinkLabel)
+        NSLayoutConstraint.activate([
+            userAgreementLinkLabel.leadingAnchor.constraint(equalTo: bottomBackgroundView.leadingAnchor, constant: 16),
+            userAgreementLinkLabel.trailingAnchor.constraint(equalTo: bottomBackgroundView.trailingAnchor, constant: -16),
+            userAgreementLinkLabel.topAnchor.constraint(equalTo: userAgreementLabel.bottomAnchor, constant: 4)
+        ])
+        
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: titleBackgroundView.bottomAnchor),
@@ -222,6 +265,7 @@ private extension CartPayViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        
     }
 }
 
