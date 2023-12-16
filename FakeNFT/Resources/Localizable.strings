@@ -24,5 +24,8 @@
 "cart.cartPayViewController.agreement" = "Совершая покупку, вы соглашаетесь с условиями";
 "cart.cartPayViewController.agreementLink" = "Пользовательского соглашения";
 
+"cart.cartPaySuccessViewController.title" = "Успех! Оплата прошла, поздравляем с покупкой!";
+"cart.cartPaySuccessViewController.backToCatalog" = "Вернуться в каталог";
+
 "extensions.uiViewController.bottomAlertCancel" = "Отмена";
 

@@ -37,6 +37,7 @@ public extension UIImage {
   static let statistics: UIImage = UIImage(named: "statistics")!
   static let сart: UIImage = UIImage(named: "сart")!
   static let сatalog: UIImage = UIImage(named: "сatalog")!
+  static let successPay: UIImage = UIImage(named: "Success Pay")!
 }
 
 // MARK: - Colors

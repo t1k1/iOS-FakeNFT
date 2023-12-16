@@ -137,20 +137,17 @@ final class CartPayViewController: UIViewController {
     }
     
     private func collectionViewConfig() {
-        /// Make VC a dataSource of collectionView, to config Cell
         collectionView.dataSource = self
-        /// Register Cell
-        collectionView.register(CartPayCollectionViewCell.self, forCellWithReuseIdentifier: CartPayCollectionViewCell().cellIdentifier)
-        /// Make VC a delegate of collectionView, to config Header and Footer
         collectionView.delegate = self
-        /// disable multiple selection
+        collectionView.register(CartPayCollectionViewCell.self, forCellWithReuseIdentifier: CartPayCollectionViewCell().cellIdentifier)
         collectionView.allowsMultipleSelection = false
     }
     
     // MARK: - Objective-C function
     @objc
     private func didTapPayButton() {
-        print("pay button tapped")
+        let vc = CartPaySuccessViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc
