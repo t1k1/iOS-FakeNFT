@@ -23,7 +23,7 @@ final class CollectionViewController: UIViewController {
     var nftsIdString: [String] = []
     
     private let service: NftService
-    let servicesAssembly: ServicesAssembly
+    private let servicesAssembly: ServicesAssembly
     
     private var nfts: [NftModel] = []
     private var collectionViewHeightConstraint: NSLayoutConstraint?

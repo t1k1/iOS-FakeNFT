@@ -16,15 +16,25 @@ enum CatalogDetailState {
 
 final class CatalogViewController: UIViewController {
     
-    let servicesAssembly: ServicesAssembly
-    private var collections: [CollectionsModel] = []
+    enum SortingOption {
+        case defaultSorting
+        case name
+        case quantity
+    }
     
+    private var collections: [CollectionsModel] = []
+    private var originalCollections: [CollectionsModel] = []
+    private var currentSortingOption: SortingOption = .defaultSorting
+    
+    private let servicesAssembly: ServicesAssembly
     private let service: CollectionsService
     private var state = CatalogDetailState.initial {
         didSet {
             stateDidChanged()
         }
     }
+    
+    // MARK: - Init
     
     init(servicesAssembly: ServicesAssembly, service: CollectionsService) {
         self.servicesAssembly = servicesAssembly
@@ -122,11 +132,8 @@ final class CatalogViewController: UIViewController {
             style: .default
         ) { [weak self] _ in
             guard let self = self else { return }
-            ProgressHUD.show()
-            self.collections = self.collections.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
-            tableView.reloadData()
-            self.dismiss(animated: true)
-            ProgressHUD.dismiss()
+            self.currentSortingOption = .name
+            self.applySorting()
         }
         
         let sortQuantity = UIAlertAction(
@@ -134,9 +141,8 @@ final class CatalogViewController: UIViewController {
             style: .default
         ) { [weak self] _ in
             guard let self = self else { return }
-            self.collections.sort { $0.nfts.count > $1.nfts.count }
-            tableView.reloadData()
-            self.dismiss(animated: true)
+            self.currentSortingOption = .quantity
+            self.applySorting()
         }
         
         let cancelAction = UIAlertAction(title: "Закрыть", style: .cancel, handler: nil)
@@ -146,6 +152,23 @@ final class CatalogViewController: UIViewController {
         }
         
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func applySorting() {
+        ProgressHUD.show()
+        
+        switch currentSortingOption {
+        case .name:
+            collections = collections.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+        case .quantity:
+            collections.sort { $0.nfts.count > $1.nfts.count }
+        case .defaultSorting:
+            collections = originalCollections
+        }
+        
+        tableView.reloadData()
+        dismiss(animated: true)
+        ProgressHUD.dismiss()
     }
     
     private func stateDidChanged() {
@@ -168,6 +191,7 @@ final class CatalogViewController: UIViewController {
                 )
             }
             self.collections = collectionsModel
+            self.originalCollections = collections
             tableView.reloadData()
             ProgressHUD.dismiss()
         case .failed(let error):
