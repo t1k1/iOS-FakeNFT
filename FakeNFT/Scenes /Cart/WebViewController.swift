@@ -11,10 +11,13 @@ final class WebViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = false
+        
         if let url = URL(string: "https://yandex.ru/legal/practicum_termsofuse/") {
             webView.load(URLRequest(url: url))
             view.addSubview(webView)
         }
+        
+        ProgressHUD.show()
         
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
@@ -26,9 +29,7 @@ final class WebViewController: UIViewController {
     }
     
     private func didUpdateProgressValue(_ newValue: Double) {
-        if newValue < 1.0 {
-            ProgressHUD.show()
-        } else {
+        if newValue > 0.9 {
             ProgressHUD.dismiss()
         }
     }

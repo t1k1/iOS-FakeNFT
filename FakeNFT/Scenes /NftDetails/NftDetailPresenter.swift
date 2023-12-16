@@ -77,7 +77,7 @@ final class NftDetailPresenterImpl: NftDetailPresenter {
         }
 
         let actionText = NSLocalizedString("scenes.nftDetailPresenter.errorRepeat", comment: "")
-        return ErrorModel(message: message, actionText: actionText) { [weak self] in
+        return ErrorModel(title: NSLocalizedString("common.protocols.errorTitle", comment: ""), message: message, actionText: actionText) { [weak self] in
             self?.state = .loading
         }
     }

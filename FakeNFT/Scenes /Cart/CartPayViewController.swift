@@ -1,6 +1,6 @@
 import UIKit
 
-final class CartPayViewController: UIViewController {
+final class CartPayViewController: UIViewController, ErrorView {
     
     // MARK: - Mock properties
     private var criptoArray: [CriptoViewModel] = [
@@ -156,8 +156,31 @@ final class CartPayViewController: UIViewController {
     // MARK: - Objective-C function
     @objc
     private func didTapPayButton() {
-        let vc = CartPaySuccessViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        switch selectedCripto?.name {
+        case nil:
+            let error = ErrorModel(
+                title: NSLocalizedString("cart.cartPayViewController.errorCurrency", comment: ""),
+                message: "",
+                actionText: NSLocalizedString("cart.cartPayViewController.errorRepeat", comment: ""),
+                action: {})
+            return showError(error)
+        
+        case "Bitcoin":
+            var error = ErrorModel(
+                title: NSLocalizedString("cart.cartPayViewController.errorMessage", comment: ""),
+                message: "",
+                actionText: NSLocalizedString("cart.cartPayViewController.errorCancel", comment: ""),
+                action: {})
+            error.setSecondActionText(NSLocalizedString("cart.cartPayViewController.errorRepeat", comment: ""))
+            error.setSecondAction {
+                self.didTapPayButton()
+            }
+            return showError(error)
+        default:
+            let vc = CartPaySuccessViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
     
     @objc
