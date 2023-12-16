@@ -19,5 +19,8 @@
 "cart.cartDeleteItemViewController.back" = "Вернуться";
 "cart.cartDeleteItemViewController.infoText" = "Вы уверены, что хотите \n удалить объект из корзины?";
 
+"cart.cartPayViewController.title" = "Выберите способ оплаты";
+"cart.cartPayViewController.pay" = "Оплатить";
+
 "extensions.uiViewController.bottomAlertCancel" = "Отмена";
 
