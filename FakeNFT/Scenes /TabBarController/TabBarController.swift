@@ -33,6 +33,7 @@ final class TabBarController: UITabBarController {
             servicesAssembly: servicesAssembly,
             service: servicesAssembly.collectionsService
         )
+        
         let navigationController = UINavigationController(rootViewController: catalogViewController)
         
         navigationController.tabBarItem = catalogTabBarItem

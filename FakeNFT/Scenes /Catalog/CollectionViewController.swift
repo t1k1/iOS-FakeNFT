@@ -225,7 +225,6 @@ final class CollectionViewController: UIViewController {
             descriptionLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 5),
             descriptionLabel.trailingAnchor.constraint(equalTo: catalogLabel.trailingAnchor),
             
-            //            collectionView.heightAnchor.constraint(equalToConstant: collectionViewHeight),
             collectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
             collectionView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24),
             collectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
