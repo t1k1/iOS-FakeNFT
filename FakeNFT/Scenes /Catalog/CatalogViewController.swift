@@ -22,9 +22,13 @@ final class CatalogViewController: UIViewController {
         case quantity
     }
     
+    // MARK: - private Properties
+    
     private var collections: [CollectionsModel] = []
     private var originalCollections: [CollectionsModel] = []
     private var currentSortingOption: SortingOption = .defaultSorting
+    
+    // MARK: - Private Constants
     
     private let servicesAssembly: ServicesAssembly
     private let service: CollectionsService

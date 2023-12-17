@@ -14,6 +14,8 @@ final class CollectionCell: UICollectionViewCell {
     
     static let reuseIdentifier = "CollectionCell"
     
+    //MARK: - Layout variables
+    
     private lazy var nftImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 12

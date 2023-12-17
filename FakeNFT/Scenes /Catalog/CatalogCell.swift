@@ -33,7 +33,7 @@ final class CatalogCell: UITableViewCell {
         return label
     }()
     
-    // MARK: - Lifecycle
+    // MARK: - Public Methods
     
     func configureCell(name: String, nftCount: Int, cover: String) {
         contentView.backgroundColor = .ypWhiteDay

@@ -17,14 +17,15 @@ enum NftDetailState {
 
 final class CollectionViewController: UIViewController {
     
+    // MARK: - Public Properties
+    
     var catalogString = ""
     var authorNameString = ""
     var descriptionString = ""
     var catalogImageString = ""
     var nftsIdString: [String] = []
     
-    private let service: NftService
-    private let servicesAssembly: ServicesAssembly
+    // MARK: - Private Properties
     
     private var nfts: [NftModel] = []
     private var collectionViewHeightConstraint: NSLayoutConstraint?
@@ -33,6 +34,11 @@ final class CollectionViewController: UIViewController {
             stateDidChanged()
         }
     }
+    
+    // MARK: - Private Constants
+    
+    private let service: NftService
+    private let servicesAssembly: ServicesAssembly
     
     // MARK: - Init
     
