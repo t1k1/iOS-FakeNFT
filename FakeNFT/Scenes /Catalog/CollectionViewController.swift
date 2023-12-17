@@ -165,8 +165,6 @@ final class CollectionViewController: UIViewController {
         state = .loading
         addSubViews()
         applyConstraints()
-        
-        
     }
     
     // MARK: - IBAction
