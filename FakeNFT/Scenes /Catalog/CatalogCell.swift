@@ -43,9 +43,10 @@ final class CatalogCell: UITableViewCell {
         footerLabel.text = "\(name) (\(nftCount))"
         
         let imageURL = URL(string: cover)
-        catalogImageView.kf.indicatorType = .activity
+        let memoryOnlyOptions: KingfisherOptionsInfoItem = .cacheMemoryOnly
         
-        catalogImageView.kf.setImage(with: imageURL) { [weak self] result in
+        catalogImageView.kf.indicatorType = .activity
+        catalogImageView.kf.setImage(with: imageURL, options: [memoryOnlyOptions]) { [weak self] result in
             switch result {
             case .success(let value):
                 self?.catalogImageView.image = value.image

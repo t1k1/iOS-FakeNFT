@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class CollectionCell: UICollectionViewCell {
     
@@ -89,9 +90,10 @@ final class CollectionCell: UICollectionViewCell {
     func configure(imagesString: String, rating: Int, name:String, price: Float) {
         let imageURL = URL(string: imagesString)
         let level = Int(ceil(Double(rating) / 2.0))
+        let memoryOnlyOptions: KingfisherOptionsInfoItem = .cacheMemoryOnly
         
         nftImageView.kf.indicatorType = .activity
-        nftImageView.kf.setImage(with: imageURL) { [weak self] result in
+        nftImageView.kf.setImage(with: imageURL, options: [memoryOnlyOptions]) { [weak self] result in
             switch result {
             case .success(let value):
                 self?.nftImageView.image = value.image

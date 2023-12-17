@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 import ProgressHUD
 
 // MARK: - State
@@ -252,9 +253,10 @@ final class CollectionViewController: UIViewController {
             return
         }
         
-        catalogImageView.kf.indicatorType = .activity
+        let memoryOnlyOptions: KingfisherOptionsInfoItem = .cacheMemoryOnly
         
-        catalogImageView.kf.setImage(with: imageURL) { [weak self] result in
+        catalogImageView.kf.indicatorType = .activity
+        catalogImageView.kf.setImage(with: imageURL, options: [memoryOnlyOptions]) { [weak self] result in
             switch result {
             case .success(let value):
                 self?.catalogImageView.image = value.image
