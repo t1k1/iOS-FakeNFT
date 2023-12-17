@@ -153,7 +153,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         collectionView.allowsMultipleSelection = false
     }
     
-    // MARK: - Objective-C function
+    // MARK: - Objective-C functions
     @objc
     private func didTapPayButton() {
         switch selectedCripto?.name {

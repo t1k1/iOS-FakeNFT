@@ -235,7 +235,7 @@ final class CartViewController: UIViewController {
             }
         
     
-    // MARK: - Objective-C function
+    // MARK: - Objective-C functions
     @objc
     private func didTapSortButton() {
         showSortOptions()
