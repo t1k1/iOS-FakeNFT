@@ -200,7 +200,7 @@ final class CatalogViewController: UIViewController {
             ProgressHUD.dismiss()
         case .failed(let error):
             ProgressHUD.dismiss()
-            print("ОШИБКА: \(error)")
+            print("Error: \(error)")
         }
     }
     
