@@ -321,51 +321,62 @@ private extension CartViewController {
         }
     }
     
+    func payUIView(isVisible: Bool) {
+        if isVisible {
+            view.addSubview(payUIView)
+            NSLayoutConstraint.activate([
+                payUIView.heightAnchor.constraint(equalToConstant: 76),
+                payUIView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -83),
+                payUIView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                payUIView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            ])
+            
+            payUIView.addSubview(totalLabel)
+            NSLayoutConstraint.activate([
+                totalLabel.topAnchor.constraint(equalTo: payUIView.topAnchor, constant: 16),
+                totalLabel.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 16)
+            ])
+
+            payUIView.addSubview(costLabel)
+            NSLayoutConstraint.activate([
+                costLabel.bottomAnchor.constraint(equalTo: payUIView.bottomAnchor, constant: -16),
+                costLabel.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 16)
+            ])
+            
+            payUIView.addSubview(payButton)
+            NSLayoutConstraint.activate([
+                payButton.topAnchor.constraint(equalTo: payUIView.topAnchor, constant: 16),
+                payButton.bottomAnchor.constraint(equalTo: payUIView.bottomAnchor, constant: -16),
+                payButton.trailingAnchor.constraint(equalTo: payUIView.trailingAnchor, constant: -16),
+                payButton.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 119)
+            ])
+            
+            view.addSubview(tableView)
+            NSLayoutConstraint.activate([
+                tableView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: 20),
+                tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                tableView.bottomAnchor.constraint(equalTo: payUIView.topAnchor)
+            ])
+        } else {
+            tableView.removeFromSuperview()
+            payUIView.removeFromSuperview()
+        }
+    }
+    
     func configureConstraints() {
         
         view.addSubview(navigationBar)
         sortButton(isVisible:true)
+        payUIView(isVisible: true)
         
-        view.addSubview(payUIView)
-        NSLayoutConstraint.activate([
-            payUIView.heightAnchor.constraint(equalToConstant: 76),
-            payUIView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -83),
-            payUIView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            payUIView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        ])
         
-        payUIView.addSubview(totalLabel)
-        NSLayoutConstraint.activate([
-            totalLabel.topAnchor.constraint(equalTo: payUIView.topAnchor, constant: 16),
-            totalLabel.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 16)
-        ])
-
-        payUIView.addSubview(costLabel)
-        NSLayoutConstraint.activate([
-            costLabel.bottomAnchor.constraint(equalTo: payUIView.bottomAnchor, constant: -16),
-            costLabel.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 16)
-        ])
-        
-        payUIView.addSubview(payButton)
-        NSLayoutConstraint.activate([
-            payButton.topAnchor.constraint(equalTo: payUIView.topAnchor, constant: 16),
-            payButton.bottomAnchor.constraint(equalTo: payUIView.bottomAnchor, constant: -16),
-            payButton.trailingAnchor.constraint(equalTo: payUIView.trailingAnchor, constant: -16),
-            payButton.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 119)
-        ])
-        
-        view.addSubview(tableView)
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: 20),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: payUIView.topAnchor)
-        ])
     }
     
     func isEmptyCartLabelVisible(_ bool: Bool) {
         if bool {
             sortButton(isVisible:false)
+            payUIView(isVisible: false)
             view.addSubview(emptyCartLabel)
             NSLayoutConstraint.activate([
                 emptyCartLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -374,6 +385,7 @@ private extension CartViewController {
         } else {
             emptyCartLabel.removeFromSuperview()
             sortButton(isVisible:true)
+            payUIView(isVisible: true)
         }
     }
 }
