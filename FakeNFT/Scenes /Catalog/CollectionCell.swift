@@ -18,6 +18,7 @@ final class CollectionCell: UICollectionViewCell {
     
     private lazy var nftImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.frame = CGRect(x: 0, y: 0, width: 108, height: 108)
         imageView.layer.cornerRadius = 12
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
@@ -133,20 +134,15 @@ final class CollectionCell: UICollectionViewCell {
     // MARK: - Private Methods
     
     private func addSubViews() {
-        [nftImageView, likeButton, starsImageView, nameLabel, priceLabel, cartButton].forEach {
-            contentView.addSubview($0)
+        contentView.addSubview(nftImageView)
+        [likeButton, starsImageView, nameLabel, priceLabel, cartButton].forEach {
+            contentView.addSubview($0);
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
     
     private func applyConstraints() {
         NSLayoutConstraint.activate([
-            nftImageView.heightAnchor.constraint(equalToConstant: 108),
-            nftImageView.widthAnchor.constraint(equalToConstant: 108),
-            nftImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            nftImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            nftImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
             likeButton.heightAnchor.constraint(equalToConstant: 40),
             likeButton.widthAnchor.constraint(equalToConstant: 40),
             likeButton.topAnchor.constraint(equalTo: contentView.topAnchor),

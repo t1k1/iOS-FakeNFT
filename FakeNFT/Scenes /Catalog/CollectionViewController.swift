@@ -28,7 +28,6 @@ final class CollectionViewController: UIViewController {
     // MARK: - Private Properties
     
     private var nfts: [NftModel] = []
-    private var collectionViewHeightConstraint: NSLayoutConstraint?
     private var state = NftDetailState.initial {
         didSet {
             stateDidChanged()
@@ -56,7 +55,8 @@ final class CollectionViewController: UIViewController {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
         scrollView.alwaysBounceVertical = true
         
         return scrollView
@@ -195,10 +195,10 @@ final class CollectionViewController: UIViewController {
     
     private func applyConstraints() {
         NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             catalogImageView.heightAnchor.constraint(equalToConstant: 310),
             catalogImageView.widthAnchor.constraint(equalToConstant: view.bounds.width),
@@ -225,31 +225,25 @@ final class CollectionViewController: UIViewController {
             descriptionLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 5),
             descriptionLabel.trailingAnchor.constraint(equalTo: catalogLabel.trailingAnchor),
             
-            collectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             collectionView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24),
-            collectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
-            collectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        collectionViewHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: collectionViewHeight)
-        collectionViewHeightConstraint?.isActive = true
     }
     
-    private var collectionViewHeight: CGFloat {
-        let cellHeight: CGFloat = 192
-        let sectionCount: CGFloat = CGFloat(nfts.count)
-        let numberOfColumns: CGFloat = 3
-        let spacingBetweenCells: CGFloat = 8
+    private func updateScrollViewContentSize() {
+        let topSpacing: CGFloat = 486.0
+        let cellHeight: CGFloat = 192.0
+        let numberOfCellsInRow: CGFloat = 3.0
         
-        let numberOfRowsInOneSection = ceil(sectionCount / numberOfColumns)
-        
-        return cellHeight * numberOfRowsInOneSection + spacingBetweenCells * (numberOfRowsInOneSection - 1)
+        let numberOfRows = ceil(CGFloat(nfts.count) / numberOfCellsInRow)
+        scrollView.contentSize = CGSize(
+            width: view.frame.width,
+            height: topSpacing + numberOfRows * (cellHeight)
+        )
     }
     
-    private func updateCollectionViewHeight() {
-        collectionView.collectionViewLayout.invalidateLayout()
-        let newHeight = collectionViewHeight
-        collectionViewHeightConstraint?.constant = newHeight
-    }
     
     private func loadCatalogImage() {
         guard let imageURL = URL(string: catalogImageString) else {
@@ -294,7 +288,7 @@ final class CollectionViewController: UIViewController {
                     id: nftResult.id
                 )
                 nfts.append(nftModel)
-                self.updateCollectionViewHeight()
+                self.updateScrollViewContentSize()
                 self.collectionView.reloadData()
                 dispatchGroup.leave()
             }
