@@ -16,7 +16,7 @@ enum CatalogDetailState {
 
 final class CatalogViewController: UIViewController {
     
-    enum SortingOption {
+    enum SortingOption: Int {
         case defaultSorting
         case name
         case quantity
@@ -32,6 +32,7 @@ final class CatalogViewController: UIViewController {
     
     private let servicesAssembly: ServicesAssembly
     private let service: CollectionsService
+    private let userDefaults = UserDefaultsManager.shared
     private var state = CatalogDetailState.initial {
         didSet {
             stateDidChanged()
@@ -83,6 +84,7 @@ final class CatalogViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhiteDay
+        currentSortingOption = userDefaults.loadSortingOption()
         addSubViews()
         applyConstraints()
         state = .loading
@@ -173,6 +175,7 @@ final class CatalogViewController: UIViewController {
         tableView.reloadData()
         dismiss(animated: true)
         ProgressHUD.dismiss()
+        userDefaults.saveSortingOption(currentSortingOption)
     }
     
     private func stateDidChanged() {
@@ -196,6 +199,7 @@ final class CatalogViewController: UIViewController {
             }
             self.collections = collectionsModel
             self.originalCollections = collections
+            applySorting()
             tableView.reloadData()
             ProgressHUD.dismiss()
         case .failed(let error):
