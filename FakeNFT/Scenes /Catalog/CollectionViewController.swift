@@ -12,7 +12,7 @@ import ProgressHUD
 // MARK: - State
 
 enum NftDetailState {
-    case initial, loading, failed(Error), data(NftResult)
+    case initial, loading, failed(Error), data([NftResult])
 }
 
 final class CollectionViewController: UIViewController {
@@ -276,31 +276,42 @@ final class CollectionViewController: UIViewController {
         case .initial:
             assertionFailure("can't move to initial state")
         case .loading:
-            ProgressHUD.show()
+            showProgressHUD()
             loadNft()
-        case .data(let nftResult):
-            let nftModel = NftModel(
-                createdAt: DateFormatter.defaultDateFormatter.date(from: nftResult.createdAt),
-                name: nftResult.name,
-                images: nftResult.images,
-                rating: nftResult.rating,
-                description: nftResult.description,
-                price: nftResult.price,
-                author: nftResult.author,
-                id: nftResult.id
-            )
-            self.nfts.append(nftModel)
-            updateCollectionViewHeight()
-            collectionView.reloadData()
-            ProgressHUD.dismiss()
+        case .data(let nftResults):
+            let dispatchGroup = DispatchGroup()
+            
+            for nftResult in nftResults {
+                dispatchGroup.enter()
+                let nftModel = NftModel(
+                    createdAt: DateFormatter.defaultDateFormatter.date(from: nftResult.createdAt),
+                    name: nftResult.name,
+                    images: nftResult.images,
+                    rating: nftResult.rating,
+                    description: nftResult.description,
+                    price: nftResult.price,
+                    author: nftResult.author,
+                    id: nftResult.id
+                )
+                nfts.append(nftModel)
+                self.updateCollectionViewHeight()
+                self.collectionView.reloadData()
+                dispatchGroup.leave()
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                self.dismissProgressHUD()
+            }
         case .failed(let error):
-            ProgressHUD.dismiss()
+            dismissProgressHUD()
             print("Error: \(error)")
         }
     }
     
     private func loadNft() {
         let dispatchGroup = DispatchGroup()
+        var loadedNftResults: [NftResult] = []
+        
         for id in nftsIdString {
             dispatchGroup.enter()
             service.loadNft(id: id) { [weak self] result in
@@ -309,12 +320,28 @@ final class CollectionViewController: UIViewController {
                 }
                 switch result {
                 case .success(let nftResult):
-                    self?.state = .data(nftResult)
+                    loadedNftResults.append(nftResult)
                 case .failure(let error):
                     self?.state = .failed(error)
                 }
             }
         }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.state = .data(loadedNftResults)
+        }
+    }
+    
+    private func showProgressHUD() {
+        backButton.isUserInteractionEnabled = false
+        authorNameButton.isUserInteractionEnabled = false
+        ProgressHUD.show()
+    }
+    
+    private func dismissProgressHUD() {
+        backButton.isUserInteractionEnabled = true
+        authorNameButton.isUserInteractionEnabled = true
+        ProgressHUD.dismiss()
     }
 }
 
