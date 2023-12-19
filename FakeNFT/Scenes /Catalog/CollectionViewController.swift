@@ -303,27 +303,26 @@ final class CollectionViewController: UIViewController {
     }
     
     private func loadNft() {
-        let dispatchGroup = DispatchGroup()
         var loadedNftResults: [NftResult] = []
         
-        for id in nftsIdString {
-            dispatchGroup.enter()
+        func loadNftAtIndex(index: Int) {
+            guard index < nftsIdString.count else {
+                self.state = .data(loadedNftResults)
+                return
+            }
+            
+            let id = nftsIdString[index]
             service.loadNft(id: id) { [weak self] result in
-                defer {
-                    dispatchGroup.leave()
-                }
                 switch result {
                 case .success(let nftResult):
                     loadedNftResults.append(nftResult)
                 case .failure(let error):
                     self?.state = .failed(error)
                 }
+                loadNftAtIndex(index: index + 1)
             }
         }
-        
-        dispatchGroup.notify(queue: .main) {
-            self.state = .data(loadedNftResults)
-        }
+        loadNftAtIndex(index: 0)
     }
     
     private func showProgressHUD() {

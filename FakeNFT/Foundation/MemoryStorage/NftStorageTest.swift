@@ -9,7 +9,7 @@ protocol NftStorageTest: AnyObject {
 final class NftStorageImplTest: NftStorageTest {
     private var storage: [String: Nft] = [:]
     
-    private let syncQueue = DispatchQueue(label: "sync-nft-queue")
+    private let syncQueue = DispatchQueue(label: "sync-nft-queue-test")
     
     func saveNft(_ nft: Nft) {
         syncQueue.async { [weak self] in
