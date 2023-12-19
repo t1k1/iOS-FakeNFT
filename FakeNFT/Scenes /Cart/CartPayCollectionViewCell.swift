@@ -56,17 +56,17 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(name: String,
-                   title: String,
-                   image: UIImage,
-                   borderWidth: CGFloat
+    func configure(
+        name: String,
+        title: String,
+        image: UIImage,
+        borderWidth: CGFloat
     ) {
         cellCriptoLabel.text = name
         cellAbbreviatedLabel.text = title
         cellCriptoImageView.image = image
         cellBackgroundSquare.layer.borderWidth = borderWidth
     }
-    
     
     // MARK: - Configure Constraints
     private func configureConstraints() {
@@ -100,7 +100,5 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
             abbreviated.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -5)
         ])
     }
-    
-    
 }
 

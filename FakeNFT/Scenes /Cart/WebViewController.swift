@@ -55,6 +55,7 @@ final class WebViewController: UIViewController {
     // MARK: - Objective-C function
     @objc
     private func backButtonTapped() {
+        ProgressHUD.dismiss()
         navigationController?.popViewController(animated: true)
     }
 }
