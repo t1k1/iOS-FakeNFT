@@ -298,7 +298,7 @@ final class CollectionViewController: UIViewController {
             }
         case .failed(let error):
             dismissProgressHUD()
-            print("Error: \(error)")
+            assertionFailure("Error: \(error)")
         }
     }
     
@@ -346,20 +346,24 @@ extension CollectionViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: CollectionCell.reuseIdentifier,
             for: indexPath
-        ) as! CollectionCell
+        )
+        
+        guard let collectionCell = cell as? CollectionCell else {
+            assertionFailure("Warning: type cast error, empty cells")
+            return UICollectionViewCell()
+        }
         
         let nft = nfts[indexPath.row]
         
         guard let imagesString = nft.images.first else {
-            return cell
+            return collectionCell
         }
-        cell.configure(imagesString: imagesString, rating: nft.rating, name: nft.name, price: nft.price)
+        collectionCell.configure(imagesString: imagesString, rating: nft.rating, name: nft.name, price: nft.price)
         
-        return cell
+        return collectionCell
     }
 }
 
