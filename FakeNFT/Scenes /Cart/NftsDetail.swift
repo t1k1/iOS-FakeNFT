@@ -2,16 +2,20 @@ import UIKit
 import ProgressHUD
 import Kingfisher
 
-protocol NftDetailProtocol: AnyObject {
+enum NftsDetailState {
+    case initial, loading, failed(Error), data([NftNetworkModel])
+}
+
+protocol NftsDetailProtocol: AnyObject {
     func sendLoaded(nfts: [NftResultModel])
 }
 
-final class NftDetailImpl {
+final class NftsDetailImpl {
     
-    weak var delegate: NftDetailProtocol?
+    weak var delegate: NftsDetailProtocol?
     
     private let servicesAssembly: ServicesAssembly
-    private let service: NftServiceProtocol
+    private let service: NftsServiceProtocol
     
     
     private var ids: [String] = []
@@ -22,13 +26,13 @@ final class NftDetailImpl {
         }
     }
     
-    private var state = NftDetailState.initial {
+    private var state = NftsDetailState.initial {
         didSet {
             stateDidChanged()
         }
     }
     
-    init(servicesAssembly: ServicesAssembly, service: NftServiceProtocol, delegate: NftDetailProtocol) {
+    init(servicesAssembly: ServicesAssembly, service: NftsServiceProtocol, delegate: NftsDetailProtocol) {
         self.servicesAssembly = servicesAssembly
         self.service = service
         self.delegate = delegate
@@ -36,6 +40,7 @@ final class NftDetailImpl {
     
     func startNftLoading(nftIds: [String]) {
         self.ids = nftIds
+        self.loadedNfts = []
         state = .loading
     }
     
@@ -45,22 +50,22 @@ final class NftDetailImpl {
             assertionFailure("can`t move to initial state")
         case .loading:
             ProgressHUD.show()
-            ids.forEach { id in
-                loadNft(id: id)
-            }
-        case .data(let nftResult):
+            loadNfts(ids: ids)
+        case .data(let nftsResult):
             ProgressHUD.dismiss()
-            let nftModel = NftResultModel(
-                createdAt: nftResult.createdAt.toDate(),
-                name: nftResult.name,
-                images: nftResult.images,
-                rating: nftResult.rating,
-                description: nftResult.description,
-                price: nftResult.price,
-                author: nftResult.author,
-                id: nftResult.id
-            )
-            self.loadedNfts.append(nftModel)
+            nftsResult.forEach { nftResult in
+                let nftModel = NftResultModel(
+                    createdAt: nftResult.createdAt.toDate(),
+                    name: nftResult.name,
+                    images: nftResult.images,
+                    rating: nftResult.rating,
+                    description: nftResult.description,
+                    price: nftResult.price,
+                    author: nftResult.author,
+                    id: nftResult.id
+                )
+                self.loadedNfts.append(nftModel)
+            }
         case .failed(let error):
             ProgressHUD.dismiss()
             print("error \(error)")
@@ -68,8 +73,8 @@ final class NftDetailImpl {
         
     }
     
-    private func loadNft(id: String) {
-        service.loadNft(id: id) { [weak self] result in
+    private func loadNfts(ids: [String]) {
+        service.loadNfts(ids: ids) { [weak self] result in
             switch result {
             case .success(let nftResult):
                 self?.state = .data(nftResult)

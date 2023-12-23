@@ -39,17 +39,17 @@ final class OrderDetailImpl {
         case .initial:
             assertionFailure("can`t move to initial state")
         case .loading:
-            UIBlockingProgressHUD.show()
+            ProgressHUD.show()
             loadOrder()
         case .data(let orderResult):
-            UIBlockingProgressHUD.dismiss()
+            ProgressHUD.dismiss()
             let orderModel = OrderResult(
                 nfts: orderResult.nfts,
                 id: orderResult.id)
             self.order = orderModel
             self.delegete?.sendLoaded(order: self.order)
         case .failed(let error):
-            UIBlockingProgressHUD.dismiss()
+            ProgressHUD.dismiss()
             print("error \(error)")
         }
     }

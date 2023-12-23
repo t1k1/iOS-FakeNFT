@@ -36,11 +36,7 @@ final class CartViewController: UIViewController {
 //        id: "9810d484-c3fc-49e8-bc73-f5e602c36b40"
 //    )]
     
-    private var nftArray: [NftResultModel] = [] {
-        didSet {
-            updateTableView()
-        }
-    }
+    private var nftArray: [NftResultModel] = []
     
     private var visibleNftArray: [NftResultModel] = []
     
@@ -63,7 +59,7 @@ final class CartViewController: UIViewController {
         delegate: self
     )
     
-    private lazy var nftDetail = NftDetailImpl(servicesAssembly: servicesAssembly, service: servicesAssembly.nftService, delegate: self)
+    private lazy var nftDetail = NftsDetailImpl(servicesAssembly: servicesAssembly, service: servicesAssembly.nftsService, delegate: self)
     
     private lazy var emptyCartLabel: UILabel = {
         let label = UILabel()
@@ -158,10 +154,6 @@ final class CartViewController: UIViewController {
     }()
     
     // MARK: - View controller lifecycle methods
-    override func loadView() {
-        super.loadView()
-        orderDetail.startOrderLoading()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -169,12 +161,13 @@ final class CartViewController: UIViewController {
         setFirstStartSortConfiguration()
         configureConstraints()
         tableViewConfiguration()
-        updateTableView()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        self.orderDetail.startOrderLoading()
         updateTableView()
     }
     
@@ -281,13 +274,32 @@ final class CartViewController: UIViewController {
 extension CartViewController: OrderDetailProtocol {
     func sendLoaded(order: OrderResult) {
         self.order = order
-        nftDetail.startNftLoading(nftIds: order.nfts)
+        var nfts: [NftResultModel] = []
+        if nfts.count < 1 {
+            order.nfts.forEach { id in
+                let nft = NftResultModel(
+                    createdAt: Date(),
+                    name: "",
+                    images: [],
+                    rating: 0,
+                    description: "",
+                    price: 0,
+                    author: URL(string: ""),
+                    id: id)
+                nfts.append(nft)
+            }
+            nftArray = nfts
+        }
+        updateTableView()
+        self.nftDetail.startNftLoading(nftIds: order.nfts)
+        
     }
 }
 
-extension CartViewController: NftDetailProtocol {
+extension CartViewController: NftsDetailProtocol {
     func sendLoaded(nfts: [NftResultModel]) {
         self.nftArray = nfts
+        updateTableView()
     }
 }
 
@@ -313,20 +325,23 @@ extension CartViewController: UITableViewDataSource {
             rating: visibleNftArray[indexPath.row].rating
         )
         
-//        var image = UIImage()
-//        KingfisherManager.shared.retrieveImage(with: visibleNftArray[indexPath.row].images[0]) { result in
-//            switch result {
-//            case .success (let value):
-//                image = value.image
-//            case .failure (let error):
-//                print("\(error)")
+//        if nftArray[0].images.count > 0 {
+//            DispatchQueue.main.async {
+//                        var image = UIImage()
+//                KingfisherManager.shared.retrieveImage(with: self.visibleNftArray[indexPath.row].images[0]) { result in
+//                            switch result {
+//                            case .success (let value):
+//                                image = value.image
+//                            case .failure (let error):
+//                                print("\(error)")
+//                            }
+//                        }
+//                        let scaleFactor = (image.size.width > image.size.height ? image.size.width : image.size.height) / 108
+//                        image = image.scalePreservingAspectRatio(targetSizeScale: scaleFactor)
+//
+//                        cartTableViewCell.previewImage.image = image
 //            }
 //        }
-//        let scaleFactor = (image.size.width > image.size.height ? image.size.width : image.size.height) / 108
-//        image = image.scalePreservingAspectRatio(targetSizeScale: scaleFactor)
-//
-//        cartTableViewCell.previewImage.image = image
-        
         
         cartTableViewCell.delegate = self
         return cartTableViewCell
