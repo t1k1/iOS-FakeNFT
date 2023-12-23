@@ -7,7 +7,7 @@ struct NftNetworkModel: Decodable {
     let rating: Int
     let description: String
     let price: Float
-    let author: URL
+    let author: URL?
     let id: String
 }
 
@@ -18,6 +18,6 @@ struct NftResultModel {
     let rating: Int
     let description: String
     let price: Float
-    let author: URL
+    let author: URL?
     let id: String
 }

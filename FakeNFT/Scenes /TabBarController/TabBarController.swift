@@ -19,12 +19,6 @@ final class TabBarController: UITabBarController {
         tag: 1
     )
     
-    private let orderTabBarItem = UITabBarItem(
-        title: NSLocalizedString("Tab.cart", comment: ""),
-        image: UIImage.cartDelete,
-        tag: 2
-    )
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,19 +26,12 @@ final class TabBarController: UITabBarController {
             servicesAssembly: servicesAssembly
         )
         
-        let orderViewController = OrderViewController(
-            servicesAssembly: servicesAssembly,
-            service: servicesAssembly.orderService
-        )
-        
-        orderViewController.tabBarItem = orderTabBarItem
-        
         catalogController.tabBarItem = catalogTabBarItem
         
         let navigationController = UINavigationController(rootViewController: CartViewController())
         navigationController.tabBarItem = cartTabBarItem
         
-        viewControllers = [catalogController, navigationController, orderViewController]
+        viewControllers = [catalogController, navigationController]
         
         view.backgroundColor = UIColor.ypWhiteDay
         tabBar.backgroundColor = UIColor.ypWhiteDay
