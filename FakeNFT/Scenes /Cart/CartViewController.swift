@@ -325,23 +325,20 @@ extension CartViewController: UITableViewDataSource {
             rating: visibleNftArray[indexPath.row].rating
         )
         
-//        if nftArray[0].images.count > 0 {
-//            DispatchQueue.main.async {
-//                        var image = UIImage()
-//                KingfisherManager.shared.retrieveImage(with: self.visibleNftArray[indexPath.row].images[0]) { result in
-//                            switch result {
-//                            case .success (let value):
-//                                image = value.image
-//                            case .failure (let error):
-//                                print("\(error)")
-//                            }
-//                        }
-//                        let scaleFactor = (image.size.width > image.size.height ? image.size.width : image.size.height) / 108
-//                        image = image.scalePreservingAspectRatio(targetSizeScale: scaleFactor)
-//
-//                        cartTableViewCell.previewImage.image = image
-//            }
-//        }
+        if visibleNftArray[indexPath.row].images.count > 0 {
+            cartTableViewCell.activityIndicator.startAnimating()
+            let processor = DownsamplingImageProcessor(size: CGSize(width: 108, height: 108))
+            cartTableViewCell.previewImage.kf.setImage(with: self.visibleNftArray[indexPath.row].images[0], options: [.processor(processor)]) { result in
+                cartTableViewCell.activityIndicator.stopAnimating()
+                switch result {
+                case .success (_):
+                    cartTableViewCell.previewImage.contentMode = UIView.ContentMode.scaleAspectFill
+                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                case .failure (let error):
+                    print("\(error)")
+                }
+            }
+        }
         
         cartTableViewCell.delegate = self
         return cartTableViewCell

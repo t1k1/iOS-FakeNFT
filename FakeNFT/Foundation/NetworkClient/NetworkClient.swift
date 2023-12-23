@@ -120,8 +120,8 @@ struct DefaultNetworkClient: NetworkClient {
 
         if let dto = request.dto,
            let dtoEncoded = try? encoder.encode(dto) {
-            urlRequest.setValue("a66690d9-233c-4541-a539-179c0a04d8da", forHTTPHeaderField: "X-Practicum-Mobile-Token")
-            urlRequest.httpBody = dtoEncoded
+//            urlRequest.setValue("a66690d9-233c-4541-a539-179c0a04d8da", forHTTPHeaderField: "X-Practicum-Mobile-Token")
+//            urlRequest.httpBody = dtoEncoded
         }
         
         urlRequest.setValue("a66690d9-233c-4541-a539-179c0a04d8da", forHTTPHeaderField: "X-Practicum-Mobile-Token")

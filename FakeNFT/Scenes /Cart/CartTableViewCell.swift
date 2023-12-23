@@ -31,6 +31,13 @@ final class CartTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.stopAnimating()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     private lazy var ratingImage: UIImageView = {
         let image = UIImage.stars0
         let imageView = UIImageView(image: image)
@@ -74,6 +81,12 @@ final class CartTableViewCell: UITableViewCell {
         backgroundColor = UIColor.ypWhiteDay
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        // отменяем загрузку чтобы избежать багов
+        previewImage.kf.cancelDownloadTask()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -107,6 +120,12 @@ final class CartTableViewCell: UITableViewCell {
             previewImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             previewImage.widthAnchor.constraint(greaterThanOrEqualToConstant: 108),
             previewImage.heightAnchor.constraint(greaterThanOrEqualToConstant: 108)
+        ])
+        
+        previewImage.addSubview(activityIndicator)
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: previewImage.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: previewImage.centerYAnchor)
         ])
 
         addSubview(nameLabel)
