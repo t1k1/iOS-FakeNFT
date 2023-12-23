@@ -3,8 +3,8 @@ import UIKit
 final class CartViewController: UIViewController {
     
     // MARK: - Mock properties
-    private var nftArray: [NftViewModel] = [
-    NftViewModel(
+    private var nftArray: [NftResultModel] = [
+    NftResultModel(
         createdAt: "2023-09-27T23:48:21.462Z[GMT]".toDate(),
         name: "Cervantes",
         image: UIImage.cartImage0,
@@ -14,7 +14,7 @@ final class CartViewController: UIViewController {
         author: URL(string: "https://priceless_leavitt.fakenfts.org/") ?? URL(fileURLWithPath: ""),
         id: "c14cf3bc-7470-4eec-8a42-5eaa65f4053c"
     ),
-    NftViewModel(
+    NftResultModel(
         createdAt: "2023-09-18T00:04:07.524Z[GMT]".toDate(),
         name: "Yang",
         image: UIImage.cartImage1,
@@ -24,7 +24,7 @@ final class CartViewController: UIViewController {
         author: URL(string: "https://sharp_matsumoto.fakenfts.org/") ?? URL(fileURLWithPath: ""),
         id: "82570704-14ac-4679-9436-050f4a32a8a0"
     ),
-    NftViewModel(
+    NftResultModel(
         createdAt: "2023-06-07T18:53:46.914Z[GMT]".toDate(),
         name: "Mamie Norton",
         image: UIImage.cartImage2,
@@ -35,7 +35,7 @@ final class CartViewController: UIViewController {
         id: "9810d484-c3fc-49e8-bc73-f5e602c36b40"
     )]
     
-    private var visibleNFTArray: [NftViewModel] = []
+    private var visibleNFTArray: [NftResultModel] = []
     
     // MARK: - Private constants
     
@@ -158,7 +158,7 @@ final class CartViewController: UIViewController {
         }
     }
     
-    private func appendNftArray(with nft: NftViewModel, image: UIImage) {
+    private func appendNftArray(with nft: NftResultModel, image: UIImage) {
         visibleNFTArray.append(nft)
         updateTableView()
     }
@@ -206,8 +206,8 @@ final class CartViewController: UIViewController {
         case byName = 2
     }
     
-    private func filterVisibleNFTArray(by sortCondition: Int) -> [NftViewModel] {
-        var filteredNFTs: [NftViewModel] = []
+    private func filterVisibleNFTArray(by sortCondition: Int) -> [NftResultModel] {
+        var filteredNFTs: [NftResultModel] = []
         switch sortCondition {
         case SortCondition.byPrice.rawValue:
             filteredNFTs = visibleNFTArray.sorted { $0.price < $1.price }

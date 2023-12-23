@@ -1,6 +1,6 @@
 import UIKit
 
-struct Nft: Decodable {
+struct NftNetworkModel: Decodable {
     let createdAt: String
     let name: String
     let images: [URL]
@@ -11,7 +11,7 @@ struct Nft: Decodable {
     let id: String
 }
 
-struct NftViewModel {
+struct NftResultModel {
     let createdAt: Date
     let name: String
     let image: UIImage?
