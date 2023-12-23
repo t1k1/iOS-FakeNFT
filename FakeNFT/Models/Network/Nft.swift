@@ -14,7 +14,7 @@ struct NftNetworkModel: Decodable {
 struct NftResultModel {
     let createdAt: Date
     let name: String
-    let image: UIImage?
+    let images: [URL]
     let rating: Int
     let description: String
     let price: Float

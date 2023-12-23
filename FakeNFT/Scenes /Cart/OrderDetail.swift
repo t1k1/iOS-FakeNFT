@@ -64,14 +64,4 @@ final class OrderDetailImpl {
             }
         }
     }
-    
-//    private func presentNfts() {
-//
-//        let servicesAssembly = ServicesAssembly(
-//            networkClient: DefaultNetworkClient(),
-//            nftStorage: NftStorageImpl()
-//        )
-//
-//        let vc = NftsViewController(servicesAssembly: servicesAssembly, service: servicesAssembly.nftService, idsFromOrder: order.nfts)
-//    }
 }

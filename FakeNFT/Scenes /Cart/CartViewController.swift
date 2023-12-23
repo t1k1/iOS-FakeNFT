@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 final class CartViewController: UIViewController {
     
@@ -35,7 +36,11 @@ final class CartViewController: UIViewController {
 //        id: "9810d484-c3fc-49e8-bc73-f5e602c36b40"
 //    )]
     
-    private var nftArray: [NftResultModel] = []
+    private var nftArray: [NftResultModel] = [] {
+        didSet {
+            updateTableView()
+        }
+    }
     
     private var visibleNftArray: [NftResultModel] = []
     
@@ -50,7 +55,7 @@ final class CartViewController: UIViewController {
     
     // MARK: - Private mutable properties
     
-    private var order: OrderResult = OrderResult(nfts: [], id: "")
+    private lazy var order: OrderResult = OrderResult(nfts: [], id: "")
     
     private lazy var orderDetail = OrderDetailImpl(
         servicesAssembly: servicesAssembly,
@@ -58,6 +63,7 @@ final class CartViewController: UIViewController {
         delegate: self
     )
     
+    private lazy var nftDetail = NftDetailImpl(servicesAssembly: servicesAssembly, service: servicesAssembly.nftService, delegate: self)
     
     private lazy var emptyCartLabel: UILabel = {
         let label = UILabel()
@@ -169,6 +175,7 @@ final class CartViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        updateTableView()
     }
     
     private func setFirstStartSortConfiguration() {
@@ -273,12 +280,14 @@ final class CartViewController: UIViewController {
 // MARK: - OrderDetailProtocol
 extension CartViewController: OrderDetailProtocol {
     func sendLoaded(order: OrderResult) {
-        print("order loaded \(order.nfts.count)")
-        order.nfts.forEach { _ in
-            let nft = NftResultModel(createdAt: Date(), name: "", image: UIImage(), rating: 0, description: "", price: 0, author: URL(string: ""), id: "")
-            nftArray.append(nft)
-        }
-        updateTableView()
+        self.order = order
+        nftDetail.startNftLoading(nftIds: order.nfts)
+    }
+}
+
+extension CartViewController: NftDetailProtocol {
+    func sendLoaded(nfts: [NftResultModel]) {
+        self.nftArray = nfts
     }
 }
 
@@ -294,14 +303,30 @@ extension CartViewController: UITableViewDataSource {
         guard let cartTableViewCell = cell as? CartTableViewCell else {
             return UITableViewCell()
         }
+        
         cartTableViewCell.configCell(
             at: indexPath,
-            image: visibleNftArray[indexPath.row].image ?? UIImage(),
+            image: UIImage(),
             name: visibleNftArray[indexPath.row].name,
             price: visibleNftArray[indexPath.row].price,
             currency: NSLocalizedString("cart.cartViewController.eth", comment: ""),
             rating: visibleNftArray[indexPath.row].rating
         )
+        
+//        var image = UIImage()
+//        KingfisherManager.shared.retrieveImage(with: visibleNftArray[indexPath.row].images[0]) { result in
+//            switch result {
+//            case .success (let value):
+//                image = value.image
+//            case .failure (let error):
+//                print("\(error)")
+//            }
+//        }
+//        let scaleFactor = (image.size.width > image.size.height ? image.size.width : image.size.height) / 108
+//        image = image.scalePreservingAspectRatio(targetSizeScale: scaleFactor)
+//
+//        cartTableViewCell.previewImage.image = image
+        
         
         cartTableViewCell.delegate = self
         return cartTableViewCell
@@ -315,7 +340,8 @@ extension CartViewController: CartTableViewCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }
-        let vc = CartDeleteItemViewController(nftImage: visibleNftArray[indexPath.row].image ?? UIImage(), indexPath: indexPath)
+        
+        let vc = CartDeleteItemViewController(nftImage: cell.previewImage.image ?? UIImage(), indexPath: indexPath)
         vc.delegate = self
         vc.modalPresentationStyle = .overCurrentContext
         vc.modalTransitionStyle = .crossDissolve

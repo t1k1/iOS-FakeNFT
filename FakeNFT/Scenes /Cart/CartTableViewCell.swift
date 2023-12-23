@@ -22,7 +22,7 @@ final class CartTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var previewImage: UIImageView = {
+    lazy var previewImage: UIImageView = {
         let image = UIImage()
         let imageView = UIImageView(image: image)
         imageView.layer.cornerRadius = 12
@@ -104,7 +104,9 @@ final class CartTableViewCell: UITableViewCell {
         addSubview(previewImage)
         NSLayoutConstraint.activate([
             previewImage.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            previewImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16)
+            previewImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            previewImage.widthAnchor.constraint(greaterThanOrEqualToConstant: 108),
+            previewImage.heightAnchor.constraint(greaterThanOrEqualToConstant: 108)
         ])
 
         addSubview(nameLabel)

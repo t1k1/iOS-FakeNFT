@@ -6,7 +6,7 @@ enum NftsDetailState {
     case initial, loading, failed(Error), data(NftNetworkModel)
 }
 
-final class NftsViewController: UIViewController {
+final class NftsDetail {
     
     private let servicesAssembly: ServicesAssembly
     private let service: NftServiceProtocol
