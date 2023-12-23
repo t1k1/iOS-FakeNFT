@@ -18,7 +18,7 @@ final class ServicesAssembly {
         )
     }
     
-    var orderSercive: OrderServiceProtocol {
+    var orderService: OrderServiceProtocol {
         OrderServiceImpl(
             networkClient: networkClient
         )

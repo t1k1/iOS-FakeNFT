@@ -10,7 +10,11 @@ final class OrderViewController: UIViewController {
     private let servicesAssembly: ServicesAssembly
     private let service: OrderServiceProtocol
     
-    private var order: OrderResult = OrderResult(nfts: [], id: "")
+    private var order: OrderResult = OrderResult(nfts: [], id: "") {
+        didSet {
+            presentNfts()
+        }
+    }
     private var state = OrderDetailState.initial {
         didSet {
             stateDidChanged()
@@ -87,13 +91,21 @@ final class OrderViewController: UIViewController {
         }
     }
     
+    private func presentNfts() {
+        
+        let servicesAssembly = ServicesAssembly(
+            networkClient: DefaultNetworkClient(),
+            nftStorage: NftStorageImpl()
+        )
+        
+        let vc = NftsViewController(servicesAssembly: servicesAssembly, service: servicesAssembly.nftService, idsFromOrder: order.nfts)
+        
+        show(vc, sender: self)
+    }
+    
     @objc
     private func makeRequest() {
         state = OrderDetailState.loading
-    }
-    
-    private enum Constants {
-        static let testNftId = "c14cf3bc-7470-4eec-8a42-5eaa65f4053c"
     }
     
 }

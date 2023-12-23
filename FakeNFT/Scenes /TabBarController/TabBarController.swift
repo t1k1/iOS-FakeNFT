@@ -34,7 +34,7 @@ final class TabBarController: UITabBarController {
         
         let orderViewController = OrderViewController(
             servicesAssembly: servicesAssembly,
-            service: servicesAssembly.orderSercive
+            service: servicesAssembly.orderService
         )
         
         orderViewController.tabBarItem = orderTabBarItem
