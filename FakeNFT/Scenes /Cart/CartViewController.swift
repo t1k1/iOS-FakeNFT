@@ -3,43 +3,6 @@ import Kingfisher
 
 final class CartViewController: UIViewController {
     
-    // MARK: - Mock properties
-//    private var nftArray: [NftResultModel] = [
-//    NftResultModel(
-//        createdAt: "2023-09-27T23:48:21.462Z[GMT]".toDate(),
-//        name: "Cervantes",
-//        image: UIImage.cartImage0,
-//        rating: 8,
-//        description: "eloquentiam deterruisset tractatos repudiandae nunc a electram",
-//        price: 39.37,
-//        author: URL(string: "https://priceless_leavitt.fakenfts.org/") ?? URL(fileURLWithPath: ""),
-//        id: "c14cf3bc-7470-4eec-8a42-5eaa65f4053c"
-//    ),
-//    NftResultModel(
-//        createdAt: "2023-09-18T00:04:07.524Z[GMT]".toDate(),
-//        name: "Yang",
-//        image: UIImage.cartImage1,
-//        rating: 5,
-//        description: "leo liber nobis nisi animal posidonium facilisi mauris",
-//        price: 8.04,
-//        author: URL(string: "https://sharp_matsumoto.fakenfts.org/") ?? URL(fileURLWithPath: ""),
-//        id: "82570704-14ac-4679-9436-050f4a32a8a0"
-//    ),
-//    NftResultModel(
-//        createdAt: "2023-06-07T18:53:46.914Z[GMT]".toDate(),
-//        name: "Mamie Norton",
-//        image: UIImage.cartImage2,
-//        rating: 2,
-//        description: "voluptaria equidem oporteat volutpat nisi interdum quas",
-//        price: 31.64,
-//        author: URL(string: "https://affectionate_bassi.fakenfts.org/") ?? URL(fileURLWithPath: ""),
-//        id: "9810d484-c3fc-49e8-bc73-f5e602c36b40"
-//    )]
-    
-    private var nftArray: [NftResultModel] = []
-    
-    private var visibleNftArray: [NftResultModel] = []
-    
     // MARK: - Private constants
     
     private let cartStorage = CartStorageImpl()
@@ -51,7 +14,11 @@ final class CartViewController: UIViewController {
     
     // MARK: - Private mutable properties
     
-    private lazy var order: OrderResult = OrderResult(nfts: [], id: "")
+    private var nftArray: [NftResultModel] = []
+    
+    private var visibleNftArray: [NftResultModel] = []
+    
+    private var order: OrderResult = OrderResult(nfts: [], id: "")
     
     private lazy var orderDetail = OrderDetailImpl(
         servicesAssembly: servicesAssembly,
@@ -161,6 +128,7 @@ final class CartViewController: UIViewController {
         setFirstStartSortConfiguration()
         configureConstraints()
         tableViewConfiguration()
+        updateTableView()
         
     }
     
@@ -168,7 +136,6 @@ final class CartViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
         self.orderDetail.startOrderLoading()
-        updateTableView()
     }
     
     private func setFirstStartSortConfiguration() {
@@ -243,18 +210,18 @@ final class CartViewController: UIViewController {
     }
     
     private func showSortOptions() {
-            presentBottomAlert(
-                title: NSLocalizedString("cart.cartViewController.bottomAlertSort", comment: ""),
-                buttons: [
-                    NSLocalizedString("cart.cartViewController.bottomAlertSortByPrice", comment: ""),
-                    NSLocalizedString("cart.cartViewController.bottomAlertSortByRating", comment: ""),
-                    NSLocalizedString("cart.cartViewController.bottomAlertSortByName", comment: ""),
-                ]) { selectedIndex in
-                    self.cartStorage.sortCondition = selectedIndex
-                    self.updateTableView()
-                }
+        presentBottomAlert(
+            title: NSLocalizedString("cart.cartViewController.bottomAlertSort", comment: ""),
+            buttons: [
+                NSLocalizedString("cart.cartViewController.bottomAlertSortByPrice", comment: ""),
+                NSLocalizedString("cart.cartViewController.bottomAlertSortByRating", comment: ""),
+                NSLocalizedString("cart.cartViewController.bottomAlertSortByName", comment: ""),
+            ]) { selectedIndex in
+                self.cartStorage.sortCondition = selectedIndex
+                self.updateTableView()
             }
-        
+    }
+    
     
     // MARK: - Objective-C functions
     @objc
@@ -290,9 +257,7 @@ extension CartViewController: OrderDetailProtocol {
             }
             nftArray = nfts
         }
-        updateTableView()
-        self.nftDetail.startNftLoading(nftIds: order.nfts)
-        
+        nftDetail.startNftLoading(nftIds: order.nfts)
     }
 }
 
@@ -325,25 +290,23 @@ extension CartViewController: UITableViewDataSource {
             rating: visibleNftArray[indexPath.row].rating
         )
         
+        updateImage(at: indexPath, cartTableViewCell: cartTableViewCell)
+        
+        cartTableViewCell.delegate = self
+        return cartTableViewCell
+    }
+    
+    private func updateImage(at indexPath: IndexPath, cartTableViewCell: CartTableViewCell) {
         if visibleNftArray[indexPath.row].images.count > 0 {
             cartTableViewCell.activityIndicator.startAnimating()
             let processor = DownsamplingImageProcessor(size: CGSize(width: 108, height: 108))
             cartTableViewCell.previewImage.kf.setImage(with: self.visibleNftArray[indexPath.row].images[0], options: [.processor(processor)]) { result in
                 cartTableViewCell.activityIndicator.stopAnimating()
-                switch result {
-                case .success (_):
-                    cartTableViewCell.previewImage.contentMode = UIView.ContentMode.scaleAspectFill
-                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
-                case .failure (let error):
-                    print("\(error)")
-                }
             }
         }
-        
-        cartTableViewCell.delegate = self
-        return cartTableViewCell
     }
 }
+
 
 // MARK: - TableViewCellDelegate
 extension CartViewController: CartTableViewCellDelegate {
@@ -372,7 +335,7 @@ extension CartViewController: CartDeleteItemViewControllerDelegate {
 extension CartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
-    }    
+    }
 }
 
 // MARK: - Configure constraints
@@ -407,7 +370,7 @@ private extension CartViewController {
                 totalLabel.topAnchor.constraint(equalTo: payUIView.topAnchor, constant: 16),
                 totalLabel.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 16)
             ])
-
+            
             payUIView.addSubview(costLabel)
             NSLayoutConstraint.activate([
                 costLabel.bottomAnchor.constraint(equalTo: payUIView.bottomAnchor, constant: -16),

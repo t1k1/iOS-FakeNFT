@@ -9,15 +9,14 @@ protocol OrderDetailProtocol: AnyObject {
     func sendLoaded(order: OrderResult)
 }
 
-final class OrderDetailImpl {    
-    
-    weak var delegete: OrderDetailProtocol?
+final class OrderDetailImpl {
     
     private let servicesAssembly: ServicesAssembly
     private let service: OrderServiceProtocol
     
-    private var order: OrderResult = OrderResult(nfts: [], id: "")
+    weak var delegete: OrderDetailProtocol?
     
+    private var order: OrderResult = OrderResult(nfts: [], id: "")
     private var state = OrderDetailState.initial {
         didSet {
             stateDidChanged()
@@ -42,7 +41,6 @@ final class OrderDetailImpl {
             ProgressHUD.show()
             loadOrder()
         case .data(let orderResult):
-            ProgressHUD.dismiss()
             let orderModel = OrderResult(
                 nfts: orderResult.nfts,
                 id: orderResult.id)

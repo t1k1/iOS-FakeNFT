@@ -12,20 +12,17 @@ protocol NftsDetailProtocol: AnyObject {
 
 final class NftsDetailImpl {
     
-    weak var delegate: NftsDetailProtocol?
-    
     private let servicesAssembly: ServicesAssembly
     private let service: NftsServiceProtocol
     
+    weak var delegate: NftsDetailProtocol?
     
     private var ids: [String] = []
-    
     private var loadedNfts: [NftResultModel] = [] {
         didSet {
             self.delegate?.sendLoaded(nfts: loadedNfts)
         }
-    }
-    
+    }    
     private var state = NftsDetailState.initial {
         didSet {
             stateDidChanged()
@@ -49,7 +46,6 @@ final class NftsDetailImpl {
         case .initial:
             assertionFailure("can`t move to initial state")
         case .loading:
-            ProgressHUD.show()
             loadNfts(ids: ids)
         case .data(let nftsResult):
             ProgressHUD.dismiss()
@@ -70,7 +66,6 @@ final class NftsDetailImpl {
             ProgressHUD.dismiss()
             print("error \(error)")
         }
-        
     }
     
     private func loadNfts(ids: [String]) {
@@ -83,5 +78,4 @@ final class NftsDetailImpl {
             }
         }
     }
-    
 }
