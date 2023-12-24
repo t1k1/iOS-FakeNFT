@@ -119,10 +119,20 @@ struct DefaultNetworkClient: NetworkClient {
         
         urlRequest.httpMethod = request.httpMethod.rawValue
 
-        if let dto = request.dto,
-           let dtoEncoded = try? encoder.encode(dto) {
+        
+        
+        if urlRequest.httpMethod == HttpMethod.put.rawValue {
             urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            urlRequest.httpBody = dtoEncoded
+            if let body = request.body {
+                //encoder.keyEncodingStrategy = .convertToSnakeCase
+                urlRequest.httpBody = body
+            }
+        } else {
+            if let dto = request.dto,
+               let dtoEncoded = try? encoder.encode(dto) {
+                urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                urlRequest.httpBody = dtoEncoded
+            }
         }
         
         urlRequest.setValue("Keep-alive", forHTTPHeaderField: "Connection")

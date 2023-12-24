@@ -22,6 +22,8 @@ final class OrderDetailImpl {
             stateDidChanged()
         }
     }
+    
+    private var httpMethod = HttpMethod.get
 
     init(servicesAssembly: ServicesAssembly, service: OrderServiceProtocol, delegate: OrderDetailProtocol) {
         self.servicesAssembly = servicesAssembly
@@ -29,7 +31,9 @@ final class OrderDetailImpl {
         self.delegete = delegate
     }
     
-    func startOrderLoading() {
+    func startOrderLoading(order: OrderResult, httpMethod: HttpMethod) {
+        self.httpMethod = httpMethod
+        self.order = order
         state = .loading
     }
     
@@ -39,7 +43,15 @@ final class OrderDetailImpl {
             assertionFailure("can`t move to initial state")
         case .loading:
             ProgressHUD.show()
-            loadOrder()
+            if httpMethod == HttpMethod.get {
+                loadOrder(id: order.id)
+            } else {
+                let orderToPut = OrderNetworkModel(
+                    nfts: order.nfts,
+                    id: order.id)
+                putOrder(order: orderToPut)
+            }
+            
         case .data(let orderResult):
             let orderModel = OrderResult(
                 nfts: orderResult.nfts,
@@ -52,8 +64,19 @@ final class OrderDetailImpl {
         }
     }
     
-    private func loadOrder() {
+    private func loadOrder(id: String) {
         service.loadOrder(id: "1") { [weak self] result in
+            switch result {
+            case .success(let orderResult):
+                self?.state = .data(orderResult)
+            case .failure(let error):
+                self?.state = .failed(error)
+            }
+        }
+    }
+    
+    private func putOrder(order: OrderNetworkModel) {
+        service.putOrder(order: order) { [weak self] result in
             switch result {
             case .success(let orderResult):
                 self?.state = .data(orderResult)

@@ -4,6 +4,7 @@ typealias OrderCompletion = (Result<OrderNetworkModel, Error>) -> Void
 
 protocol OrderServiceProtocol {
     func loadOrder(id: String, completion: @escaping OrderCompletion)
+    func putOrder(order: OrderNetworkModel, completion: @escaping OrderCompletion)
 }
 
 final class OrderServiceImpl: OrderServiceProtocol {
@@ -25,4 +26,17 @@ final class OrderServiceImpl: OrderServiceProtocol {
             }
         }
     }
+    
+    func putOrder(order: OrderNetworkModel, completion: @escaping OrderCompletion) {
+        let request = OrderPutRequest(order: order)
+        networkClient.send(request: request, type: OrderNetworkModel.self) { result in
+            switch result {
+            case .success(let order):
+                completion(.success(order))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
 }

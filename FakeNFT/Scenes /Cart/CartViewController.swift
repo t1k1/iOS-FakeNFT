@@ -129,13 +129,12 @@ final class CartViewController: UIViewController {
         configureConstraints()
         tableViewConfiguration()
         updateTableView()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
-        self.orderDetail.startOrderLoading()
+        self.orderDetail.startOrderLoading(order: order, httpMethod: HttpMethod.get)
     }
     
     private func setFirstStartSortConfiguration() {
@@ -152,7 +151,12 @@ final class CartViewController: UIViewController {
     
     private func deleteFromNftArray(at row: Int) {
         visibleNftArray.remove(at: row)
-        updateTableView()
+        var nfts: [String] = []
+        visibleNftArray.forEach { nft in
+            nfts.append(nft.id)
+        }
+        let orderToPut = OrderResult(nfts: nfts, id: order.id)
+        self.orderDetail.startOrderLoading(order: orderToPut, httpMethod: HttpMethod.put)
     }
     
     private func updateTableView() {
