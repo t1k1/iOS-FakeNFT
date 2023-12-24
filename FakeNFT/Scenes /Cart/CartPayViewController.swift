@@ -241,7 +241,8 @@ extension CartPayViewController: UICollectionViewDataSource {
 extension CartPayViewController: UICollectionViewDelegateFlowLayout {
     /// Set layout width and height
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.bounds.width / 2 - 3.5) - 16, height: 46)
+        let automaticWidth = (collectionView.bounds.width / 2 - 3.5) - 16
+        return CGSize(width: automaticWidth, height: 46)
     }
     /// Set layout horizontal spacing
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
