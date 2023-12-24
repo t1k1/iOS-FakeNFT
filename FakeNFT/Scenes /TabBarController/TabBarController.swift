@@ -28,12 +28,10 @@ final class TabBarController: UITabBarController {
         
         catalogController.tabBarItem = catalogTabBarItem
         
-        let cartController = CartViewController()
+        let navigationController = UINavigationController(rootViewController: CartViewController())
+        navigationController.tabBarItem = cartTabBarItem
         
-        cartController.tabBarItem = cartTabBarItem
-        
-        viewControllers = [catalogController, cartController]
-        selectedIndex = 1
+        viewControllers = [catalogController, navigationController]
         
         view.backgroundColor = UIColor.ypWhiteDay
         tabBar.backgroundColor = UIColor.ypWhiteDay

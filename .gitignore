@@ -90,3 +90,7 @@ fastlane/test_output
 iOSInjectionProject/
 
 .DS_Store
+
+# SwiftGen
+
+FakeNFT/SwiftGen/Assets.generated.swift

@@ -8,6 +8,14 @@ public extension UIImage {
   static let cartImage0: UIImage = UIImage(named: "Cart Image 0")!
   static let cartImage1: UIImage = UIImage(named: "Cart Image 1")!
   static let cartImage2: UIImage = UIImage(named: "Cart Image 2")!
+  static let criptoADA: UIImage = UIImage(named: "Cripto ADA")!
+  static let criptoAPE: UIImage = UIImage(named: "Cripto APE")!
+  static let criptoBTC: UIImage = UIImage(named: "Cripto BTC")!
+  static let criptoDOGE: UIImage = UIImage(named: "Cripto DOGE")!
+  static let criptoETH: UIImage = UIImage(named: "Cripto ETH")!
+  static let criptoSHIB: UIImage = UIImage(named: "Cripto SHIB")!
+  static let criptoSOL: UIImage = UIImage(named: "Cripto SOL")!
+  static let criptoUSDT: UIImage = UIImage(named: "Cripto USDT")!
   static let plusAdd: UIImage = UIImage(named: "Plus add")!
   static let profile: UIImage = UIImage(named: "Profile")!
   static let sort: UIImage = UIImage(named: "Sort")!
@@ -29,6 +37,7 @@ public extension UIImage {
   static let statistics: UIImage = UIImage(named: "statistics")!
   static let сart: UIImage = UIImage(named: "сart")!
   static let сatalog: UIImage = UIImage(named: "сatalog")!
+  static let successPay: UIImage = UIImage(named: "Success Pay")!
 }
 
 // MARK: - Colors

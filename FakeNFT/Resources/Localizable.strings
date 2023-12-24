@@ -19,5 +19,19 @@
 "cart.cartDeleteItemViewController.back" = "Вернуться";
 "cart.cartDeleteItemViewController.infoText" = "Вы уверены, что хотите \n удалить объект из корзины?";
 
+"cart.cartPayViewController.title" = "Выберите способ оплаты";
+"cart.cartPayViewController.pay" = "Оплатить";
+"cart.cartPayViewController.agreement" = "Совершая покупку, вы соглашаетесь с условиями";
+"cart.cartPayViewController.agreementLink" = "Пользовательского соглашения";
+"cart.cartPayViewController.errorMessage" = "Не удалось произвести оплату";
+"cart.cartPayViewController.errorCancel" = "Отмена";
+"cart.cartPayViewController.errorRepeat" = "Повторить";
+"cart.cartPayViewController.errorCurrency" = "Сначала выберите валюту для оплаты";
+
+"cart.cartPaySuccessViewController.title" = "Успех! Оплата прошла, поздравляем с покупкой!";
+"cart.cartPaySuccessViewController.backToCatalog" = "Вернуться в каталог";
+
 "extensions.uiViewController.bottomAlertCancel" = "Отмена";
+
+"common.protocols.errorTitle" = "Ошибка";
 
