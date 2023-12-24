@@ -4,6 +4,7 @@ final class TabBarController: UITabBarController {
     
     let servicesAssembly = ServicesAssembly(
         networkClient: DefaultNetworkClient(),
+        nftStorageTest: NftStorageImplTest(),
         nftStorage: NftStorageImpl()
     )
     
@@ -28,7 +29,11 @@ final class TabBarController: UITabBarController {
             servicesAssembly: servicesAssembly
         )
         
-        let catalogViewController = CatalogViewController()
+        let catalogViewController = CatalogViewController(
+            servicesAssembly: servicesAssembly,
+            service: servicesAssembly.collectionsService
+        )
+        
         let navigationController = UINavigationController(rootViewController: catalogViewController)
         
         navigationController.tabBarItem = catalogTabBarItem

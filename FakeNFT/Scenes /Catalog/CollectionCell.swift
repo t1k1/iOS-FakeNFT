@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class CollectionCell: UICollectionViewCell {
     
@@ -13,10 +14,13 @@ final class CollectionCell: UICollectionViewCell {
     
     static let reuseIdentifier = "CollectionCell"
     
+    //MARK: - Layout variables
+    
     private lazy var nftImageView: UIImageView = {
-        let image = UIImage(named: "NFT card")
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
+        imageView.frame = CGRect(x: 0, y: 0, width: 108, height: 108)
         imageView.layer.cornerRadius = 12
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         
         return imageView
@@ -36,8 +40,7 @@ final class CollectionCell: UICollectionViewCell {
     }()
     
     private lazy var starsImageView: UIImageView = {
-        let image = UIImage(named: "stars3")
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         
         return imageView
@@ -45,7 +48,6 @@ final class CollectionCell: UICollectionViewCell {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Archie"
         label.textColor = .ypBlackDay
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         
@@ -54,7 +56,6 @@ final class CollectionCell: UICollectionViewCell {
     
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
-        label.text = "1 ETH"
         label.textColor = .ypBlackDay
         label.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         
@@ -87,6 +88,29 @@ final class CollectionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Public Methods
+    
+    func configure(imagesString: String, rating: Int, name:String, price: Float) {
+        let imageURL = URL(string: imagesString)
+        let level = Int(ceil(Double(rating) / 2.0))
+        let memoryOnlyOptions: KingfisherOptionsInfoItem = .cacheMemoryOnly
+        
+        nftImageView.kf.indicatorType = .activity
+        nftImageView.kf.setImage(with: imageURL, options: [memoryOnlyOptions]) { [weak self] result in
+            switch result {
+            case .success(let value):
+                self?.nftImageView.image = value.image
+            case .failure(let error):
+                print("Error loading image: \(error)")
+            }
+            self?.nftImageView.kf.indicatorType = .none
+        }
+        
+        starsImageView.image = UIImage(named: "stars\(level)")
+        nameLabel.text = name
+        priceLabel.text = "\(price) ETH"
+    }
+    
     // MARK: - IBAction
     
     @objc private func didTapLikeButton() {
@@ -110,20 +134,15 @@ final class CollectionCell: UICollectionViewCell {
     // MARK: - Private Methods
     
     private func addSubViews() {
-        [nftImageView, likeButton, starsImageView, nameLabel, priceLabel, cartButton].forEach {
-            contentView.addSubview($0)
+        contentView.addSubview(nftImageView)
+        [likeButton, starsImageView, nameLabel, priceLabel, cartButton].forEach {
+            contentView.addSubview($0);
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
     
     private func applyConstraints() {
         NSLayoutConstraint.activate([
-            nftImageView.heightAnchor.constraint(equalToConstant: 108),
-            nftImageView.widthAnchor.constraint(equalToConstant: 108),
-            nftImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            nftImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            nftImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
             likeButton.heightAnchor.constraint(equalToConstant: 40),
             likeButton.widthAnchor.constraint(equalToConstant: 40),
             likeButton.topAnchor.constraint(equalTo: contentView.topAnchor),

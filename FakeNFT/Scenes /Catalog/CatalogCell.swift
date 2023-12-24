@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class CatalogCell: UITableViewCell {
     
@@ -16,10 +17,9 @@ final class CatalogCell: UITableViewCell {
     //MARK: - Layout variables
     
     private lazy var catalogImageView: UIImageView = {
-        let image = UIImage(named: "Cover1.png")
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
         imageView.layer.cornerRadius = 12
-        imageView.contentMode = .top
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         
         return imageView
@@ -27,25 +27,34 @@ final class CatalogCell: UITableViewCell {
     
     private lazy var footerLabel: UILabel = {
         let label = UILabel()
-        label.text = "Peach (10)"
         label.textColor = .ypBlackDay
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         
         return label
     }()
     
-    // MARK: - Lifecycle
+    // MARK: - Public Methods
     
-    func configureCell() {
+    func configureCell(name: String, nftCount: Int, cover: String) {
         contentView.backgroundColor = .ypWhiteDay
         addSubViews()
         applyConstraints()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         
-        updateImageSize()
+        footerLabel.text = "\(name) (\(nftCount))"
+        
+        let imageURL = URL(string: cover)
+        let memoryOnlyOptions: KingfisherOptionsInfoItem = .cacheMemoryOnly
+        
+        catalogImageView.kf.indicatorType = .activity
+        catalogImageView.kf.setImage(with: imageURL, options: [memoryOnlyOptions]) { [weak self] result in
+            switch result {
+            case .success(let value):
+                self?.catalogImageView.image = value.image
+            case .failure(let error):
+                print("Error loading image: \(error)")
+            }
+            self?.catalogImageView.kf.indicatorType = .none
+        }
     }
     
     // MARK: - Private Methods
@@ -70,29 +79,5 @@ final class CatalogCell: UITableViewCell {
             footerLabel.trailingAnchor.constraint(equalTo: catalogImageView.trailingAnchor),
             footerLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13)
         ])
-    }
-    
-    private func updateImageSize() {
-        guard let originalImage = catalogImageView.image else {
-            return
-        }
-        
-        let imageViewWidth = catalogImageView.bounds.width
-        let scale = imageViewWidth / originalImage.size.width
-        let newImageHeight = originalImage.size.height * scale
-        
-        let newSize = CGSize(width: imageViewWidth, height: newImageHeight)
-        if let resizedImage = originalImage.resized(to: newSize) {
-            catalogImageView.image = resizedImage
-        }
-    }
-}
-
-extension UIImage {
-    func resized(to newSize: CGSize) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
-        defer { UIGraphicsEndImageContext() }
-        draw(in: CGRect(origin: .zero, size: newSize))
-        return UIGraphicsGetImageFromCurrentImageContext()
     }
 }

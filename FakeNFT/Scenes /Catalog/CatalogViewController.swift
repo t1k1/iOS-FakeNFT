@@ -6,8 +6,50 @@
 //
 
 import UIKit
+import ProgressHUD
+
+// MARK: - State
+
+enum CatalogDetailState {
+    case initial, loading, failed(Error), data([CollectionsResult])
+}
 
 final class CatalogViewController: UIViewController {
+    
+    enum SortingOption: Int {
+        case defaultSorting
+        case name
+        case quantity
+    }
+    
+    // MARK: - private Properties
+    
+    private var collections: [CollectionsModel] = []
+    private var originalCollections: [CollectionsModel] = []
+    private var currentSortingOption: SortingOption = .defaultSorting
+    
+    // MARK: - Private Constants
+    
+    private let servicesAssembly: ServicesAssembly
+    private let service: CollectionsService
+    private let userDefaults = UserDefaultsManager.shared
+    private var state = CatalogDetailState.initial {
+        didSet {
+            stateDidChanged()
+        }
+    }
+    
+    // MARK: - Init
+    
+    init(servicesAssembly: ServicesAssembly, service: CollectionsService) {
+        self.servicesAssembly = servicesAssembly
+        self.service = service
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - Layout variables
     
@@ -42,8 +84,10 @@ final class CatalogViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhiteDay
+        currentSortingOption = userDefaults.loadSortingOption()
         addSubViews()
         applyConstraints()
+        state = .loading
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,16 +137,18 @@ final class CatalogViewController: UIViewController {
             title: "По названию",
             style: .default
         ) { [weak self] _ in
-            self?.dismiss(animated: true)
-            //TODO: Module 2
+            guard let self = self else { return }
+            self.currentSortingOption = .name
+            self.applySorting()
         }
         
         let sortQuantity = UIAlertAction(
             title: "По количеству NFT",
             style: .default
         ) { [weak self] _ in
-            self?.dismiss(animated: true)
-            //TODO: Module 2
+            guard let self = self else { return }
+            self.currentSortingOption = .quantity
+            self.applySorting()
         }
         
         let cancelAction = UIAlertAction(title: "Закрыть", style: .cancel, handler: nil)
@@ -113,13 +159,72 @@ final class CatalogViewController: UIViewController {
         
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    private func applySorting() {
+        ProgressHUD.show()
+        
+        switch currentSortingOption {
+        case .name:
+            collections = collections.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+        case .quantity:
+            collections.sort { $0.nfts.count > $1.nfts.count }
+        case .defaultSorting:
+            collections = originalCollections
+        }
+        
+        tableView.reloadData()
+        dismiss(animated: true)
+        ProgressHUD.dismiss()
+        userDefaults.saveSortingOption(currentSortingOption)
+    }
+    
+    private func stateDidChanged() {
+        switch state {
+        case .initial:
+            assertionFailure("can't move to initial state")
+        case .loading:
+            ProgressHUD.show()
+            loadCollections()
+        case .data(let collectionsResult):
+            let collectionsModel = collectionsResult.map { result in
+                CollectionsModel(
+                    createdAt: DateFormatter.defaultDateFormatter.date(from: result.createdAt),
+                    name: result.name,
+                    cover: result.cover,
+                    nfts: result.nfts,
+                    description: result.description,
+                    author: result.author,
+                    id: result.id
+                )
+            }
+            self.collections = collectionsModel
+            self.originalCollections = collections
+            applySorting()
+            tableView.reloadData()
+            ProgressHUD.dismiss()
+        case .failed(let error):
+            ProgressHUD.dismiss()
+            print("Error: \(error)")
+        }
+    }
+    
+    private func loadCollections() {
+        service.loadCollections() { [weak self] result in
+            switch result {
+            case .success(let collectionsResult):
+                self?.state = .data(collectionsResult)
+            case .failure(let error):
+                self?.state = .failed(error)
+            }
+        }
+    }
 }
 
 //MARK: - UITableViewDataSource
 
 extension CatalogViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return collections.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -129,7 +234,10 @@ extension CatalogViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        catalogCell.configureCell()
+        let collection = collections[indexPath.row]
+        let nftCount = collection.nfts.count
+        
+        catalogCell.configureCell(name: collection.name, nftCount: nftCount, cover: collection.cover)
         
         return catalogCell
     }
@@ -139,7 +247,16 @@ extension CatalogViewController: UITableViewDataSource {
 
 extension CatalogViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let collectionViewController = CollectionViewController()
+        let collectionViewController = CollectionViewController(
+            servicesAssembly: servicesAssembly,
+            service: servicesAssembly.nftService
+        )
+        let collection = collections[indexPath.row]
+        collectionViewController.catalogString = collection.name
+        collectionViewController.authorNameString = collection.author
+        collectionViewController.descriptionString = collection.description
+        collectionViewController.catalogImageString = collection.cover
+        collectionViewController.nftsIdString = collection.nfts
         collectionViewController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(collectionViewController, animated: true)
     }

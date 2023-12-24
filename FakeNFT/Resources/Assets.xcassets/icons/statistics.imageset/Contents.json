@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "No Active.png",
+      "filename" : "statistics@1x.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
     {
+      "filename" : "statistics@2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
+      "filename" : "statistics@3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }
