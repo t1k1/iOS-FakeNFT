@@ -1,47 +1,32 @@
 import UIKit
+import Kingfisher
 
 final class CartViewController: UIViewController {
-    
-    // MARK: - Mock properties
-    private var nftArray: [NftViewModel] = [
-    NftViewModel(
-        createdAt: "2023-09-27T23:48:21.462Z[GMT]".toDate(),
-        name: "Cervantes",
-        image: UIImage.cartImage0,
-        rating: 8,
-        description: "eloquentiam deterruisset tractatos repudiandae nunc a electram",
-        price: 39.37,
-        author: URL(string: "https://priceless_leavitt.fakenfts.org/") ?? URL(fileURLWithPath: ""),
-        id: "c14cf3bc-7470-4eec-8a42-5eaa65f4053c"
-    ),
-    NftViewModel(
-        createdAt: "2023-09-18T00:04:07.524Z[GMT]".toDate(),
-        name: "Yang",
-        image: UIImage.cartImage1,
-        rating: 5,
-        description: "leo liber nobis nisi animal posidonium facilisi mauris",
-        price: 8.04,
-        author: URL(string: "https://sharp_matsumoto.fakenfts.org/") ?? URL(fileURLWithPath: ""),
-        id: "82570704-14ac-4679-9436-050f4a32a8a0"
-    ),
-    NftViewModel(
-        createdAt: "2023-06-07T18:53:46.914Z[GMT]".toDate(),
-        name: "Mamie Norton",
-        image: UIImage.cartImage2,
-        rating: 2,
-        description: "voluptaria equidem oporteat volutpat nisi interdum quas",
-        price: 31.64,
-        author: URL(string: "https://affectionate_bassi.fakenfts.org/") ?? URL(fileURLWithPath: ""),
-        id: "9810d484-c3fc-49e8-bc73-f5e602c36b40"
-    )]
-    
-    private var visibleNFTArray: [NftViewModel] = []
     
     // MARK: - Private constants
     
     private let cartStorage = CartStorageImpl()
     
+    private let servicesAssembly = ServicesAssembly(
+        networkClient: DefaultNetworkClient(),
+        nftStorage: NftStorageImpl()
+    )
+    
     // MARK: - Private mutable properties
+    
+    private var nftArray: [NftResultModel] = []
+    
+    private var visibleNftArray: [NftResultModel] = []
+    
+    private var order: OrderResult = OrderResult(nfts: [], id: "")
+    
+    private lazy var orderDetail = OrderDetailImpl(
+        servicesAssembly: servicesAssembly,
+        service: servicesAssembly.orderService,
+        delegate: self
+    )
+    
+    private lazy var nftDetail = NftsDetailImpl(servicesAssembly: servicesAssembly, service: servicesAssembly.nftsService, delegate: self)
     
     private lazy var emptyCartLabel: UILabel = {
         let label = UILabel()
@@ -136,42 +121,45 @@ final class CartViewController: UIViewController {
     }()
     
     // MARK: - View controller lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypWhiteDay
-        setFirstStartConfiguration()
+        setFirstStartSortConfiguration()
         configureConstraints()
         tableViewConfiguration()
         updateTableView()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        self.orderDetail.startOrderLoading()
     }
     
-    private func setFirstStartConfiguration() {
-        visibleNFTArray = nftArray
+    private func setFirstStartSortConfiguration() {
         if cartStorage.isNotFisrtStart == false {
             cartStorage.sortCondition = SortCondition.byName.rawValue
             cartStorage.isNotFisrtStart = true
         }
     }
     
-    private func appendNftArray(with nft: NftViewModel, image: UIImage) {
-        visibleNFTArray.append(nft)
+    private func appendNftArray(with nft: NftResultModel, image: UIImage) {
+        visibleNftArray.append(nft)
         updateTableView()
     }
     
     private func deleteFromNftArray(at row: Int) {
-        visibleNFTArray.remove(at: row)
+        visibleNftArray.remove(at: row)
         updateTableView()
     }
     
     private func updateTableView() {
+        visibleNftArray = nftArray
         let sortCondition = cartStorage.sortCondition
-        visibleNFTArray = filterVisibleNFTArray(by: sortCondition)
-        isEmptyCartLabelVisible(visibleNFTArray.count == 0)
+        visibleNftArray = filterVisibleNFTArray(by: sortCondition)
+        isEmptyCartLabelVisible(visibleNftArray.count == 0)
         tableView.reloadData()
         updateTotalAndCostLabels()
     }
@@ -182,12 +170,12 @@ final class CartViewController: UIViewController {
     }
     
     private func calculateTotalNftNumber() -> Int {
-        return visibleNFTArray.count
+        return visibleNftArray.count
     }
     
     private func calculateTotalNfsPrice() -> Float {
         var eachPrice: [Float] = []
-        visibleNFTArray.forEach { nft in
+        visibleNftArray.forEach { nft in
             eachPrice.append(nft.price)
         }
         let totalCost = eachPrice.reduce(0, +)
@@ -206,15 +194,15 @@ final class CartViewController: UIViewController {
         case byName = 2
     }
     
-    private func filterVisibleNFTArray(by sortCondition: Int) -> [NftViewModel] {
-        var filteredNFTs: [NftViewModel] = []
+    private func filterVisibleNFTArray(by sortCondition: Int) -> [NftResultModel] {
+        var filteredNFTs: [NftResultModel] = []
         switch sortCondition {
         case SortCondition.byPrice.rawValue:
-            filteredNFTs = visibleNFTArray.sorted { $0.price < $1.price }
+            filteredNFTs = visibleNftArray.sorted { $0.price < $1.price }
         case SortCondition.byRating.rawValue:
-            filteredNFTs = visibleNFTArray.sorted { $0.rating < $1.rating }
+            filteredNFTs = visibleNftArray.sorted { $0.rating < $1.rating }
         case SortCondition.byName.rawValue:
-            filteredNFTs = visibleNFTArray.sorted { $0.name < $1.name }
+            filteredNFTs = visibleNftArray.sorted { $0.name < $1.name }
         default:
             break
         }
@@ -222,18 +210,18 @@ final class CartViewController: UIViewController {
     }
     
     private func showSortOptions() {
-            presentBottomAlert(
-                title: NSLocalizedString("cart.cartViewController.bottomAlertSort", comment: ""),
-                buttons: [
-                    NSLocalizedString("cart.cartViewController.bottomAlertSortByPrice", comment: ""),
-                    NSLocalizedString("cart.cartViewController.bottomAlertSortByRating", comment: ""),
-                    NSLocalizedString("cart.cartViewController.bottomAlertSortByName", comment: ""),
-                ]) { selectedIndex in
-                    self.cartStorage.sortCondition = selectedIndex
-                    self.updateTableView()
-                }
+        presentBottomAlert(
+            title: NSLocalizedString("cart.cartViewController.bottomAlertSort", comment: ""),
+            buttons: [
+                NSLocalizedString("cart.cartViewController.bottomAlertSortByPrice", comment: ""),
+                NSLocalizedString("cart.cartViewController.bottomAlertSortByRating", comment: ""),
+                NSLocalizedString("cart.cartViewController.bottomAlertSortByName", comment: ""),
+            ]) { selectedIndex in
+                self.cartStorage.sortCondition = selectedIndex
+                self.updateTableView()
             }
-        
+    }
+    
     
     // MARK: - Objective-C functions
     @objc
@@ -249,6 +237,37 @@ final class CartViewController: UIViewController {
     }
 }
 
+// MARK: - OrderDetailProtocol
+extension CartViewController: OrderDetailProtocol {
+    func sendLoaded(order: OrderResult) {
+        self.order = order
+        var nfts: [NftResultModel] = []
+        if nfts.count < 1 {
+            order.nfts.forEach { id in
+                let nft = NftResultModel(
+                    createdAt: Date(),
+                    name: "",
+                    images: [],
+                    rating: 0,
+                    description: "",
+                    price: 0,
+                    author: URL(string: ""),
+                    id: id)
+                nfts.append(nft)
+            }
+            nftArray = nfts
+        }
+        nftDetail.startNftLoading(nftIds: order.nfts)
+    }
+}
+
+extension CartViewController: NftsDetailProtocol {
+    func sendLoaded(nfts: [NftResultModel]) {
+        self.nftArray = nfts
+        updateTableView()
+    }
+}
+
 // MARK: - TableView Data Source
 extension CartViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -261,19 +280,33 @@ extension CartViewController: UITableViewDataSource {
         guard let cartTableViewCell = cell as? CartTableViewCell else {
             return UITableViewCell()
         }
+        
         cartTableViewCell.configCell(
             at: indexPath,
-            image: visibleNFTArray[indexPath.row].image ?? UIImage(),
-            name: visibleNFTArray[indexPath.row].name,
-            price: visibleNFTArray[indexPath.row].price,
+            image: UIImage(),
+            name: visibleNftArray[indexPath.row].name,
+            price: visibleNftArray[indexPath.row].price,
             currency: NSLocalizedString("cart.cartViewController.eth", comment: ""),
-            rating: visibleNFTArray[indexPath.row].rating
+            rating: visibleNftArray[indexPath.row].rating
         )
+        
+        updateImage(at: indexPath, cartTableViewCell: cartTableViewCell)
         
         cartTableViewCell.delegate = self
         return cartTableViewCell
     }
+    
+    private func updateImage(at indexPath: IndexPath, cartTableViewCell: CartTableViewCell) {
+        if visibleNftArray[indexPath.row].images.count > 0 {
+            cartTableViewCell.activityIndicator.startAnimating()
+            let processor = DownsamplingImageProcessor(size: CGSize(width: 108, height: 108))
+            cartTableViewCell.previewImage.kf.setImage(with: self.visibleNftArray[indexPath.row].images[0], options: [.processor(processor)]) { result in
+                cartTableViewCell.activityIndicator.stopAnimating()
+            }
+        }
+    }
 }
+
 
 // MARK: - TableViewCellDelegate
 extension CartViewController: CartTableViewCellDelegate {
@@ -282,7 +315,8 @@ extension CartViewController: CartTableViewCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }
-        let vc = CartDeleteItemViewController(nftImage: visibleNFTArray[indexPath.row].image ?? UIImage(), indexPath: indexPath)
+        
+        let vc = CartDeleteItemViewController(nftImage: cell.previewImage.image ?? UIImage(), indexPath: indexPath)
         vc.delegate = self
         vc.modalPresentationStyle = .overCurrentContext
         vc.modalTransitionStyle = .crossDissolve
@@ -301,7 +335,7 @@ extension CartViewController: CartDeleteItemViewControllerDelegate {
 extension CartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
-    }    
+    }
 }
 
 // MARK: - Configure constraints
@@ -336,7 +370,7 @@ private extension CartViewController {
                 totalLabel.topAnchor.constraint(equalTo: payUIView.topAnchor, constant: 16),
                 totalLabel.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 16)
             ])
-
+            
             payUIView.addSubview(costLabel)
             NSLayoutConstraint.activate([
                 costLabel.bottomAnchor.constraint(equalTo: payUIView.bottomAnchor, constant: -16),
