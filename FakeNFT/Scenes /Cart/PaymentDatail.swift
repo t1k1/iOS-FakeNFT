@@ -42,10 +42,10 @@ final class PaymentDetailImpl {
         case .initial:
             assertionFailure("can`t move to initial state")
         case .loading:
-            ProgressHUD.show()
+            UIBlockingProgressHUD.show()
             loadPayment(currency_id: payment.id)
         case .data(let paymentResult):
-            ProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismiss()
             let payment = PaymentResultModel(
                 success: paymentResult.success,
                 orderId: paymentResult.orderId,
@@ -54,7 +54,7 @@ final class PaymentDetailImpl {
             self.payment = payment
             self.delegete?.sendLoaded(payment: self.payment)
         case .failed(_):
-            ProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismiss()
             let paymentError = PaymentResultModel(
                 success: false,
                 orderId: payment.orderId,

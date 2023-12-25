@@ -42,10 +42,10 @@ final class CriptoDetailImpl {
         case .initial:
             assertionFailure("can`t move to initial state")
         case .loading:
-            ProgressHUD.show()
+            UIBlockingProgressHUD.show()
             loadCriptos()
         case .data(let criptos):
-            ProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismiss()
             criptos.forEach { cripto in
                 let cripto = CriptoResultModel(
                     title: cripto.title,
@@ -56,7 +56,7 @@ final class CriptoDetailImpl {
             }
             self.delegete?.sendLoaded(criptos: self.criptos)
         case .failed(_):
-            ProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismiss()
         }
     }
     
