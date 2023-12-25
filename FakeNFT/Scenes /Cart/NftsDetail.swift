@@ -62,9 +62,8 @@ final class NftsDetailImpl {
                 )
                 self.loadedNfts.append(nftModel)
             }
-        case .failed(let error):
+        case .failed(_):
             ProgressHUD.dismiss()
-            print("error \(error)")
         }
     }
     

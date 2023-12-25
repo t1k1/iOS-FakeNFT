@@ -36,4 +36,10 @@ final class ServicesAssembly {
             networkClient: networkClient
         )
     }
+    
+    var paymentService: PaymentServiceProtocol {
+        PaymentServiceImpl(
+            networkClient: networkClient
+        )
+    }
 }

@@ -144,11 +144,6 @@ final class CartViewController: UIViewController {
         }
     }
     
-    private func appendNftArray(with nft: NftResultModel, image: UIImage) {
-        visibleNftArray.append(nft)
-        updateTableView()
-    }
-    
     private func deleteFromNftArray(at row: Int) {
         visibleNftArray.remove(at: row)
         var nfts: [String] = []
@@ -235,7 +230,7 @@ final class CartViewController: UIViewController {
     
     @objc
     private func didTapPayButton() {
-        let vc = CartPayViewController()
+        let vc = CartPayViewController(orderId: order.id)
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }

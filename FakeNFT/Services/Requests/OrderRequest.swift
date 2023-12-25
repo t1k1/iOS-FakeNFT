@@ -32,7 +32,6 @@ struct OrderPutRequest: NetworkRequest {
         nfts += "id=\(id)"
         let dataString = nfts
         self.body = dataString.data(using: .utf8)
-        
         let orderToPut = OrderNetworkModel(nfts: order.nfts, id: id)
         self.dto = orderToPut
         self.id = orderToPut.id

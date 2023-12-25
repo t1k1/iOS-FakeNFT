@@ -55,9 +55,8 @@ final class CriptoDetailImpl {
                 self.criptos.append(cripto)
             }
             self.delegete?.sendLoaded(criptos: self.criptos)
-        case .failed(let error):
+        case .failed(_):
             ProgressHUD.dismiss()
-            print("error \(error)")
         }
     }
     

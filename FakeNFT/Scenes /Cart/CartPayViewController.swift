@@ -56,11 +56,21 @@ final class CartPayViewController: UIViewController, ErrorView {
     
     // MARK: - Private mutable properties
     
-    private var criptoArray: [CriptoResultModel] = []
+    private var orderId: String?
+    
+    private lazy var criptoArray: [CriptoResultModel] = []
     
     private lazy var criptoDetail = CriptoDetailImpl(
         servicesAssembly: servicesAssembly,
         service: servicesAssembly.criptoService,
+        delegate: self
+    )
+    
+    private lazy var payment: PaymentResultModel = PaymentResultModel(success: false, orderId: orderId ?? "", id: "")
+    
+    private lazy var paymentDetail = PaymentDetailImpl(
+        servicesAssembly: servicesAssembly,
+        service: servicesAssembly.paymentService,
         delegate: self
     )
     
@@ -147,6 +157,15 @@ final class CartPayViewController: UIViewController, ErrorView {
         return collection
     }()
     
+    init(orderId: String?) {
+        self.orderId = orderId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - View controller lifecycle methods
     override func loadView() {
         super.loadView()
@@ -175,30 +194,12 @@ final class CartPayViewController: UIViewController, ErrorView {
     // MARK: - Objective-C functions
     @objc
     private func didTapPayButton() {
-        switch selectedCripto?.name {
-        case nil:
-            let error = ErrorModel(
-                title: NSLocalizedString("cart.cartPayViewController.errorCurrency", comment: ""),
-                message: "",
-                actionText: NSLocalizedString("cart.cartPayViewController.errorRepeat", comment: ""),
-                action: {})
-            return showError(error)
-        
-        case "Bitcoin":
-            var error = ErrorModel(
-                title: NSLocalizedString("cart.cartPayViewController.errorMessage", comment: ""),
-                message: "",
-                actionText: NSLocalizedString("cart.cartPayViewController.errorCancel", comment: ""),
-                action: {})
-            error.setSecondActionText(NSLocalizedString("cart.cartPayViewController.errorRepeat", comment: ""))
-            error.setSecondAction {
-                self.didTapPayButton()
-            }
-            return showError(error)
-        default:
-            let vc = CartPaySuccessViewController()
-            navigationController?.pushViewController(vc, animated: true)
+        var selectedIndex = ""
+        if let selectedCripto = selectionArray.firstIndex(of: 1) {
+            selectedIndex = String(Int(selectedCripto))
         }
+        let paymentToSend = PaymentResultModel(success: false, orderId: orderId ?? "", id: selectedIndex)
+        self.paymentDetail.startLoading(payment: paymentToSend, httpMethod: HttpMethod.get)
     }
     
     @objc
@@ -221,6 +222,30 @@ extension CartPayViewController: CriptoDetailProtocol {
             selectionArray.append(0)
         }
         collectionView.reloadData()
+    }
+}
+
+// MARK: - PaymentDateilProtocol
+extension CartPayViewController: PaymentDetailProtocol {
+    func sendLoaded(payment: PaymentResultModel) {
+        self.payment = payment
+        switch payment.success {
+        case false:
+            var error = ErrorModel(
+                title: NSLocalizedString("cart.cartPayViewController.errorMessage", comment: ""),
+                message: "",
+                actionText: NSLocalizedString("cart.cartPayViewController.errorCancel", comment: ""),
+                action: {})
+            error.setSecondActionText(NSLocalizedString("cart.cartPayViewController.errorRepeat", comment: ""))
+            error.setSecondAction {
+                self.didTapPayButton()
+            }
+            return showError(error)
+        default:
+            let vc = CartPaySuccessViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
 }
 
@@ -280,7 +305,6 @@ extension CartPayViewController: UICollectionViewDataSource {
                     cell.cellCriptoImageView.image = UIImage(systemName: "nosign") ?? UIImage()
                     cell.cellCriptoImageView.tintColor = UIColor.ypBlackDay
                 }
-                
             }
         }
     }

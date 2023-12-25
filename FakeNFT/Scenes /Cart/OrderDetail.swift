@@ -58,9 +58,8 @@ final class OrderDetailImpl {
                 id: orderResult.id)
             self.order = orderModel
             self.delegete?.sendLoaded(order: self.order)
-        case .failed(let error):
+        case .failed(_):
             ProgressHUD.dismiss()
-            print("error \(error)")
         }
     }
     
