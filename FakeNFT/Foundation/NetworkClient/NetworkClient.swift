@@ -124,10 +124,10 @@ struct DefaultNetworkClient: NetworkClient {
         if urlRequest.httpMethod == HttpMethod.put.rawValue {
             urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             if let body = request.body {
-                //encoder.keyEncodingStrategy = .convertToSnakeCase
                 urlRequest.httpBody = body
             }
         } else {
+            encoder.keyEncodingStrategy = .convertToSnakeCase
             if let dto = request.dto,
                let dtoEncoded = try? encoder.encode(dto) {
                 urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
