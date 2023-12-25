@@ -177,7 +177,9 @@ final class CollectionViewController: UIViewController {
     }
     
     @objc private func didTapAuthorNameButton() {
-        //TODO: Module 3
+        let webViewViewController = WebViewViewController()
+        webViewViewController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(webViewViewController, animated: true)
     }
     
     // MARK: - Private Methods
