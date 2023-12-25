@@ -49,6 +49,9 @@
 		8499D9292B2B8CB90050E599 /* CartPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499D9282B2B8CB90050E599 /* CartPayViewController.swift */; };
 		8499D92D2B2DAA890050E599 /* CartPayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499D92C2B2DAA890050E599 /* CartPayCollectionViewCell.swift */; };
 		8499D92F2B2DADE70050E599 /* Cripto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499D92E2B2DADE70050E599 /* Cripto.swift */; };
+		84BEBFE42B3961AB00BE82FA /* CriptoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BEBFE32B3961AB00BE82FA /* CriptoDetail.swift */; };
+		84BEBFE62B39652800BE82FA /* CriptoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BEBFE52B39652800BE82FA /* CriptoService.swift */; };
+		84BEBFE82B39662700BE82FA /* CriptoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BEBFE72B39662700BE82FA /* CriptoRequest.swift */; };
 		84E077EE2B2DC90A00CD9644 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E077ED2B2DC90A00CD9644 /* UILabel+Extension.swift */; };
 		84E077F02B2DE2D300CD9644 /* CartPaySuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E077EF2B2DE2D300CD9644 /* CartPaySuccessViewController.swift */; };
 		84E077F22B2DF45500CD9644 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E077F12B2DF45500CD9644 /* WebViewController.swift */; };
@@ -133,6 +136,9 @@
 		8499D9282B2B8CB90050E599 /* CartPayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayViewController.swift; sourceTree = "<group>"; };
 		8499D92C2B2DAA890050E599 /* CartPayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPayCollectionViewCell.swift; sourceTree = "<group>"; };
 		8499D92E2B2DADE70050E599 /* Cripto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cripto.swift; sourceTree = "<group>"; };
+		84BEBFE32B3961AB00BE82FA /* CriptoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriptoDetail.swift; sourceTree = "<group>"; };
+		84BEBFE52B39652800BE82FA /* CriptoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriptoService.swift; sourceTree = "<group>"; };
+		84BEBFE72B39662700BE82FA /* CriptoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriptoRequest.swift; sourceTree = "<group>"; };
 		84E077ED2B2DC90A00CD9644 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		84E077EF2B2DE2D300CD9644 /* CartPaySuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPaySuccessViewController.swift; sourceTree = "<group>"; };
 		84E077F12B2DF45500CD9644 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
@@ -310,6 +316,7 @@
 				0CFCB73F2A78002A0009A829 /* NftService.swift */,
 				8435030F2B37353400046BCF /* NftsService.swift */,
 				84E077F72B34D7DA00CD9644 /* OrderService.swift */,
+				84BEBFE52B39652800BE82FA /* CriptoService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -384,6 +391,7 @@
 				3FC8C39029D2453B0081F015 /* ExampleRequest.swift */,
 				0C79EE602A76DCD600EE90EA /* NftByIdRequest.swift */,
 				84E077F52B34D63800CD9644 /* OrderRequest.swift */,
+				84BEBFE72B39662700BE82FA /* CriptoRequest.swift */,
 				0C79EE622A76DD1900EE90EA /* RequestConstants.swift */,
 			);
 			path = Requests;
@@ -418,6 +426,7 @@
 				84E077EF2B2DE2D300CD9644 /* CartPaySuccessViewController.swift */,
 				84E077F12B2DF45500CD9644 /* WebViewController.swift */,
 				84E077F32B345FEC00CD9644 /* OrderDetail.swift */,
+				84BEBFE32B3961AB00BE82FA /* CriptoDetail.swift */,
 				84E077FE2B3617BE00CD9644 /* NftsDetail.swift */,
 			);
 			path = Cart;
@@ -657,6 +666,7 @@
 				0CFCB7422A78013E0009A829 /* Nft.swift in Sources */,
 				0CF2C2DD2A783CE600FDC837 /* ErrorView.swift in Sources */,
 				8499D92D2B2DAA890050E599 /* CartPayCollectionViewCell.swift in Sources */,
+				84BEBFE42B3961AB00BE82FA /* CriptoDetail.swift in Sources */,
 				84E077F42B345FEC00CD9644 /* OrderDetail.swift in Sources */,
 				0C79EE682A76DE0900EE90EA /* NftDetailPresenter.swift in Sources */,
 				84E077F82B34D7DA00CD9644 /* OrderService.swift in Sources */,
@@ -669,6 +679,7 @@
 				0CF2C2DB2A783C1B00FDC837 /* LoadingView.swift in Sources */,
 				3F68069729CBBAF100B4F915 /* AppDelegate.swift in Sources */,
 				3F68069929CBBAF100B4F915 /* SceneDelegate.swift in Sources */,
+				84BEBFE82B39662700BE82FA /* CriptoRequest.swift in Sources */,
 				0C79EE6C2A76DE2E00EE90EA /* ServicesAssemly.swift in Sources */,
 				84E077F22B2DF45500CD9644 /* WebViewController.swift in Sources */,
 				0CFCB74E2A7817DC0009A829 /* NftStorage.swift in Sources */,
@@ -690,6 +701,7 @@
 				84E8BEC92B272B4F00FC7FCA /* CartStorage.swift in Sources */,
 				3F6806D129CBBE6B00B4F915 /* NetworkClient.swift in Sources */,
 				843503102B37353400046BCF /* NftsService.swift in Sources */,
+				84BEBFE62B39652800BE82FA /* CriptoService.swift in Sources */,
 				84E077F62B34D63800CD9644 /* OrderRequest.swift in Sources */,
 				0CFCB7442A7802440009A829 /* NftDetailInput.swift in Sources */,
 				84E077EE2B2DC90A00CD9644 /* UILabel+Extension.swift in Sources */,

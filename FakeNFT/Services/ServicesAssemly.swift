@@ -30,4 +30,10 @@ final class ServicesAssembly {
             networkClient: networkClient
         )
     }
+    
+    var criptoService: CriptoServiceProtocol {
+        CriptoServiceImpl(
+            networkClient: networkClient
+        )
+    }
 }

@@ -16,7 +16,7 @@ struct OrderNetworkModel: Codable {
 //    }
 }
 
-struct OrderResult {
+struct OrderResultModel {
     let nfts: [String]
     let id: String
 }

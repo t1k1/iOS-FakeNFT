@@ -1,16 +1,16 @@
 import UIKit
 
-struct Cripto: Decodable {
+struct CriptoNetworkModel: Codable {
     let title: String
     let name: String
-    let image: String
+    let image: URL
     let id: String
 }
 
-struct CriptoViewModel {
+struct CriptoResultModel {
     let title: String
     let name: String
-    let image: UIImage
+    let image: URL
     let id: String
 }
 

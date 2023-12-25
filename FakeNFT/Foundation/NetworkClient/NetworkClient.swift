@@ -117,9 +117,7 @@ struct DefaultNetworkClient: NetworkClient {
 
         var urlRequest = URLRequest(url: endpoint)
         
-        urlRequest.httpMethod = request.httpMethod.rawValue
-
-        
+        urlRequest.httpMethod = request.httpMethod.rawValue        
         
         if urlRequest.httpMethod == HttpMethod.put.rawValue {
             urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")

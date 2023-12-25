@@ -18,7 +18,7 @@ final class CartViewController: UIViewController {
     
     private var visibleNftArray: [NftResultModel] = []
     
-    private var order: OrderResult = OrderResult(nfts: [], id: "")
+    private var order: OrderResultModel = OrderResultModel(nfts: [], id: "")
     
     private lazy var orderDetail = OrderDetailImpl(
         servicesAssembly: servicesAssembly,
@@ -134,7 +134,7 @@ final class CartViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
-        self.orderDetail.startOrderLoading(order: order, httpMethod: HttpMethod.get)
+        self.orderDetail.startLoading(order: order, httpMethod: HttpMethod.get)
     }
     
     private func setFirstStartSortConfiguration() {
@@ -155,8 +155,8 @@ final class CartViewController: UIViewController {
         visibleNftArray.forEach { nft in
             nfts.append(nft.id)
         }
-        let orderToPut = OrderResult(nfts: nfts, id: order.id)
-        self.orderDetail.startOrderLoading(order: orderToPut, httpMethod: HttpMethod.put)
+        let orderToPut = OrderResultModel(nfts: nfts, id: order.id)
+        self.orderDetail.startLoading(order: orderToPut, httpMethod: HttpMethod.put)
     }
     
     private func updateTableView() {
@@ -243,7 +243,7 @@ final class CartViewController: UIViewController {
 
 // MARK: - OrderDetailProtocol
 extension CartViewController: OrderDetailProtocol {
-    func sendLoaded(order: OrderResult) {
+    func sendLoaded(order: OrderResultModel) {
         self.order = order
         var nfts: [NftResultModel] = []
         if nfts.count < 1 {

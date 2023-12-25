@@ -24,7 +24,6 @@ struct OrderPutRequest: NetworkRequest {
     var body: Data?
     
     init(order: OrderNetworkModel) {
-        
         var nfts = ""
         order.nfts.enumerated().forEach { (index, nft) in
             nfts += "nfts=\(nft)&"
@@ -34,9 +33,9 @@ struct OrderPutRequest: NetworkRequest {
         let dataString = nfts
         self.body = dataString.data(using: .utf8)
         
-        let orderToPut = OrderNetworkModel(nfts: order.nfts, id: "1")
+        let orderToPut = OrderNetworkModel(nfts: order.nfts, id: id)
         self.dto = orderToPut
-        self.id = "1"
+        self.id = orderToPut.id
     }
     
 }

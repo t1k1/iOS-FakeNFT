@@ -35,13 +35,20 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var cellCriptoImageView: UIImageView = {
+    lazy var cellCriptoImageView: UIImageView = {
         let image = UIImage.criptoBTC
         let imageView = UIImageView(image: image)
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 6
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.stopAnimating()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
     }()
     
     private var indexPath: IndexPath?
@@ -87,6 +94,13 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
             image.topAnchor.constraint(equalTo: background.topAnchor, constant: 5),
             image.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -5)
         ])
+        
+        image.addSubview(activityIndicator)
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: image.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: image.centerYAnchor)
+        ])
+        
         background.addSubview(label)
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 4),

@@ -1,55 +1,72 @@
 import UIKit
+import Kingfisher
 
 final class CartPayViewController: UIViewController, ErrorView {
     
     // MARK: - Mock properties
-    private var criptoArray: [CriptoViewModel] = [
-        CriptoViewModel(
-            title: "BTC",
-            name: "Bitcoin",
-            image: UIImage.criptoBTC,
-            id: "1"),
-        CriptoViewModel(
-            title: "DOGE",
-            name: "Dogecoin",
-            image: UIImage.criptoDOGE,
-            id: "2"),
-        CriptoViewModel(
-            title: "USDT",
-            name: "Tether",
-            image: UIImage.criptoUSDT,
-            id: "3"),
-        CriptoViewModel(
-            title: "APE",
-            name: "Apecoin",
-            image: UIImage.criptoAPE,
-            id: "4"),
-        CriptoViewModel(
-            title: "SOL",
-            name: "Solana",
-            image: UIImage.criptoSOL,
-            id: "5"),
-        CriptoViewModel(
-            title: "ETH",
-            name: "Ethereum",
-            image: UIImage.criptoETH,
-            id: "6"),
-        CriptoViewModel(
-            title: "ADA",
-            name: "Cardano",
-            image: UIImage.criptoADA,
-            id: "7"),
-        CriptoViewModel  (
-            title: "SHIB",
-            name: "Shiba Inu",
-            image: UIImage.criptoSHIB,
-            id: "8"),
-    ]
+//    private var criptoArray: [CriptoResultModel] = [
+//        CriptoResultModel(
+//            title: "BTC",
+//            name: "Bitcoin",
+//            image: UIImage.criptoBTC,
+//            id: "1"),
+//        CriptoResultModel(
+//            title: "DOGE",
+//            name: "Dogecoin",
+//            image: UIImage.criptoDOGE,
+//            id: "2"),
+//        CriptoResultModel(
+//            title: "USDT",
+//            name: "Tether",
+//            image: UIImage.criptoUSDT,
+//            id: "3"),
+//        CriptoResultModel(
+//            title: "APE",
+//            name: "Apecoin",
+//            image: UIImage.criptoAPE,
+//            id: "4"),
+//        CriptoResultModel(
+//            title: "SOL",
+//            name: "Solana",
+//            image: UIImage.criptoSOL,
+//            id: "5"),
+//        CriptoResultModel(
+//            title: "ETH",
+//            name: "Ethereum",
+//            image: UIImage.criptoETH,
+//            id: "6"),
+//        CriptoResultModel(
+//            title: "ADA",
+//            name: "Cardano",
+//            image: UIImage.criptoADA,
+//            id: "7"),
+//        CriptoResultModel  (
+//            title: "SHIB",
+//            name: "Shiba Inu",
+//            image: UIImage.criptoSHIB,
+//            id: "8"),
+//    ]
     
-    private var selectionArray: [CGFloat] = []
-    private var selectedCripto: CriptoViewModel?
+    // MARK: - Private constants
+    
+    private let servicesAssembly = ServicesAssembly(
+        networkClient: DefaultNetworkClient(),
+        nftStorage: NftStorageImpl()
+    )
     
     // MARK: - Private mutable properties
+    
+    private var criptoArray: [CriptoResultModel] = []
+    
+    private lazy var criptoDetail = CriptoDetailImpl(
+        servicesAssembly: servicesAssembly,
+        service: servicesAssembly.criptoService,
+        delegate: self
+    )
+    
+    private var selectionArray: [CGFloat] = []
+    private var selectedCripto: CriptoResultModel?
+    
     private lazy var titleBackgroundView: UIView = {
         let view = UIView()
         view.layer.backgroundColor = UIColor.clear.cgColor
@@ -131,12 +148,14 @@ final class CartPayViewController: UIViewController, ErrorView {
     }()
     
     // MARK: - View controller lifecycle methods
+    override func loadView() {
+        super.loadView()
+        self.criptoDetail.startLoading(criptos: criptoArray, httpMethod: HttpMethod.get)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypWhiteDay
-        criptoArray.enumerated().forEach { (index, item) in
-            selectionArray.append(0)
-        }
         collectionViewConfig()
         configureConstraints()
     }
@@ -180,7 +199,6 @@ final class CartPayViewController: UIViewController, ErrorView {
             let vc = CartPaySuccessViewController()
             navigationController?.pushViewController(vc, animated: true)
         }
-        
     }
     
     @objc
@@ -192,6 +210,17 @@ final class CartPayViewController: UIViewController, ErrorView {
     private func userAgreementTapped() {
         let vc = WebViewController()
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: - CriptoDetailProtocol
+extension CartPayViewController: CriptoDetailProtocol {
+    func sendLoaded(criptos: [CriptoResultModel]) {
+        self.criptoArray = criptos
+        criptoArray.enumerated().forEach { (index, item) in
+            selectionArray.append(0)
+        }
+        collectionView.reloadData()
     }
 }
 
@@ -207,7 +236,6 @@ extension CartPayViewController: UICollectionViewDelegate {
         array.insert(1, at: selectedItem)
         selectionArray = array
         selectedCripto = criptoArray[selectedItem]
-        print("\(String(describing: selectedCripto?.name)) selected")
         collectionView.reloadData()
     }
 }
@@ -229,11 +257,32 @@ extension CartPayViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.configure(
-            name: "\(criptoArray[indexPath.row].name)",
-            title: "\(criptoArray[indexPath.row].title)",
-            image: criptoArray[indexPath.row].image,
+            name: "\(criptoArray[indexPath.row].title)",
+            title: "\(criptoArray[indexPath.row].id)",
+            image: UIImage(),
             borderWidth: selectionArray[indexPath.row])
+        
+        updateImage(at: indexPath, cell: cell)
+        
         return cell
+    }
+    
+    private func updateImage(at indexPath: IndexPath, cell: CartPayCollectionViewCell) {
+        if criptoArray.count > 0 {
+            cell.activityIndicator.startAnimating()
+            let processor = DownsamplingImageProcessor(size: CGSize(width: 36, height: 36))
+            cell.cellCriptoImageView.kf.setImage(with: self.criptoArray[indexPath.row].image, options: [.processor(processor)]) { result in
+                cell.activityIndicator.stopAnimating()
+                switch result {
+                case .success(_):
+                    return
+                case .failure(_):
+                    cell.cellCriptoImageView.image = UIImage(systemName: "nosign") ?? UIImage()
+                    cell.cellCriptoImageView.tintColor = UIColor.ypBlackDay
+                }
+                
+            }
+        }
     }
 }
 
