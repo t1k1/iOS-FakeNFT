@@ -24,6 +24,8 @@ final class CartDeleteItemViewController: UIViewController {
     private lazy var imageView: UIImageView = {
         let image = UIImage.cartDeleteNFT
         let imageView = UIImageView(image: image)
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 12
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
