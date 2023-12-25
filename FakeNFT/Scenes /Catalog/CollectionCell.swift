@@ -13,6 +13,9 @@ final class CollectionCell: UICollectionViewCell {
     // MARK: - Stored Properties
     
     static let reuseIdentifier = "CollectionCell"
+    private let profileService = ProfileService.shared
+    private var currentNftId: String = ""
+    private var currentProfile: ProfileUpdate = ProfileUpdate(name: "", description: "", website: "", likes: [])
     
     //MARK: - Layout variables
     
@@ -90,7 +93,9 @@ final class CollectionCell: UICollectionViewCell {
     
     // MARK: - Public Methods
     
-    func configure(imagesString: String, rating: Int, name:String, price: Float) {
+    func configure(imagesString: String, rating: Int, name:String, price: Float, nftId: String, profile: ProfileUpdate) {
+        self.currentProfile = profile
+        self.currentNftId = nftId
         let imageURL = URL(string: imagesString)
         let level = Int(ceil(Double(rating) / 2.0))
         let memoryOnlyOptions: KingfisherOptionsInfoItem = .cacheMemoryOnly
@@ -109,12 +114,19 @@ final class CollectionCell: UICollectionViewCell {
         starsImageView.image = UIImage(named: "stars\(level)")
         nameLabel.text = name
         priceLabel.text = "\(price) ETH"
+        
+        updateLikeButtonImage()
     }
     
     // MARK: - IBAction
     
     @objc private func didTapLikeButton() {
         let isCompleted = likeButton.currentImage == UIImage(named: "No active")
+        if isCompleted {
+            addNftToLikes()
+        } else {
+            removeNftFromLikes()
+        }
         let imageName = isCompleted ? "Active" : "No active"
         let image = UIImage(named: imageName)
         likeButton.setImage(image, for: .normal)
@@ -132,6 +144,53 @@ final class CollectionCell: UICollectionViewCell {
     }
     
     // MARK: - Private Methods
+    
+    private func addNftToLikes() {
+        let profileUpdate = ProfileUpdate(
+            name: currentProfile.name,
+            description: currentProfile.description,
+            website: currentProfile.website,
+            likes: currentProfile.likes + [currentNftId]
+        )
+        
+        UIBlockingProgressHUD.show()
+        profileService.updateProfile(with: profileUpdate) { result in
+            switch result {
+            case .success(_):
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                print("Error updating profile: \(error)")
+            }
+        }
+    }
+    
+    private func removeNftFromLikes() {
+        let profileUpdate = ProfileUpdate(
+            name: currentProfile.name,
+            description: currentProfile.description,
+            website: currentProfile.website,
+            likes: currentProfile.likes.filter { $0 != currentNftId }
+        )
+        
+        UIBlockingProgressHUD.show()
+        profileService.updateProfile(with: profileUpdate) { result in
+            switch result {
+            case .success(_):
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                print("Error updating profile: \(error)")
+            }
+        }
+    }
+    
+    private func updateLikeButtonImage() {
+        let isNftLiked = currentProfile.likes.contains(currentNftId)
+        let imageName = isNftLiked ? "Active" : "No active"
+        let image = UIImage(named: imageName)
+        likeButton.setImage(image, for: .normal)
+    }
     
     private func addSubViews() {
         contentView.addSubview(nftImageView)

@@ -7,7 +7,6 @@
 
 import UIKit
 import Kingfisher
-import ProgressHUD
 
 // MARK: - State
 
@@ -28,6 +27,7 @@ final class CollectionViewController: UIViewController {
     // MARK: - Private Properties
     
     private var nfts: [NftModel] = []
+    private var profile: ProfileUpdate = ProfileUpdate(name: "", description: "", website: "", likes: [])
     private var state = NftDetailState.initial {
         didSet {
             stateDidChanged()
@@ -36,14 +36,16 @@ final class CollectionViewController: UIViewController {
     
     // MARK: - Private Constants
     
-    private let service: NftService
+    private let nftService: NftService
+    private let profileService = ProfileService.shared
+    private var profileStorage: ProfileStorage = ProfileStorageImpl.shared
     private let servicesAssembly: ServicesAssembly
     
     // MARK: - Init
     
-    init(servicesAssembly: ServicesAssembly, service: NftService) {
+    init(servicesAssembly: ServicesAssembly, nftService: NftService) {
         self.servicesAssembly = servicesAssembly
-        self.service = service
+        self.nftService = nftService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -162,6 +164,7 @@ final class CollectionViewController: UIViewController {
             automaticallyAdjustsScrollViewInsets = false
         }
         loadCatalogImage()
+        loadLikes()
         state = .loading
         addSubViews()
         applyConstraints()
@@ -270,7 +273,7 @@ final class CollectionViewController: UIViewController {
         case .initial:
             assertionFailure("can't move to initial state")
         case .loading:
-            showProgressHUD()
+            UIBlockingProgressHUD.show()
             loadNft()
         case .data(let nftResults):
             let dispatchGroup = DispatchGroup()
@@ -294,10 +297,10 @@ final class CollectionViewController: UIViewController {
             }
             
             dispatchGroup.notify(queue: .main) {
-                self.dismissProgressHUD()
+                UIBlockingProgressHUD.dismiss()
             }
         case .failed(let error):
-            dismissProgressHUD()
+            UIBlockingProgressHUD.dismiss()
             assertionFailure("Error: \(error)")
         }
     }
@@ -312,7 +315,7 @@ final class CollectionViewController: UIViewController {
             }
             
             let id = nftsIdString[index]
-            service.loadNft(id: id) { [weak self] result in
+            nftService.loadNft(id: id) { [weak self] result in
                 switch result {
                 case .success(let nftResult):
                     loadedNftResults.append(nftResult)
@@ -325,16 +328,36 @@ final class CollectionViewController: UIViewController {
         loadNftAtIndex(index: 0)
     }
     
-    private func showProgressHUD() {
-        backButton.isUserInteractionEnabled = false
-        authorNameButton.isUserInteractionEnabled = false
-        ProgressHUD.show()
-    }
-    
-    private func dismissProgressHUD() {
-        backButton.isUserInteractionEnabled = true
-        authorNameButton.isUserInteractionEnabled = true
-        ProgressHUD.dismiss()
+    private func loadLikes() {
+        UIBlockingProgressHUD.show()
+        profileService.getProfile() { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let profile):
+                self.profileStorage.saveProfile(
+                    ProfileModel(
+                        name: profile.name,
+                        avatar: profile.avatar,
+                        description: profile.description,
+                        website: profile.website,
+                        nfts: profile.nfts,
+                        likes: profile.likes,
+                        id: profile.id
+                    )
+                )
+                self.profile = ProfileUpdate(
+                    name: profile.name,
+                    description: profile.description,
+                    website: profile.website,
+                    likes: profile.likes
+                )
+                collectionView.reloadData()
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                print(error)
+            }
+        }
     }
 }
 
@@ -361,7 +384,15 @@ extension CollectionViewController: UICollectionViewDataSource {
         guard let imagesString = nft.images.first else {
             return collectionCell
         }
-        collectionCell.configure(imagesString: imagesString, rating: nft.rating, name: nft.name, price: nft.price)
+        
+        collectionCell.configure(
+            imagesString: imagesString,
+            rating: nft.rating,
+            name: nft.name,
+            price: nft.price,
+            nftId: nft.id,
+            profile: profile
+        )
         
         return collectionCell
     }

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ProgressHUD
 
 // MARK: - State
 
@@ -161,7 +160,7 @@ final class CatalogViewController: UIViewController {
     }
     
     private func applySorting() {
-        ProgressHUD.show()
+        UIBlockingProgressHUD.show()
         
         switch currentSortingOption {
         case .name:
@@ -174,7 +173,7 @@ final class CatalogViewController: UIViewController {
         
         tableView.reloadData()
         dismiss(animated: true)
-        ProgressHUD.dismiss()
+        UIBlockingProgressHUD.dismiss()
         userDefaults.saveSortingOption(currentSortingOption)
     }
     
@@ -183,7 +182,7 @@ final class CatalogViewController: UIViewController {
         case .initial:
             assertionFailure("can't move to initial state")
         case .loading:
-            ProgressHUD.show()
+            UIBlockingProgressHUD.show()
             loadCollections()
         case .data(let collectionsResult):
             let collectionsModel = collectionsResult.map { result in
@@ -201,9 +200,9 @@ final class CatalogViewController: UIViewController {
             self.originalCollections = collections
             applySorting()
             tableView.reloadData()
-            ProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismiss()
         case .failed(let error):
-            ProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismiss()
             print("Error: \(error)")
         }
     }
@@ -249,7 +248,7 @@ extension CatalogViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let collectionViewController = CollectionViewController(
             servicesAssembly: servicesAssembly,
-            service: servicesAssembly.nftService
+            nftService: servicesAssembly.nftService
         )
         let collection = collections[indexPath.row]
         collectionViewController.catalogString = collection.name

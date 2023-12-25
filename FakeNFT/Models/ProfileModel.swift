@@ -12,7 +12,7 @@ public struct ProfileModel {
     let avatar: String?
     let description: String?
     let website: String?
-    let nfts: [NftModel]
-    let likes: [NftModel]
+    let nfts: [String]
+    let likes: [String]
     let id: String
 }
