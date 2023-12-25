@@ -109,6 +109,19 @@ struct DefaultNetworkClient: NetworkClient {
 
     // MARK: - Private
     
+    private enum NetworkConstants {
+        static let putValue = "application/x-www-form-urlencoded"
+        static let putHeader = "Content-Type"
+        static let connectionValue = "Keep-alive"
+        static let connectionHeader = "Connection"
+        static let acceptValue = "application/json"
+        static let acceptHeader = "Accept"
+        static let acceptEncodingValue = "gzip, deflate, br"
+        static let acceptEncodingHeader = "Accept-Encoding"
+        static let tokenValue = "a66690d9-233c-4541-a539-179c0a04d8da"
+        static let tokenHeader = "X-Practicum-Mobile-Token"
+    }
+    
     private func create(request: NetworkRequest) -> URLRequest? {
         guard let endpoint = request.endpoint else {
             assertionFailure("Empty endpoint")
@@ -120,7 +133,7 @@ struct DefaultNetworkClient: NetworkClient {
         urlRequest.httpMethod = request.httpMethod.rawValue        
         
         if urlRequest.httpMethod == HttpMethod.put.rawValue {
-            urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            urlRequest.setValue(NetworkConstants.putValue, forHTTPHeaderField: NetworkConstants.putHeader)
             if let body = request.body {
                 urlRequest.httpBody = body
             }
@@ -128,16 +141,16 @@ struct DefaultNetworkClient: NetworkClient {
             encoder.keyEncodingStrategy = .convertToSnakeCase
             if let dto = request.dto,
                let dtoEncoded = try? encoder.encode(dto) {
-                urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                urlRequest.setValue(NetworkConstants.putValue, forHTTPHeaderField: NetworkConstants.putHeader)
                 urlRequest.httpBody = dtoEncoded
             }
         }
         
-        urlRequest.setValue("Keep-alive", forHTTPHeaderField: "Connection")
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
-        urlRequest.setValue("gzip, deflate, br", forHTTPHeaderField: "Accept-Encoding")
+        urlRequest.setValue(NetworkConstants.connectionValue, forHTTPHeaderField: NetworkConstants.connectionHeader)
+        urlRequest.setValue(NetworkConstants.acceptValue, forHTTPHeaderField: NetworkConstants.acceptHeader)
+        urlRequest.setValue(NetworkConstants.acceptEncodingValue, forHTTPHeaderField: NetworkConstants.acceptEncodingHeader)
         
-        urlRequest.setValue("a66690d9-233c-4541-a539-179c0a04d8da", forHTTPHeaderField: "X-Practicum-Mobile-Token")
+        urlRequest.setValue(NetworkConstants.tokenValue, forHTTPHeaderField: NetworkConstants.tokenHeader)
 
         return urlRequest
     }
