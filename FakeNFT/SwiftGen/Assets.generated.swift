@@ -4,6 +4,7 @@ import UIKit
 
 // MARK: - Images
 public extension UIImage {
+  static let launchLogo: UIImage = UIImage(named: "LaunchLogo")!
   static let cartDeleteNFT: UIImage = UIImage(named: "Cart Delete NFT")!
   static let cartImage0: UIImage = UIImage(named: "Cart Image 0")!
   static let cartImage1: UIImage = UIImage(named: "Cart Image 1")!

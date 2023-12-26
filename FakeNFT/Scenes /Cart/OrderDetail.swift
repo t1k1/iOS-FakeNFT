@@ -42,7 +42,7 @@ final class OrderDetailImpl {
         case .initial:
             assertionFailure("can`t move to initial state")
         case .loading:
-            UIBlockingProgressHUD.show()
+            UIBlockingProgressHUD.showCustom()
             if httpMethod == HttpMethod.get {
                 loadOrder(id: order.id)
             } else {
@@ -59,7 +59,7 @@ final class OrderDetailImpl {
             self.order = orderModel
             self.delegete?.sendLoaded(order: self.order)
         case .failed(_):
-            UIBlockingProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismissCustom()
         }
     }
     

@@ -48,7 +48,7 @@ final class NftsDetailImpl {
         case .loading:
             loadNfts(ids: ids)
         case .data(let nftsResult):
-            UIBlockingProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismissCustom()
             nftsResult.forEach { nftResult in
                 let nftModel = NftResultModel(
                     createdAt: nftResult.createdAt.toDate(),
@@ -63,7 +63,7 @@ final class NftsDetailImpl {
                 self.loadedNfts.append(nftModel)
             }
         case .failed(_):
-            UIBlockingProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismissCustom()
         }
     }
     
