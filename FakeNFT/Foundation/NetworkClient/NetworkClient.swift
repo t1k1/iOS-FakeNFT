@@ -137,13 +137,6 @@ struct DefaultNetworkClient: NetworkClient {
             if let body = request.body {
                 urlRequest.httpBody = body
             }
-        } else {
-            encoder.keyEncodingStrategy = .convertToSnakeCase
-            if let dto = request.dto,
-               let dtoEncoded = try? encoder.encode(dto) {
-                urlRequest.setValue(NetworkConstants.putValue, forHTTPHeaderField: NetworkConstants.putHeader)
-                urlRequest.httpBody = dtoEncoded
-            }
         }
         
         urlRequest.setValue(NetworkConstants.connectionValue, forHTTPHeaderField: NetworkConstants.connectionHeader)
