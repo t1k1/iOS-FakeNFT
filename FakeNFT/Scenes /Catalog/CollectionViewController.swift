@@ -28,6 +28,7 @@ final class CollectionViewController: UIViewController {
     
     private var nfts: [NftModel] = []
     private var profile: ProfileUpdate = ProfileUpdate(name: "", description: "", website: "", likes: [])
+    private var order: OrderResultModel = OrderResultModel(nfts: [], id: "")
     private var state = NftDetailState.initial {
         didSet {
             stateDidChanged()
@@ -38,6 +39,7 @@ final class CollectionViewController: UIViewController {
     
     private let nftService: NftService
     private let profileService = ProfileService.shared
+    private let orderService = OrderServiceImpl.shared
     private var profileStorage: ProfileStorage = ProfileStorageImpl.shared
     private let servicesAssembly: ServicesAssembly
     
@@ -163,11 +165,22 @@ final class CollectionViewController: UIViewController {
         } else {
             automaticallyAdjustsScrollViewInsets = false
         }
-        loadCatalogImage()
-        loadLikes()
-        state = .loading
-        addSubViews()
-        applyConstraints()
+        
+        loadNetworkData()
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard let queue = object as? OperationQueue, keyPath == #keyPath(OperationQueue.operationCount) else {
+            return
+        }
+        
+        if queue.operationCount == 0 {
+            DispatchQueue.main.async {
+                self.state = .loading
+                self.addSubViews()
+                self.applyConstraints()
+            }
+        }
     }
     
     // MARK: - IBAction
@@ -249,6 +262,36 @@ final class CollectionViewController: UIViewController {
         )
     }
     
+    func loadNetworkData() {
+        UIBlockingProgressHUD.show()
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        
+        let loadCatalogImageOperation = BlockOperation {
+            DispatchQueue.main.async {
+                self.loadCatalogImage()
+            }
+        }
+        
+        let loadLikesOperation = BlockOperation {
+            DispatchQueue.main.async {
+                self.loadLikes()
+            }
+        }
+        
+        let loadOrderOperation = BlockOperation {
+            DispatchQueue.main.async {
+                self.loadOrder(id: self.order.id)
+            }
+        }
+        
+        loadLikesOperation.addDependency(loadCatalogImageOperation)
+        loadOrderOperation.addDependency(loadLikesOperation)
+        
+        queue.addOperations([loadCatalogImageOperation, loadLikesOperation, loadOrderOperation], waitUntilFinished: false)
+        
+        queue.addObserver(self, forKeyPath: #keyPath(OperationQueue.operationCount), options: .new, context: nil)
+    }
     
     private func loadCatalogImage() {
         guard let imageURL = URL(string: catalogImageString) else {
@@ -263,7 +306,7 @@ final class CollectionViewController: UIViewController {
             case .success(let value):
                 self?.catalogImageView.image = value.image
             case .failure(let error):
-                print("Error loading image: \(error)")
+                assertionFailure("Error loading image: \(error)")
             }
             
             self?.catalogImageView.kf.indicatorType = .none
@@ -357,7 +400,26 @@ final class CollectionViewController: UIViewController {
                 UIBlockingProgressHUD.dismiss()
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
-                print(error)
+                assertionFailure("Error: \(error)")
+            }
+        }
+    }
+    
+    private func loadOrder(id: String) {
+        UIBlockingProgressHUD.show()
+        orderService.loadOrder(id: "1") { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let order):
+                self.order = OrderResultModel(
+                    nfts: order.nfts,
+                    id: order.id
+                )
+                collectionView.reloadData()
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                assertionFailure("Error: \(error)")
             }
         }
     }
@@ -393,7 +455,8 @@ extension CollectionViewController: UICollectionViewDataSource {
             name: nft.name,
             price: nft.price,
             nftId: nft.id,
-            profile: profile
+            profile: profile,
+            order: order
         )
         
         return collectionCell

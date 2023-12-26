@@ -51,7 +51,7 @@ final class CatalogCell: UITableViewCell {
             case .success(let value):
                 self?.catalogImageView.image = value.image
             case .failure(let error):
-                print("Error loading image: \(error)")
+                assertionFailure("Error loading image: \(error)")
             }
             self?.catalogImageView.kf.indicatorType = .none
         }

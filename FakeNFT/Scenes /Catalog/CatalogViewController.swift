@@ -203,7 +203,7 @@ final class CatalogViewController: UIViewController {
             UIBlockingProgressHUD.dismiss()
         case .failed(let error):
             UIBlockingProgressHUD.dismiss()
-            print("Error: \(error)")
+            assertionFailure("Error: \(error)")
         }
     }
     

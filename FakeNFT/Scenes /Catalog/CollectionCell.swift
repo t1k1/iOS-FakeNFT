@@ -14,8 +14,10 @@ final class CollectionCell: UICollectionViewCell {
     
     static let reuseIdentifier = "CollectionCell"
     private let profileService = ProfileService.shared
+    private let orderService = OrderServiceImpl.shared
     private var currentNftId: String = ""
     private var currentProfile: ProfileUpdate = ProfileUpdate(name: "", description: "", website: "", likes: [])
+    private var currentOrder: OrderResultModel = OrderResultModel(nfts: [], id: "")
     
     //MARK: - Layout variables
     
@@ -31,8 +33,6 @@ final class CollectionCell: UICollectionViewCell {
     
     private lazy var likeButton: UIButton = {
         let button = UIButton(type: .custom)
-        let image = UIImage(named: "No active")
-        button.setImage(image, for: .normal)
         button.addTarget(
             self,
             action: #selector(didTapLikeButton),
@@ -67,8 +67,6 @@ final class CollectionCell: UICollectionViewCell {
     
     private lazy var cartButton: UIButton = {
         let button = UIButton(type: .custom)
-        let image = UIImage(named: "cart empty")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
         button.tintColor = UIColor.ypBlackDay
         button.addTarget(
             self,
@@ -93,9 +91,19 @@ final class CollectionCell: UICollectionViewCell {
     
     // MARK: - Public Methods
     
-    func configure(imagesString: String, rating: Int, name:String, price: Float, nftId: String, profile: ProfileUpdate) {
+    func configure(
+        imagesString: String,
+        rating: Int,
+        name:String,
+        price: Float,
+        nftId: String,
+        profile: ProfileUpdate,
+        order: OrderResultModel
+    ) {
         self.currentProfile = profile
+        self.currentOrder = order
         self.currentNftId = nftId
+        
         let imageURL = URL(string: imagesString)
         let level = Int(ceil(Double(rating) / 2.0))
         let memoryOnlyOptions: KingfisherOptionsInfoItem = .cacheMemoryOnly
@@ -116,6 +124,7 @@ final class CollectionCell: UICollectionViewCell {
         priceLabel.text = "\(price) ETH"
         
         updateLikeButtonImage()
+        updateCartButtonImage()
     }
     
     // MARK: - IBAction
@@ -137,6 +146,11 @@ final class CollectionCell: UICollectionViewCell {
         let emptyCartImage = UIImage(named: "cart empty")
         
         let isCompleted = currentImage?.pngData() == emptyCartImage?.pngData()
+        if isCompleted {
+            addNftToOrder()
+        } else {
+            removeNftFromOrder()
+        }
         let imageName = isCompleted ? "cart delete" : "cart empty"
         let image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
         cartButton.setImage(image, for: .normal)
@@ -157,10 +171,11 @@ final class CollectionCell: UICollectionViewCell {
         profileService.updateProfile(with: profileUpdate) { result in
             switch result {
             case .success(_):
+                self.currentProfile = profileUpdate
                 UIBlockingProgressHUD.dismiss()
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
-                print("Error updating profile: \(error)")
+                assertionFailure("Error updating profile: \(error)")
             }
         }
     }
@@ -177,10 +192,51 @@ final class CollectionCell: UICollectionViewCell {
         profileService.updateProfile(with: profileUpdate) { result in
             switch result {
             case .success(_):
+                self.currentProfile = profileUpdate
                 UIBlockingProgressHUD.dismiss()
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
-                print("Error updating profile: \(error)")
+                assertionFailure("Error updating profile: \(error)")
+            }
+        }
+    }
+    
+    private func addNftToOrder() {
+        let nftsUpdate = currentOrder.nfts + [currentNftId]
+        let orderUpdate = OrderNetworkModel(
+            nfts: nftsUpdate,
+            id: currentOrder.id
+        )
+        
+        UIBlockingProgressHUD.show()
+        orderService.putOrder(order: orderUpdate) { result in
+            switch result {
+            case .success(_):
+                self.currentOrder = OrderResultModel(nfts: nftsUpdate, id: self.currentOrder.id)
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                assertionFailure("Error updating order: \(error)")
+            }
+        }
+    }
+    
+    private func removeNftFromOrder() {
+        let nftsUpdate = currentOrder.nfts.filter { $0 != currentNftId }
+        let orderUpdate = OrderNetworkModel(
+            nfts: nftsUpdate,
+            id: currentOrder.id
+        )
+        
+        UIBlockingProgressHUD.show()
+        orderService.putOrder(order: orderUpdate) { result in
+            switch result {
+            case .success(_):
+                self.currentOrder = OrderResultModel(nfts: nftsUpdate, id: self.currentOrder.id)
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                assertionFailure("Error updating order: \(error)")
             }
         }
     }
@@ -190,6 +246,13 @@ final class CollectionCell: UICollectionViewCell {
         let imageName = isNftLiked ? "Active" : "No active"
         let image = UIImage(named: imageName)
         likeButton.setImage(image, for: .normal)
+    }
+    
+    private func updateCartButtonImage() {
+        let isNftCart = currentOrder.nfts.contains(currentNftId)
+        let imageName = isNftCart ? "cart delete" : "cart empty"
+        let image = UIImage(named: imageName)
+        cartButton.setImage(image, for: .normal)
     }
     
     private func addSubViews() {
