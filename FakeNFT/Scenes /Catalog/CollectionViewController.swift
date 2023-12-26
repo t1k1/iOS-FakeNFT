@@ -29,6 +29,7 @@ final class CollectionViewController: UIViewController {
     private var nfts: [NftModel] = []
     private var profile: ProfileUpdate = ProfileUpdate(name: "", description: "", website: "", likes: [])
     private var order: OrderResultModel = OrderResultModel(nfts: [], id: "")
+    private var profileStorage: ProfileStorage = ProfileStorageImpl.shared
     private var state = NftDetailState.initial {
         didSet {
             stateDidChanged()
@@ -37,10 +38,12 @@ final class CollectionViewController: UIViewController {
     
     // MARK: - Private Constants
     
+    private let topSpacing: CGFloat = 486.0
+    private let cellHeight: CGFloat = 192.0
+    private let numberOfCellsInRow: CGFloat = 3.0
     private let nftService: NftService
     private let profileService = ProfileService.shared
     private let orderService = OrderServiceImpl.shared
-    private var profileStorage: ProfileStorage = ProfileStorageImpl.shared
     private let servicesAssembly: ServicesAssembly
     
     // MARK: - Init
@@ -167,6 +170,8 @@ final class CollectionViewController: UIViewController {
         }
         
         loadNetworkData()
+        addSubViews()
+        applyConstraints()
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -177,8 +182,6 @@ final class CollectionViewController: UIViewController {
         if queue.operationCount == 0 {
             DispatchQueue.main.async {
                 self.state = .loading
-                self.addSubViews()
-                self.applyConstraints()
             }
         }
     }
@@ -251,10 +254,6 @@ final class CollectionViewController: UIViewController {
     }
     
     private func updateScrollViewContentSize() {
-        let topSpacing: CGFloat = 486.0
-        let cellHeight: CGFloat = 192.0
-        let numberOfCellsInRow: CGFloat = 3.0
-        
         let numberOfRows = ceil(CGFloat(nfts.count) / numberOfCellsInRow)
         scrollView.contentSize = CGSize(
             width: view.frame.width,
@@ -379,17 +378,6 @@ final class CollectionViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let profile):
-                self.profileStorage.saveProfile(
-                    ProfileModel(
-                        name: profile.name,
-                        avatar: profile.avatar,
-                        description: profile.description,
-                        website: profile.website,
-                        nfts: profile.nfts,
-                        likes: profile.likes,
-                        id: profile.id
-                    )
-                )
                 self.profile = ProfileUpdate(
                     name: profile.name,
                     description: profile.description,
