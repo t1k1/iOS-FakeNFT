@@ -26,7 +26,7 @@ final class UIBlockingProgressHUD {
         customView.backgroundColor = .clear
         window?.addSubview(customView)
         customView.center = window?.center ?? CGPoint.zero
-        let activity = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+        let activity = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: customView.frame.width, height: customView.frame.height))
         activity.startAnimating()
         customView.addSubview(activity)
     }
