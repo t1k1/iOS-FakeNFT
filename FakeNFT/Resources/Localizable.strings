@@ -35,3 +35,14 @@
 
 "common.protocols.errorTitle" = "Ошибка";
 
+"onboarding.firstPageVC.mainLabel" = "Исследуйте";
+"onboarding.firstPageVC.mainInfoText" = "Присоединяйтесь и откройте новый мир уникальных NFT для коллекционеров";
+"onboarding.secondPageVC.mainLabel" = "Коллекционируйте";
+"onboarding.secondPageVC.mainInfoText" = "Пополняйте своб коллекцию эксклюзивными картинками, созданными нейросетью!";
+"onboarding.thirdPageVC.mainLabel" = "Состязайтесь";
+"onboarding.thirdPageVC.mainInfoText" = "Смотрите статистику других и покажите всем, что у вас самая ценная коллекция";
+"onboarding.thirdPageVC.actionButton" = "Что внутри?";
+
+
+
+

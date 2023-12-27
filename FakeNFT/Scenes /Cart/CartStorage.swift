@@ -13,12 +13,12 @@ final class CartStorageImpl {
     }
 }
 
+enum CartStorageKeys: String {
+    case sortCondition = "CartStorage.sortCondition"
+    case isFirstStart = "CartStorage.isFirstStart"
+}
+
 extension CartStorageImpl: CartStorage {
-    
-    private enum CartStorageKeys: String {
-        case sortCondition = "CartStorage.sortCondition"
-        case isFirstStart = "CartStorage.isFirstStart"
-    }
     
     var isNotFisrtStart: Bool {
         get {

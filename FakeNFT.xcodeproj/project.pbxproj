@@ -41,6 +41,7 @@
 		3FC8C38B29D242E90081F015 /* ProductDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8C38A29D242E90081F015 /* ProductDetailsTableViewCell.swift */; };
 		3FC8C39129D2453B0081F015 /* ExampleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8C39029D2453B0081F015 /* ExampleRequest.swift */; };
 		3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8C39229D246BA0081F015 /* DateFormatters+Presets.swift */; };
+		8419128D2B3B67810078B4E4 /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C85A402B3B2443009975BD /* CustomPageControl.swift */; };
 		8435030E2B36FBD300046BCF /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8435030D2B36FBD300046BCF /* UIImage+Extension.swift */; };
 		843503102B37353400046BCF /* NftsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8435030F2B37353400046BCF /* NftsService.swift */; };
 		846585062B3A0C7E00F90951 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846585052B3A0C7E00F90951 /* UIBlockingProgressHUD.swift */; };
@@ -57,6 +58,7 @@
 		84BEBFEC2B39BDC000BE82FA /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BEBFEB2B39BDC000BE82FA /* Payment.swift */; };
 		84BEBFEE2B39C08300BE82FA /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BEBFED2B39C08300BE82FA /* PaymentService.swift */; };
 		84BEBFF02B39C11600BE82FA /* PaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BEBFEF2B39C11600BE82FA /* PaymentRequest.swift */; };
+		84C85A3F2B3B1FD7009975BD /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C85A3E2B3B1FD7009975BD /* OnboardingViewController.swift */; };
 		84E077EE2B2DC90A00CD9644 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E077ED2B2DC90A00CD9644 /* UILabel+Extension.swift */; };
 		84E077F02B2DE2D300CD9644 /* CartPaySuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E077EF2B2DE2D300CD9644 /* CartPaySuccessViewController.swift */; };
 		84E077F22B2DF45500CD9644 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E077F12B2DF45500CD9644 /* WebViewController.swift */; };
@@ -149,6 +151,8 @@
 		84BEBFEB2B39BDC000BE82FA /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		84BEBFED2B39C08300BE82FA /* PaymentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
 		84BEBFEF2B39C11600BE82FA /* PaymentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRequest.swift; sourceTree = "<group>"; };
+		84C85A3E2B3B1FD7009975BD /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		84C85A402B3B2443009975BD /* CustomPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
 		84E077ED2B2DC90A00CD9644 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		84E077EF2B2DE2D300CD9644 /* CartPaySuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPaySuccessViewController.swift; sourceTree = "<group>"; };
 		84E077F12B2DF45500CD9644 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
@@ -481,6 +485,8 @@
 				3F68069F29CBBAF200B4F915 /* Assets.xcassets */,
 				3F6806A129CBBAF200B4F915 /* LaunchScreen.storyboard */,
 				E1CD40DB2A96BECC00BE7FE8 /* Localizable.strings */,
+				84C85A3E2B3B1FD7009975BD /* OnboardingViewController.swift */,
+				84C85A402B3B2443009975BD /* CustomPageControl.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -678,6 +684,7 @@
 				0C79EE6A2A76DE1000EE90EA /* NftDetailAssembly.swift in Sources */,
 				84E8BEC72B2706ED00FC7FCA /* UIViewController+Extensions.swift in Sources */,
 				8499D91A2B29C2520050E599 /* Template.stencil in Sources */,
+				8419128D2B3B67810078B4E4 /* CustomPageControl.swift in Sources */,
 				3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */,
 				0CFCB7422A78013E0009A829 /* Nft.swift in Sources */,
 				0CF2C2DD2A783CE600FDC837 /* ErrorView.swift in Sources */,
@@ -692,6 +699,7 @@
 				8435030E2B36FBD300046BCF /* UIImage+Extension.swift in Sources */,
 				84E8BEC02B24E42100FC7FCA /* CartDeleteItemViewController.swift in Sources */,
 				84E8BEC32B2606AA00FC7FCA /* String+Extensions.swift in Sources */,
+				84C85A3F2B3B1FD7009975BD /* OnboardingViewController.swift in Sources */,
 				0CF2C2DB2A783C1B00FDC837 /* LoadingView.swift in Sources */,
 				3F68069729CBBAF100B4F915 /* AppDelegate.swift in Sources */,
 				3F68069929CBBAF100B4F915 /* SceneDelegate.swift in Sources */,
