@@ -45,6 +45,7 @@
 		8435030E2B36FBD300046BCF /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8435030D2B36FBD300046BCF /* UIImage+Extension.swift */; };
 		843503102B37353400046BCF /* NftsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8435030F2B37353400046BCF /* NftsService.swift */; };
 		846585062B3A0C7E00F90951 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846585052B3A0C7E00F90951 /* UIBlockingProgressHUD.swift */; };
+		848FB13C2B3C6EAC000D0486 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848FB13B2B3C6EAC000D0486 /* PageViewController.swift */; };
 		8499D9182B29C13B0050E599 /* SwiftGen.config.yml in Resources */ = {isa = PBXBuildFile; fileRef = 8499D9172B29C13B0050E599 /* SwiftGen.config.yml */; };
 		8499D91A2B29C2520050E599 /* Template.stencil in Sources */ = {isa = PBXBuildFile; fileRef = 8499D9192B29C2520050E599 /* Template.stencil */; };
 		8499D9272B29DFF40050E599 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499D9262B29DFF40050E599 /* Images.swift */; };
@@ -138,6 +139,7 @@
 		8435030D2B36FBD300046BCF /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		8435030F2B37353400046BCF /* NftsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftsService.swift; sourceTree = "<group>"; };
 		846585052B3A0C7E00F90951 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
+		848FB13B2B3C6EAC000D0486 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		8499D9172B29C13B0050E599 /* SwiftGen.config.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = SwiftGen.config.yml; sourceTree = "<group>"; };
 		8499D9192B29C2520050E599 /* Template.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = Template.stencil; sourceTree = "<group>"; };
 		8499D9262B29DFF40050E599 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 		3F6806C729CBBC5B00B4F915 /* Scenes  */ = {
 			isa = PBXGroup;
 			children = (
+				848FB13A2B3C6E92000D0486 /* Onboarding */,
 				E1A1B9D82AA01C9700C3AFBC /* TabBarController */,
 				84E8BEB82B247BAE00FC7FCA /* Cart */,
 				0CF2C2D92A783C1600FDC837 /* Common */,
@@ -414,6 +417,16 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
+		848FB13A2B3C6E92000D0486 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				84C85A3E2B3B1FD7009975BD /* OnboardingViewController.swift */,
+				848FB13B2B3C6EAC000D0486 /* PageViewController.swift */,
+				84C85A402B3B2443009975BD /* CustomPageControl.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		8499D9162B29C10D0050E599 /* SwiftGen */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,8 +498,6 @@
 				3F68069F29CBBAF200B4F915 /* Assets.xcassets */,
 				3F6806A129CBBAF200B4F915 /* LaunchScreen.storyboard */,
 				E1CD40DB2A96BECC00BE7FE8 /* Localizable.strings */,
-				84C85A3E2B3B1FD7009975BD /* OnboardingViewController.swift */,
-				84C85A402B3B2443009975BD /* CustomPageControl.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -709,6 +720,7 @@
 				0CFCB74E2A7817DC0009A829 /* NftStorage.swift in Sources */,
 				D5DC43AA2B299B5B0018BDBD /* ProfileModel.swift in Sources */,
 				3FC8C39129D2453B0081F015 /* ExampleRequest.swift in Sources */,
+				848FB13C2B3C6EAC000D0486 /* PageViewController.swift in Sources */,
 				84BEBFEE2B39C08300BE82FA /* PaymentService.swift in Sources */,
 				0CFCB7462A78064B0009A829 /* NftDetailCellModel.swift in Sources */,
 				0CFCB74B2A780EA80009A829 /* UIView+Constraints.swift in Sources */,
