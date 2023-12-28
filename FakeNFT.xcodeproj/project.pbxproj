@@ -46,6 +46,8 @@
 		843503102B37353400046BCF /* NftsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8435030F2B37353400046BCF /* NftsService.swift */; };
 		846585062B3A0C7E00F90951 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846585052B3A0C7E00F90951 /* UIBlockingProgressHUD.swift */; };
 		848FB13C2B3C6EAC000D0486 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848FB13B2B3C6EAC000D0486 /* PageViewController.swift */; };
+		848FB13E2B3D67AC000D0486 /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848FB13D2B3D67AC000D0486 /* Authorization.swift */; };
+		848FB1402B3D9269000D0486 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848FB13F2B3D9269000D0486 /* UITextField+Extension.swift */; };
 		8499D9182B29C13B0050E599 /* SwiftGen.config.yml in Resources */ = {isa = PBXBuildFile; fileRef = 8499D9172B29C13B0050E599 /* SwiftGen.config.yml */; };
 		8499D91A2B29C2520050E599 /* Template.stencil in Sources */ = {isa = PBXBuildFile; fileRef = 8499D9192B29C2520050E599 /* Template.stencil */; };
 		8499D9272B29DFF40050E599 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8499D9262B29DFF40050E599 /* Images.swift */; };
@@ -140,6 +142,8 @@
 		8435030F2B37353400046BCF /* NftsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftsService.swift; sourceTree = "<group>"; };
 		846585052B3A0C7E00F90951 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		848FB13B2B3C6EAC000D0486 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		848FB13D2B3D67AC000D0486 /* Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
+		848FB13F2B3D9269000D0486 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
 		8499D9172B29C13B0050E599 /* SwiftGen.config.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = SwiftGen.config.yml; sourceTree = "<group>"; };
 		8499D9192B29C2520050E599 /* Template.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = Template.stencil; sourceTree = "<group>"; };
 		8499D9262B29DFF40050E599 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
@@ -342,6 +346,7 @@
 			isa = PBXGroup;
 			children = (
 				848FB13A2B3C6E92000D0486 /* Onboarding */,
+				848FB13D2B3D67AC000D0486 /* Authorization.swift */,
 				E1A1B9D82AA01C9700C3AFBC /* TabBarController */,
 				84E8BEB82B247BAE00FC7FCA /* Cart */,
 				0CF2C2D92A783C1600FDC837 /* Common */,
@@ -471,6 +476,7 @@
 				84E8BEC62B2706ED00FC7FCA /* UIViewController+Extensions.swift */,
 				84E077ED2B2DC90A00CD9644 /* UILabel+Extension.swift */,
 				8435030D2B36FBD300046BCF /* UIImage+Extension.swift */,
+				848FB13F2B3D9269000D0486 /* UITextField+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -699,6 +705,7 @@
 				3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */,
 				0CFCB7422A78013E0009A829 /* Nft.swift in Sources */,
 				0CF2C2DD2A783CE600FDC837 /* ErrorView.swift in Sources */,
+				848FB13E2B3D67AC000D0486 /* Authorization.swift in Sources */,
 				8499D92D2B2DAA890050E599 /* CartPayCollectionViewCell.swift in Sources */,
 				84BEBFE42B3961AB00BE82FA /* CriptoDetail.swift in Sources */,
 				84E077F42B345FEC00CD9644 /* OrderDetail.swift in Sources */,
@@ -730,6 +737,7 @@
 				8499D9292B2B8CB90050E599 /* CartPayViewController.swift in Sources */,
 				0C79EE612A76DCD600EE90EA /* NftByIdRequest.swift in Sources */,
 				E19CD5AB2A98B56600CA39A5 /* NftImageCollectionViewCell.swift in Sources */,
+				848FB1402B3D9269000D0486 /* UITextField+Extension.swift in Sources */,
 				84BEBFF02B39C11600BE82FA /* PaymentRequest.swift in Sources */,
 				8499D92F2B2DADE70050E599 /* Cripto.swift in Sources */,
 				84E077FA2B34D8FB00CD9644 /* Order.swift in Sources */,

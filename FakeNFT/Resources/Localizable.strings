@@ -43,6 +43,14 @@
 "onboarding.thirdPageVC.mainInfoText" = "Смотрите статистику других и покажите всем, что у вас самая ценная коллекция";
 "onboarding.thirdPageVC.actionButton" = "Что внутри?";
 
+"authorization.viewController.mainLabel" = "Вход";
+"authorization.viewController.emailPlaceholder" = "Email";
+"authorization.viewController.passwordPlaceholder" = "Пароль";
+"authorization.viewController.loginButtonTitle" = "Войти";
+"authorization.viewController.forgotPasswordButton" = "Забыли пароль?";
+"authorization.viewController.registerButton" = "Зарегистрироваться";
+
+
 
 
 

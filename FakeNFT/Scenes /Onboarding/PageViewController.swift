@@ -91,7 +91,7 @@ final class PageViewController: UIViewController {
     
     private func setTabBarControllerAsRoot() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration of switchToTabBarController") }
-        let tabBarController = TabBarController()
+        let tabBarController = AuthorizationViewController()
         window.rootViewController = tabBarController
     }
     
