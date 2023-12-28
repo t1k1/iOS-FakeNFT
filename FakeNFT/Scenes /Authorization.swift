@@ -1,6 +1,7 @@
 import UIKit
 final class AuthorizationViewController: UIViewController {
     
+    // MARK: - Private mutable properties
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("authorization.viewController.mainLabel", comment: "")
@@ -77,12 +78,15 @@ final class AuthorizationViewController: UIViewController {
         return button
     }()
     
+    // MARK: - View controller lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypWhiteDay
         configureConstraints()
     }
     
+    // MARK: - Objective-C functions
     @objc
     private func didTapLoginButton() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration of switchToTabBarController") }
@@ -97,8 +101,11 @@ final class AuthorizationViewController: UIViewController {
     @objc func didTapRegisterButton() {
         print("Register tapped")
     }
-    
-    private func configureConstraints() {
+}
+
+// MARK: - Configure constraints
+private extension AuthorizationViewController {
+    func configureConstraints() {
         view.addSubview(mainLabel)
         NSLayoutConstraint.activate([
             mainLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -146,5 +153,4 @@ final class AuthorizationViewController: UIViewController {
             registerButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
-    
 }
