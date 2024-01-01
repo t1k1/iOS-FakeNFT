@@ -16,18 +16,18 @@ struct OrderRequest: NetworkRequest {
 
 struct OrderPutRequest: NetworkRequest {
     let id: String
-    
+
     var endpoint: URL? {
         URL(string: "\(RequestConstants.baseURL)/api/v1/orders/\(id)")
     }
-    
+
     var httpMethod = HttpMethod.put
     var dto: Encodable?
     var body: Data?
-    
+
     init(order: OrderNetworkModel) {
         var nfts = ""
-        order.nfts.enumerated().forEach { (index, nft) in
+        order.nfts.enumerated().forEach { (_, nft) in
             nfts += "\(OrderPutRequestConstants.nfts)=\(nft)&"
         }
         nfts += "\(OrderPutRequestConstants.id)=\(order.id)"
@@ -38,7 +38,7 @@ struct OrderPutRequest: NetworkRequest {
         self.dto = orderToPut
         self.id = orderToPut.id
     }
-    
+
     private enum OrderPutRequestConstants {
         static let id = "id"
         static let nfts = "nfts"

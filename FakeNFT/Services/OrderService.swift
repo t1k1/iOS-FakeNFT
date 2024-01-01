@@ -16,13 +16,13 @@ protocol OrderServiceProtocol {
 
 final class OrderServiceImpl: OrderServiceProtocol {
     static let shared = OrderServiceImpl(networkClient: DefaultNetworkClient())
-    
+
     private let networkClient: NetworkClient
-    
+
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
-    
+
     func loadOrder(id: String, completion: @escaping OrderCompletion) {
         let request = OrderRequest(id: id)
         networkClient.send(request: request, type: OrderNetworkModel.self) { result in
@@ -34,7 +34,7 @@ final class OrderServiceImpl: OrderServiceProtocol {
             }
         }
     }
-    
+
     func putOrder(order: OrderNetworkModel, completion: @escaping OrderCompletion) {
         let request = OrderPutRequest(order: order)
         networkClient.send(request: request, type: OrderNetworkModel.self) { result in

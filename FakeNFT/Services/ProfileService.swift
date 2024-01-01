@@ -16,13 +16,13 @@ protocol ProfileServiceProtocol {
 
 final class ProfileService: ProfileServiceProtocol {
     static let shared = ProfileService(networkClient: DefaultNetworkClient())
-    
+
     private let networkClient: NetworkClient
-    
+
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
-    
+
     func getProfile(completion: @escaping ProfileCompletion) {
         let request = GetProfileRequest()
         networkClient.send(request: request, type: ProfileResult.self) { result in
@@ -34,7 +34,7 @@ final class ProfileService: ProfileServiceProtocol {
             }
         }
     }
-    
+
     func updateProfile(with profileUpdate: ProfileUpdate, completion: @escaping ProfileCompletion) {
         let request = PutProfileRequest(profile: profileUpdate)
         networkClient.send(request: request, type: ProfileResult.self) { result in
