@@ -9,6 +9,6 @@ import Foundation
 
 struct CollectionsRequest: NetworkRequest {
     var endpoint: URL? {
-        URL(string: "https://\(RequestConstants.baseURL)/api/v1/collections")
+        URL(string: "\(RequestConstants.baseURL)/api/v1/collections")
     }
 }

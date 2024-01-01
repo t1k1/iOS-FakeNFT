@@ -14,15 +14,15 @@ protocol CollectionsService {
 }
 
 final class CollectionsServiceImpl: CollectionsService {
-    
+
     private let networkClient: NetworkClient
-    
+
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
-    
+
     func loadCollections(completion: @escaping CollectionsCompletion) {
-        
+
         let request = CollectionsRequest()
         networkClient.send(request: request, type: [CollectionsResult].self, completionQueue: .main) { result in
             switch result {
