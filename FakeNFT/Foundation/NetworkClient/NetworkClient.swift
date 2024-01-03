@@ -118,12 +118,20 @@ struct DefaultNetworkClient: NetworkClient {
         var urlRequest = URLRequest(url: endpoint)
         urlRequest.httpMethod = request.httpMethod.rawValue
 
-        if let dto = request.dto,
-           let dtoEncoded = try? encoder.encode(dto) {
-            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            urlRequest.httpBody = dtoEncoded
+        if urlRequest.httpMethod == HttpMethod.put.rawValue {
+            if let body = request.body {
+                urlRequest.setValue(RequestConstants.contentEncoded, forHTTPHeaderField: RequestConstants.contentType)
+                urlRequest.httpBody = body
+            }
+        } else {
+            if let dto = request.dto,
+               let dtoEncoded = try? encoder.encode(dto) {
+                urlRequest.setValue(RequestConstants.contentJson, forHTTPHeaderField: RequestConstants.contentType)
+                urlRequest.httpBody = dtoEncoded
+            }
         }
 
+        urlRequest.setValue(RequestConstants.tokenValue, forHTTPHeaderField: RequestConstants.tokenName)
         return urlRequest
     }
 
