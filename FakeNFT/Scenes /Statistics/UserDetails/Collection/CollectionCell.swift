@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - Class
 
-final class CollectionCell: UICollectionViewCell {
+final class CollectionCell: UICollectionViewCell, ReuseIdentifying {
     // MARK: - Private UI properties
 
     private let nftImageView: UIImageView = {

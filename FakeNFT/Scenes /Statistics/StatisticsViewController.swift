@@ -59,7 +59,8 @@ final class StatisticsViewController: UIViewController {
     private var currentSortingState =
         SortingState(rawValue: UserDefaults.standard.statisticsSorting) ?? SortingState.byRatingDescending
     private let servicesAssembly: ServicesAssembly
-    private let cellID = "UserRatingsCell"
+    private let service: UsersServiceProtocol
+    private let cellID = "UserCell"
 
     // MARK: - Inits
 
@@ -151,7 +152,7 @@ private extension StatisticsViewController {
         usersTableView.delegate = self
         usersTableView.dataSource = self
         usersTableView.alwaysBounceVertical = true
-        usersTableView.register(UserRatingsCell.self, forCellReuseIdentifier: cellID)
+        usersTableView.register(UserCell.self, forCellReuseIdentifier: cellID)
         sortButton.addTarget(self, action: #selector(sortButtonClicked), for: .touchUpInside)
         usersTableView.verticalScrollIndicatorInsets.right = .spacing4
     }
@@ -228,7 +229,7 @@ extension StatisticsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard
             let cell = usersTableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-                as? UserRatingsCell else {
+                as? UserCell else {
             return UITableViewCell()
         }
         let bgColorView = UIView()
