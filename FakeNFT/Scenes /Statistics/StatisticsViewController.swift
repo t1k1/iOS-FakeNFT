@@ -36,23 +36,6 @@ final class StatisticsViewController: UIViewController {
         return table
     }()
 
-    private let mockUsers: [UserDetails] = [
-        UserDetails(avatarId: 1, name: "Alex", rating: 112, description: "", urlSite: ""),
-        UserDetails(avatarId: 2, name: "Bill", rating: 98, description: "", urlSite: ""),
-        UserDetails(avatarId: 3, name: "Alla", rating: 72, description: "", urlSite: ""),
-        UserDetails(avatarId: 4, name: "Mads", rating: 71, description: "", urlSite: ""),
-        UserDetails(avatarId: 1, name: "Timothée", rating: 51, description: "", urlSite: ""),
-        UserDetails(avatarId: 2, name: "Lea", rating: 23, description: "", urlSite: ""),
-        UserDetails(avatarId: 3, name: "Eric", rating: 11, description: "", urlSite: ""),
-        UserDetails(avatarId: 4, name: "Padre Cornelius", rating: 81, description: "", urlSite: ""),
-        UserDetails(avatarId: 1, name: "Neo", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 2, name: "Triniti", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 3, name: "Morpheus", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 4, name: "Corban", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 2, name: "Leeloo", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 3, name: "Zorg", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 1, name: "Konstantin", rating: Int.random(in: 10...100), description: "", urlSite: "")
-    ]
     private var visibleUsers: [UserViewModel] = [] {
         didSet {
             usersTableView.reloadData()
@@ -229,7 +212,7 @@ extension StatisticsViewController: UITableViewDelegate {
         usersTableView.deselectRow(at: indexPath, animated: false)
          let nextController = UserDetailsViewController(
             servicesAssembly: servicesAssembly,
-            user: mockUsers[indexPath.row]
+            user: visibleUsers[indexPath.row]
         )
         navigationController?.pushViewController(nextController, animated: true)
     }
@@ -239,7 +222,7 @@ extension StatisticsViewController: UITableViewDelegate {
 
 extension StatisticsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        mockUsers.count
+        visibleUsers.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -251,7 +234,7 @@ extension StatisticsViewController: UITableViewDataSource {
         let bgColorView = UIView()
         bgColorView.backgroundColor = .ypWhiteDay
         cell.selectedBackgroundView = bgColorView
-        cell.configureCell(counter: indexPath.row + 1, user: mockUsers[indexPath.row])
+        cell.configureCell(counter: indexPath.row + 1, user: visibleUsers[indexPath.row])
         return cell
     }
 }

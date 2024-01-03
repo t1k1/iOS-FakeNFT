@@ -187,7 +187,7 @@ private extension CollectionCell {
         genegateMockRating()
         genegateMockNftImage()
         genegateMockName()
-        nftPriceLabel.text = Float.random(in: 1...3).priceFormatted
+        nftPriceLabel.text = Float.random(in: 10...50).priceFormatted
     }
 
     func genegateMockRating() {

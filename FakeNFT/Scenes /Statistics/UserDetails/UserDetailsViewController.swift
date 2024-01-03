@@ -47,7 +47,7 @@ final class UserDetailsViewController: UIViewController {
         return label
     }()
 
-    private let desc = "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT. "
+    private let mockWebsite = "https://practicum.yandex.ru/"
     private let userDetails: UserViewModel
     private let servicesAssembly: ServicesAssembly
 
@@ -68,7 +68,6 @@ final class UserDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        generateMockAvatar()
         configureUI()
     }
 
@@ -86,7 +85,7 @@ private extension UserDetailsViewController {
     }
 
     @objc func siteButtonCLicked() {
-        let url = URL(string: userDetails.urlSite.isEmpty ? "https://practicum.yandex.ru/" : userDetails.urlSite)
+        let url = URL(string: userDetails.website.isEmpty ? mockWebsite : userDetails.website)
         let nextController = WebViewViewController(url: url)
         navigationController?.pushViewController(nextController, animated: true)
     }
@@ -128,22 +127,13 @@ private extension UserDetailsViewController {
         forwardImageView.image = Statistics.SfSymbols.forward
         siteButton.setTitle(Statistics.Labels.siteButtonTitle, for: .normal)
         nameLabel.text = userDetails.name
-        descLabel.text = userDetails.description.isEmpty ? desc + desc + desc : userDetails.description
-        collectionLabel.text = Statistics.Labels.collectionTitle + " (\(userDetails.rating))"
+        descLabel.text = userDetails.description
+        let useMockCollection = userDetails.nfts.isEmpty ? "mock data" : String(userDetails.nfts.count)
+        collectionLabel.text = Statistics.Labels.collectionTitle + " (\(useMockCollection))"
         backButton.addTarget(self, action: #selector(backButtonCLicked), for: .touchUpInside)
         siteButton.addTarget(self, action: #selector(siteButtonCLicked), for: .touchUpInside)
         collectionButton.addTarget(self, action: #selector(collectionButtonCLicked), for: .touchUpInside)
     }
-
-//    func configureNavigationBar() {
-//        guard
-//            let navigationBar = navigationController?.navigationBar,
-//            let topItem = navigationBar.topItem
-//        else { return }
-//        navigationBar.tintColor = .ypBlackDay
-//        navigationBar.prefersLargeTitles = false
-//        topItem.backBarButtonItem = UIBarButtonItem(customView: backButton)
-//    }
 
     func configureConstraints() {
         let safeArea = view.safeAreaLayoutGuide
@@ -193,16 +183,5 @@ private extension UserDetailsViewController {
             forwardImageView.widthAnchor.constraint(equalToConstant: .iconSize1),
             forwardImageView.heightAnchor.constraint(equalToConstant: .iconSize2)
         ])
-    }
-
-    func generateMockAvatar() {
-        switch userDetails.avatarId {
-        case 1: avatarImageView.image = Statistics.SfSymbols.iconProfile
-        case 2: avatarImageView.image = Statistics.Images.avatar1
-        case 3: avatarImageView.image = Statistics.Images.avatar2
-        case 4: avatarImageView.image = Statistics.Images.avatar3
-        default:
-            break
-        }
     }
 }
