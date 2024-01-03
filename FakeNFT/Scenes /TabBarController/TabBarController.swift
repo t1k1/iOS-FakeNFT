@@ -36,7 +36,11 @@ final class TabBarController: UITabBarController {
         let cartController = TestCatalogViewController(servicesAssembly: servicesAssembly)
 
         // my epic
-        let statisticsController = StatisticsViewController(servicesAssembly: servicesAssembly)
+
+        let statisticsController = StatisticsViewController(
+            servicesAssembly: servicesAssembly,
+            service: servicesAssembly.usersService
+        )
         let navStatisticsController = UINavigationController(rootViewController: statisticsController)
 
         profileController.tabBarItem = profileTabBarItem

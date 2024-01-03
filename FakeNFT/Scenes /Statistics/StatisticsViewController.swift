@@ -76,8 +76,9 @@ final class StatisticsViewController: UIViewController {
 
     // MARK: - Inits
 
-    init(servicesAssembly: ServicesAssembly) {
+    init(servicesAssembly: ServicesAssembly, service: UsersServiceProtocol) {
         self.servicesAssembly = servicesAssembly
+        self.service = service
         super.init(nibName: nil, bundle: nil)
     }
 
