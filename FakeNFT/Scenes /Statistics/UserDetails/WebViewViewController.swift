@@ -35,6 +35,8 @@ final class WebViewViewController: UIViewController {
    override func viewDidLoad() {
        super.viewDidLoad()
        configureUI()
+       webView.navigationDelegate = self
+       UIBlockingProgressHUD.showWithoutBloсking()
        if let url {
            webView.load(URLRequest(url: url))
        }
@@ -46,10 +48,24 @@ final class WebViewViewController: UIViewController {
     }
 }
 
+// MARK: - WKNavigationDelegate
+
+extension WebViewViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        UIBlockingProgressHUD.dismiss()
+    }
+
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        UIBlockingProgressHUD.dismiss()
+    }
+}
+
 // MARK: - Private methods
 
 private extension WebViewViewController {
     @objc func backButtonCLicked() {
+        webView.stopLoading()
+        UIBlockingProgressHUD.dismiss()
         navigationController?.popViewController(animated: true)
     }
 }
