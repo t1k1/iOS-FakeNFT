@@ -20,6 +20,7 @@ final class UserDetailsViewController: UIViewController {
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = Statistics.SfSymbols.iconProfile
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = .avatarRadius2
         imageView.layer.masksToBounds = true
         return imageView
@@ -123,6 +124,7 @@ private extension UserDetailsViewController {
     }
 
     func configureElementValues() {
+        avatarImageView.fetchAvatarBy(url: userDetails.avatar, with: .avatarRadius2, for: self.avatarImageView)
         backButton.setImage(Statistics.SfSymbols.backward, for: .normal)
         forwardImageView.image = Statistics.SfSymbols.forward
         siteButton.setTitle(Statistics.Labels.siteButtonTitle, for: .normal)

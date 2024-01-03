@@ -26,6 +26,7 @@ enum Statistics {
         static let backward = UIImage(systemName: "chevron.backward", withConfiguration: largeConfig)
 
         static let like = UIImage(systemName: "heart.fill")
+        static let placeholderNft = UIImage(systemName: "photo")
     }
 
     // MARK: - UI element's images
