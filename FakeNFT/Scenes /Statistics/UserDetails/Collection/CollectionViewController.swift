@@ -31,13 +31,13 @@ final class CollectionViewController: UIViewController {
         return collectionView
     }()
 
-    private var userDetails: UserDetails
+    private var userDetails: UserViewModel
     private let servicesAssembly: ServicesAssembly
     private let cellID = "CollectionCell"
 
     // MARK: - Inits
 
-    init(servicesAssembly: ServicesAssembly, user: UserDetails) {
+    init(servicesAssembly: ServicesAssembly, user: UserViewModel) {
         self.servicesAssembly = servicesAssembly
         self.userDetails = user
         super.init(nibName: nil, bundle: nil)

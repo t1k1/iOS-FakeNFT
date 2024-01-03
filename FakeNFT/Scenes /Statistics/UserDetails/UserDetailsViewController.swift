@@ -48,15 +48,15 @@ final class UserDetailsViewController: UIViewController {
     }()
 
     private let desc = "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT. "
-    private let userDetails: UserDetails
+    private let userDetails: UserViewModel
     private let servicesAssembly: ServicesAssembly
 
     // MARK: - Inits
 
-    init(servicesAssembly: ServicesAssembly, user: UserDetails) {
+    init(servicesAssembly: ServicesAssembly, user: UserViewModel) {
         self.servicesAssembly = servicesAssembly
         self.userDetails = user
-         super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil, bundle: nil)
         hidesBottomBarWhenPushed = true
     }
 
