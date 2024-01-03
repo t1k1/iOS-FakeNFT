@@ -9,6 +9,10 @@ import UIKit
 
 // MARK: - State
 
+enum StatisticsState {
+    case initial, loading, failed(Error), data([UserModel])
+}
+
 enum SortingState: String {
     case byNameAscending, byNameDescending, byRatingAscending, byRatingDescending
 }
@@ -98,6 +102,7 @@ final class StatisticsViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
         tabBarController?.tabBar.isHidden = false
+        state = .loading
     }
 }
 
@@ -166,6 +171,50 @@ private extension StatisticsViewController {
         usersTableView.register(UserRatingsCell.self, forCellReuseIdentifier: cellID)
         sortButton.addTarget(self, action: #selector(sortButtonClicked), for: .touchUpInside)
         usersTableView.verticalScrollIndicatorInsets.right = .spacing4
+    }
+
+    func stateDidChanged() {
+        switch state {
+        case .initial:
+            assertionFailure("can't move to initial state")
+        case .loading:
+            UIBlockingProgressHUD.show()
+            loadUsers()
+        case .data(let usersResult):
+            self.fetchUsers(from: usersResult)
+            UIBlockingProgressHUD.dismiss()
+        case .failed(let error):
+            UIBlockingProgressHUD.dismiss()
+            assertionFailure("Error: \(error)")
+        }
+    }
+
+    func loadUsers() {
+        service.loadUsers { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let usersResult):
+                self.state = .data(usersResult)
+            case .failure(let error):
+                self.state = .failed(error)
+            }
+        }
+    }
+
+    func fetchUsers(from usersResult: [UserModel]) {
+        let usersModel = usersResult.compactMap { result in
+            UserViewModel(
+                name: result.name,
+                avatar: result.avatar ?? "",
+                description: result.description ?? "",
+                website: result.website ?? "",
+                nfts: result.nfts,
+                rating: Float(result.rating) ?? Float(0),
+                id: result.id
+            )
+        }
+        visibleUsers = usersModel
+        applySortingState()
     }
 }
 
