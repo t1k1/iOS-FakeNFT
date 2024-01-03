@@ -7,6 +7,12 @@
 
 import UIKit
 
+// MARK: - State
+
+enum SortingState: String {
+    case byNameAscending, byNameDescending, byRatingAscending, byRatingDescending
+}
+
 // MARK: - Class
 
 final class StatisticsViewController: UIViewController {
@@ -43,6 +49,28 @@ final class StatisticsViewController: UIViewController {
         UserDetails(avatarId: 3, name: "Zorg", rating: Int.random(in: 10...100), description: "", urlSite: ""),
         UserDetails(avatarId: 1, name: "Konstantin", rating: Int.random(in: 10...100), description: "", urlSite: "")
     ]
+    private var visibleUsers: [UserViewModel] = [] {
+        didSet {
+            usersTableView.reloadData()
+        }
+    }
+    private var isSortedByNameAscending = false {
+        didSet {
+            sortByName()
+        }
+    }
+    private var isSortedByRatingAscending = false {
+        didSet {
+            sortByRating()
+        }
+    }
+    private var state = StatisticsState.initial {
+        didSet {
+            stateDidChanged()
+        }
+    }
+    private var currentSortingState =
+        SortingState(rawValue: UserDefaults.standard.statisticsSorting) ?? SortingState.byRatingDescending
     private let servicesAssembly: ServicesAssembly
     private let cellID = "UserRatingsCell"
 
@@ -76,9 +104,15 @@ final class StatisticsViewController: UIViewController {
 
 private extension StatisticsViewController {
     @objc func sortButtonClicked() {
+        let sortingByName = isSortedByNameAscending
+            ? Statistics.Labels.sortingByName + Statistics.Labels.arrowDown
+            : Statistics.Labels.sortingByName + Statistics.Labels.arrowUp
+        let sortingByRating = isSortedByRatingAscending
+            ? Statistics.Labels.sortingByRating + Statistics.Labels.arrowDown
+            : Statistics.Labels.sortingByRating + Statistics.Labels.arrowUp
         presentBottomAlert(
             title: Statistics.Labels.sortingTitle,
-            buttons: [Statistics.Labels.sortingByName, Statistics.Labels.sortingByRating]
+            buttons: [sortingByName, sortingByRating]
         ) { selectedIndex in
             switch selectedIndex {
             case 0: self.sortingByNameClicked()
@@ -89,11 +123,39 @@ private extension StatisticsViewController {
     }
 
     @objc func sortingByNameClicked() {
-        print(#fileID, #function)
+        isSortedByNameAscending.toggle()
+        currentSortingState = isSortedByNameAscending ? SortingState.byNameAscending : SortingState.byNameDescending
+        saveStatisticsSortingState()
     }
 
     @objc func sortingByRatingClicked() {
-        print(#fileID, #function)
+        isSortedByRatingAscending.toggle()
+        currentSortingState = isSortedByRatingAscending
+            ? SortingState.byRatingAscending
+            : SortingState.byRatingDescending
+        saveStatisticsSortingState()
+    }
+
+    func saveStatisticsSortingState() {
+        UserDefaults.standard.statisticsSorting = currentSortingState.rawValue
+    }
+
+    func applySortingState() {
+        switch currentSortingState {
+        case .byNameAscending: isSortedByNameAscending = true
+        case .byNameDescending: isSortedByNameAscending = false
+        case .byRatingAscending: isSortedByRatingAscending = true
+        case .byRatingDescending: isSortedByRatingAscending = false
+        }
+    }
+
+    func sortByName() {
+        let order = isSortedByNameAscending ? ComparisonResult.orderedAscending : ComparisonResult.orderedDescending
+        visibleUsers.sort { $0.name.localizedCompare($1.name) == order }
+    }
+
+    func sortByRating() {
+        visibleUsers.sort { isSortedByRatingAscending ? $0.rating < $1.rating : $0.rating > $1.rating }
     }
 
     func configureElements() {
