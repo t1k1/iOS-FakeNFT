@@ -40,10 +40,6 @@ enum Statistics {
         static let nft3 = UIImage(named: "nft3")
         static let nft4 = UIImage(named: "nft4")
         static let nft5 = UIImage(named: "nft5")
-
-//        static let avatar1 = UIImage(named: "avatar1")
-//        static let avatar2 = UIImage(named: "avatar2")
-//        static let avatar3 = UIImage(named: "avatar3")
     }
 
     // MARK: - UI element's labels

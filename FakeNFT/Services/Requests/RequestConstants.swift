@@ -1,5 +1,4 @@
 enum RequestConstants {
-    // #warning("insert your baseUrl <id>.mockapi.io")
     static let baseURL = "https://d5dn3j2ouj72b0ejucbl.apigw.yandexcloud.net"
     static let tokenName = "X-Practicum-Mobile-Token"
     static let tokenValue = "a66690d9-233c-4541-a539-179c0a04d8da"

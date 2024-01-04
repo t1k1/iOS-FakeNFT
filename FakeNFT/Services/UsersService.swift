@@ -26,10 +26,8 @@ final class UserServiceImpl: UsersServiceProtocol {
         let request = UsersRequest()
 
         networkClient.send(request: request, type: [UserModel].self, completionQueue: .main) { result in
-//            print(#function, result)
             switch result {
             case .success(let users):
-//                print(#function, users)
                 completion(.success(users))
             case .failure(let error):
                 completion(.failure(error))

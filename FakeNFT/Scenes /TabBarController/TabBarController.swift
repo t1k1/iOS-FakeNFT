@@ -49,9 +49,9 @@ final class TabBarController: UITabBarController {
         statisticsController.tabBarItem = statisticsTabBarItem
 
         viewControllers = [
-//            profileController,
-//            catalogController,
-//            cartController,
+            profileController,
+            catalogController,
+            cartController,
             navStatisticsController
         ]
         selectedIndex = 3

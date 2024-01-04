@@ -1,10 +1,5 @@
 import Foundation
 
-// struct Nft: Decodable {
-//    let id: String
-//    let images: [URL]
-// }
-
 struct NftNetworkModel: Decodable {
     let createdAt: String
     let name: String

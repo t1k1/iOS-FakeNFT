@@ -18,7 +18,6 @@ extension UserDefaults {
         }
         set {
             setValue(newValue, forKey: UserDefaultsKeys.statisticsSorting.rawValue)
-            print(#fileID, #function, newValue)
         }
     }
 }
