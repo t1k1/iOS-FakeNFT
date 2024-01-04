@@ -52,9 +52,9 @@ enum Statistics {
         static let sortingClose = NSLocalizedString("statistics.sort.close", comment: "")
         static let collectionTitle = NSLocalizedString("statistics.collection.title", comment: "")
         static let siteButtonTitle = NSLocalizedString("statistics.siteButton.title", comment: "")
-        static let arrowDownValue = "   ↓" // "   \u{2193}"
-        static let arrowUpValue = "   ↑" // "   \u{2191}"
-        static let arrowUp = "   △" // "   \u{25B3}"
-        static let arrowDown = "   ▽" // "   ▽\u{25BD}"
+        static let arrowDown = "   ↓" // "   \u{2193}"
+        static let arrowUp = "   ↑" // "   \u{2191}"
+        static let triangleUp = "   △" // "   \u{25B3}"
+        static let triangleDown = "   ▽" // "   ▽\u{25BD}"
     }
 }

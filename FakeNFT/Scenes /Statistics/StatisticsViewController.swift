@@ -7,7 +7,7 @@
 
 import UIKit
 
-// MARK: - State
+// MARK: - State enums
 
 enum StatisticsState {
     case initial, loading, failed(Error), data([UserModel])
