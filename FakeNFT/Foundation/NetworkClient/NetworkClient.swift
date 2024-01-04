@@ -124,9 +124,9 @@ struct DefaultNetworkClient: NetworkClient {
                 urlRequest.httpBody = body
             }
         } else {
+            urlRequest.setValue(RequestConstants.contentJson, forHTTPHeaderField: RequestConstants.contentType)
             if let dto = request.dto,
                let dtoEncoded = try? encoder.encode(dto) {
-                urlRequest.setValue(RequestConstants.contentJson, forHTTPHeaderField: RequestConstants.contentType)
                 urlRequest.httpBody = dtoEncoded
             }
         }
