@@ -146,7 +146,7 @@ private extension UserDetailsViewController {
             customNavView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             customNavView.heightAnchor.constraint(equalToConstant: .navigationBarHeight),
 
-            backButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing16),
+            backButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: .spacing9),
             backButton.centerYAnchor.constraint(equalTo: customNavView.centerYAnchor),
             backButton.widthAnchor.constraint(equalToConstant: .backButtonSize),
             backButton.heightAnchor.constraint(equalToConstant: .backButtonSize),
