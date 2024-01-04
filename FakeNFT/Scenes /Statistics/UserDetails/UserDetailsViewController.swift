@@ -48,7 +48,6 @@ final class UserDetailsViewController: UIViewController {
         return label
     }()
 
-    private let mockWebsite = "https://practicum.yandex.ru/"
     private let userDetails: UserViewModel
     private let servicesAssembly: ServicesAssembly
 
@@ -86,8 +85,7 @@ private extension UserDetailsViewController {
     }
 
     @objc func siteButtonCLicked() {
-        let url = URL(string: userDetails.website.isEmpty ? mockWebsite : userDetails.website)
-        let nextController = WebViewViewController(url: url)
+        let nextController = WebViewViewController(urlString: userDetails.website)
         navigationController?.pushViewController(nextController, animated: true)
     }
 

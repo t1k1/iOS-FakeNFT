@@ -16,12 +16,12 @@ final class WebViewViewController: UIViewController {
     private let customNavView = UIView()
     private let backButton = UIButton()
     private let webView = WKWebView()
-    private var url: URL?
+    private var urlString: String?
 
     // MARK: - Inits
 
-    init(url: URL?) {
-        self.url = url
+    init(urlString: String?) {
+        self.urlString = urlString?.lowercased()
         super.init(nibName: nil, bundle: nil)
         hidesBottomBarWhenPushed = true
     }
@@ -37,6 +37,7 @@ final class WebViewViewController: UIViewController {
        configureUI()
        webView.navigationDelegate = self
        UIBlockingProgressHUD.showWithoutBloсking()
+       let url = URL(string: checkUrlString())
        if let url {
            webView.load(URLRequest(url: url))
        }
@@ -92,6 +93,20 @@ private extension WebViewViewController {
     func configureElementValues() {
         backButton.setImage(Statistics.SfSymbols.backward, for: .normal)
         backButton.addTarget(self, action: #selector(backButtonCLicked), for: .touchUpInside)
+    }
+
+    func checkUrlString() -> String {
+        let urlProtocol = "https://"
+        let mockWebsite = "https://practicum.yandex.ru/"
+        guard let urlString else { return mockWebsite }
+        var currentUrlString = urlString
+        if currentUrlString.isEmpty {
+            currentUrlString = mockWebsite
+        }
+        if !currentUrlString.contains(urlProtocol) {
+            currentUrlString = urlProtocol + currentUrlString
+        }
+        return currentUrlString
     }
 
     func configureConstraints() {
