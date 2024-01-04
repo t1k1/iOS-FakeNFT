@@ -18,7 +18,7 @@ extension UserDefaults {
         }
         set {
             setValue(newValue, forKey: UserDefaultsKeys.statisticsSorting.rawValue)
-            print(#fileID, #line, #function, newValue)
+            print(#fileID, #function, newValue)
         }
     }
 }
