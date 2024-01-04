@@ -39,21 +39,29 @@ final class StatisticsViewController: UIViewController {
     private var visibleUsers: [UserViewModel] = [] {
         didSet {
             usersTableView.reloadData()
+            print(#fileID, #line, #function)
         }
     }
     private var isSortedByNameAscending = false {
         didSet {
             sortByName()
+            print(#fileID, #line, #function)
         }
     }
     private var isSortedByRatingAscending = false {
         didSet {
             sortByRating()
+            print(#fileID, #line, #function)
         }
     }
     private var state = StatisticsState.initial {
         didSet {
             stateDidChanged()
+            print(#fileID, #line, #function)
+            print(#fileID, #line, #function)
+            print(#fileID, #line, #function)
+            print(#fileID, #line, #function)
+            print(#fileID, #line, #function)
         }
     }
     private var currentSortingState =
@@ -80,6 +88,11 @@ final class StatisticsViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureElements()
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -100,6 +113,8 @@ private extension StatisticsViewController {
         let sortingByRating = isSortedByRatingAscending
             ? Statistics.Labels.sortingByRating + Statistics.Labels.arrowDown
             : Statistics.Labels.sortingByRating + Statistics.Labels.arrowUp
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
         presentBottomAlert(
             title: Statistics.Labels.sortingTitle,
             buttons: [sortingByName, sortingByRating]
@@ -113,12 +128,16 @@ private extension StatisticsViewController {
     }
 
     @objc func sortingByNameClicked() {
+        print(#fileID, #line, #function)
         isSortedByNameAscending.toggle()
         currentSortingState = isSortedByNameAscending ? SortingState.byNameAscending : SortingState.byNameDescending
         saveStatisticsSortingState()
     }
 
     @objc func sortingByRatingClicked() {
+        print(#fileID, #line, #function)
+            print(#fileID, #line, #function)
+            print(#fileID, #line, #function)
         isSortedByRatingAscending.toggle()
         currentSortingState = isSortedByRatingAscending
             ? SortingState.byRatingAscending
@@ -126,11 +145,22 @@ private extension StatisticsViewController {
         saveStatisticsSortingState()
     }
 
+    func newDummyFunc() {
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+    }
+
     func saveStatisticsSortingState() {
         UserDefaults.standard.statisticsSorting = currentSortingState.rawValue
     }
 
     func applySortingState() {
+        print(#fileID, #line, #function)
         switch currentSortingState {
         case .byNameAscending: isSortedByNameAscending = true
         case .byNameDescending: isSortedByNameAscending = false
@@ -140,15 +170,19 @@ private extension StatisticsViewController {
     }
 
     func sortByName() {
+        print(#fileID, #line, #function)
         let order = isSortedByNameAscending ? ComparisonResult.orderedAscending : ComparisonResult.orderedDescending
         visibleUsers.sort { $0.name.localizedCompare($1.name) == order }
     }
 
     func sortByRating() {
+        print(#fileID, #line, #function)
         visibleUsers.sort { isSortedByRatingAscending ? $0.rating < $1.rating : $0.rating > $1.rating }
     }
 
     func configureElements() {
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
         usersTableView.delegate = self
         usersTableView.dataSource = self
         usersTableView.alwaysBounceVertical = true
@@ -158,6 +192,7 @@ private extension StatisticsViewController {
     }
 
     func stateDidChanged() {
+        print(#fileID, #line, #function)
         switch state {
         case .initial:
             assertionFailure("can't move to initial state")
@@ -247,9 +282,17 @@ private extension StatisticsViewController {
         configureViews()
         configureNavigationBar()
         configureConstraints()
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
     }
 
     func configureViews() {
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
+        print(#fileID, #line, #function)
         view.backgroundColor = .systemBackground
         view.addSubview(usersTableView)
     }

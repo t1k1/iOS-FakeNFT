@@ -99,6 +99,7 @@ private extension UserCell {
     }
 
     func configureViews() {
+        print(#fileID, #line, #function)
         [mainView, counterLabel, avatarImageView, nameLabel, ratingLabel].forEach { contentView.addSubview($0) }
     }
 
