@@ -26,12 +26,16 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:FakeNFT.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
       <Testables>
          <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
+            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3F6806A829CBBAF200B4F915"
@@ -48,6 +52,17 @@
                BlueprintIdentifier = "3F6806B229CBBAF200B4F915"
                BuildableName = "FakeNFTUITests.xctest"
                BlueprintName = "FakeNFTUITests"
+               ReferencedContainer = "container:FakeNFT.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CE41AF1F2B49DA67005844F9"
+               BuildableName = "FakeNFTUnitTests.xctest"
+               BlueprintName = "FakeNFTUnitTests"
                ReferencedContainer = "container:FakeNFT.xcodeproj">
             </BuildableReference>
          </TestableReference>
