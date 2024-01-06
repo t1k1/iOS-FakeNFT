@@ -1,5 +1,5 @@
 //
-//  UserRatingsCell.swift
+//  UserCell.swift
 //  FakeNFT
 //
 //  Created by Sergey Kemenov on 10.12.2023.
@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - class
 
-final class UserRatingsCell: UITableViewCell {
+final class UserCell: UITableViewCell {
     // MARK: - Private properties
     private let mainView: UIView = {
         let view = UIView()
@@ -52,10 +52,11 @@ final class UserRatingsCell: UITableViewCell {
         imageView.tintColor = .ypBlackDay
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = .avatarRadius1
+        imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    private let cellID = "UserRatingsCell"
+    private let cellID = "UserCell"
 
     // MARK: - Inits
 
@@ -72,20 +73,25 @@ final class UserRatingsCell: UITableViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: .zero, left: .zero, bottom: 8, right: .zero))
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(
+            top: .zero,
+            left: .zero,
+            bottom: .spacing8,
+            right: .zero
+        ))
     }
 
-    func configureCell(counter: Int, user: UserDetails) {
+    func configureCell(counter: Int, user: UserViewModel) {
         counterLabel.text = String(counter)
         nameLabel.text = user.name
         ratingLabel.text = String(user.rating)
-        generateMockAvatar(avatarId: user.avatarId)
+        avatarImageView.fetchAvatarBy(url: user.avatar, with: .avatarRadius1, for: self.avatarImageView)
     }
 }
 
 // MARK: - Configure CategoryCell UI Section
 
-private extension UserRatingsCell {
+private extension UserCell {
 
     func configureUI() {
         configureViews()
@@ -121,16 +127,5 @@ private extension UserRatingsCell {
             ratingLabel.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -.spacing16),
             ratingLabel.heightAnchor.constraint(equalToConstant: .labelHeight2)
         ])
-    }
-
-    func generateMockAvatar(avatarId: Int) {
-        switch avatarId {
-        case 1: avatarImageView.image = Statistics.SfSymbols.iconProfile
-        case 2: avatarImageView.image = Statistics.Images.avatar1
-        case 3: avatarImageView.image = Statistics.Images.avatar2
-        case 4: avatarImageView.image = Statistics.Images.avatar3
-        default:
-            break
-        }
     }
 }

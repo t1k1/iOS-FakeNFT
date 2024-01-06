@@ -7,6 +7,16 @@
 
 import UIKit
 
+// MARK: - State enums
+
+enum StatisticsState {
+    case initial, loading, failed(Error), data([UserModel])
+}
+
+enum SortingState: String {
+    case byNameAscending, byNameDescending, byRatingAscending, byRatingDescending
+}
+
 // MARK: - Class
 
 final class StatisticsViewController: UIViewController {
@@ -26,30 +36,37 @@ final class StatisticsViewController: UIViewController {
         return table
     }()
 
-    private let mockUsers: [UserDetails] = [
-        UserDetails(avatarId: 1, name: "Alex", rating: 112, description: "", urlSite: ""),
-        UserDetails(avatarId: 2, name: "Bill", rating: 98, description: "", urlSite: ""),
-        UserDetails(avatarId: 3, name: "Alla", rating: 72, description: "", urlSite: ""),
-        UserDetails(avatarId: 4, name: "Mads", rating: 71, description: "", urlSite: ""),
-        UserDetails(avatarId: 1, name: "Timothée", rating: 51, description: "", urlSite: ""),
-        UserDetails(avatarId: 2, name: "Lea", rating: 23, description: "", urlSite: ""),
-        UserDetails(avatarId: 3, name: "Eric", rating: 11, description: "", urlSite: ""),
-        UserDetails(avatarId: 4, name: "Padre Cornelius", rating: 81, description: "", urlSite: ""),
-        UserDetails(avatarId: 1, name: "Neo", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 2, name: "Triniti", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 3, name: "Morpheus", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 4, name: "Corban", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 2, name: "Leeloo", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 3, name: "Zorg", rating: Int.random(in: 10...100), description: "", urlSite: ""),
-        UserDetails(avatarId: 1, name: "Konstantin", rating: Int.random(in: 10...100), description: "", urlSite: "")
-    ]
+    private var visibleUsers: [UserViewModel] = [] {
+        didSet {
+            usersTableView.reloadData()
+        }
+    }
+    private var isSortedByNameAscending = false {
+        didSet {
+            sortByName()
+        }
+    }
+    private var isSortedByRatingAscending = false {
+        didSet {
+            sortByRating()
+        }
+    }
+    private var state = StatisticsState.initial {
+        didSet {
+            stateDidChanged()
+        }
+    }
+    private var currentSortingState =
+        SortingState(rawValue: UserDefaults.standard.statisticsSorting) ?? SortingState.byRatingDescending
     private let servicesAssembly: ServicesAssembly
-    private let cellID = "UserRatingsCell"
+    private let service: UsersServiceProtocol
+    private let cellID = "UserCell"
 
     // MARK: - Inits
 
-    init(servicesAssembly: ServicesAssembly) {
+    init(servicesAssembly: ServicesAssembly, service: UsersServiceProtocol) {
         self.servicesAssembly = servicesAssembly
+        self.service = service
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -69,6 +86,7 @@ final class StatisticsViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
         tabBarController?.tabBar.isHidden = false
+        state = .loading
     }
 }
 
@@ -76,9 +94,15 @@ final class StatisticsViewController: UIViewController {
 
 private extension StatisticsViewController {
     @objc func sortButtonClicked() {
+        let sortingByName = isSortedByNameAscending
+            ? Statistics.Labels.sortingByName + Statistics.Labels.arrowDown
+            : Statistics.Labels.sortingByName + Statistics.Labels.arrowUp
+        let sortingByRating = isSortedByRatingAscending
+            ? Statistics.Labels.sortingByRating + Statistics.Labels.arrowDown
+            : Statistics.Labels.sortingByRating + Statistics.Labels.arrowUp
         presentBottomAlert(
             title: Statistics.Labels.sortingTitle,
-            buttons: [Statistics.Labels.sortingByName, Statistics.Labels.sortingByRating]
+            buttons: [sortingByName, sortingByRating]
         ) { selectedIndex in
             switch selectedIndex {
             case 0: self.sortingByNameClicked()
@@ -89,20 +113,92 @@ private extension StatisticsViewController {
     }
 
     @objc func sortingByNameClicked() {
-        print(#fileID, #function)
+        isSortedByNameAscending.toggle()
+        currentSortingState = isSortedByNameAscending ? SortingState.byNameAscending : SortingState.byNameDescending
+        saveStatisticsSortingState()
     }
 
     @objc func sortingByRatingClicked() {
-        print(#fileID, #function)
+        isSortedByRatingAscending.toggle()
+        currentSortingState = isSortedByRatingAscending
+            ? SortingState.byRatingAscending
+            : SortingState.byRatingDescending
+        saveStatisticsSortingState()
+    }
+
+    func saveStatisticsSortingState() {
+        UserDefaults.standard.statisticsSorting = currentSortingState.rawValue
+    }
+
+    func applySortingState() {
+        switch currentSortingState {
+        case .byNameAscending: isSortedByNameAscending = true
+        case .byNameDescending: isSortedByNameAscending = false
+        case .byRatingAscending: isSortedByRatingAscending = true
+        case .byRatingDescending: isSortedByRatingAscending = false
+        }
+    }
+
+    func sortByName() {
+        let order = isSortedByNameAscending ? ComparisonResult.orderedAscending : ComparisonResult.orderedDescending
+        visibleUsers.sort { $0.name.localizedCompare($1.name) == order }
+    }
+
+    func sortByRating() {
+        visibleUsers.sort { isSortedByRatingAscending ? $0.rating < $1.rating : $0.rating > $1.rating }
     }
 
     func configureElements() {
         usersTableView.delegate = self
         usersTableView.dataSource = self
         usersTableView.alwaysBounceVertical = true
-        usersTableView.register(UserRatingsCell.self, forCellReuseIdentifier: cellID)
+        usersTableView.register(UserCell.self, forCellReuseIdentifier: cellID)
         sortButton.addTarget(self, action: #selector(sortButtonClicked), for: .touchUpInside)
         usersTableView.verticalScrollIndicatorInsets.right = .spacing4
+    }
+
+    func stateDidChanged() {
+        switch state {
+        case .initial:
+            assertionFailure("can't move to initial state")
+        case .loading:
+            UIBlockingProgressHUD.show()
+            loadUsers()
+        case .data(let usersResult):
+            self.fetchUsers(from: usersResult)
+            UIBlockingProgressHUD.dismiss()
+        case .failed(let error):
+            UIBlockingProgressHUD.dismiss()
+            assertionFailure("Error: \(error)")
+        }
+    }
+
+    func loadUsers() {
+        service.loadUsers { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let usersResult):
+                self.state = .data(usersResult)
+            case .failure(let error):
+                self.state = .failed(error)
+            }
+        }
+    }
+
+    func fetchUsers(from usersResult: [UserModel]) {
+        let usersModel = usersResult.compactMap { result in
+            UserViewModel(
+                name: result.name,
+                avatar: result.avatar ?? "",
+                description: result.description ?? "",
+                website: result.website ?? "",
+                nfts: result.nfts,
+                rating: Float(result.rating) ?? Float(0),
+                id: result.id
+            )
+        }
+        visibleUsers = usersModel
+        applySortingState()
     }
 }
 
@@ -117,7 +213,7 @@ extension StatisticsViewController: UITableViewDelegate {
         usersTableView.deselectRow(at: indexPath, animated: false)
          let nextController = UserDetailsViewController(
             servicesAssembly: servicesAssembly,
-            user: mockUsers[indexPath.row]
+            user: visibleUsers[indexPath.row]
         )
         navigationController?.pushViewController(nextController, animated: true)
     }
@@ -127,19 +223,19 @@ extension StatisticsViewController: UITableViewDelegate {
 
 extension StatisticsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        mockUsers.count
+        visibleUsers.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard
             let cell = usersTableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-                as? UserRatingsCell else {
+                as? UserCell else {
             return UITableViewCell()
         }
         let bgColorView = UIView()
         bgColorView.backgroundColor = .ypWhiteDay
         cell.selectedBackgroundView = bgColorView
-        cell.configureCell(counter: indexPath.row + 1, user: mockUsers[indexPath.row])
+        cell.configureCell(counter: indexPath.row + 1, user: visibleUsers[indexPath.row])
         return cell
     }
 }

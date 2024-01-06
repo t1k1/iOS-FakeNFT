@@ -16,12 +16,12 @@ final class WebViewViewController: UIViewController {
     private let customNavView = UIView()
     private let backButton = UIButton()
     private let webView = WKWebView()
-    private var url: URL?
+    private var urlString: String?
 
     // MARK: - Inits
 
-    init(url: URL?) {
-        self.url = url
+    init(urlString: String?) {
+        self.urlString = urlString?.lowercased()
         super.init(nibName: nil, bundle: nil)
         hidesBottomBarWhenPushed = true
     }
@@ -35,6 +35,9 @@ final class WebViewViewController: UIViewController {
    override func viewDidLoad() {
        super.viewDidLoad()
        configureUI()
+       webView.navigationDelegate = self
+       UIBlockingProgressHUD.showWithoutBloсking()
+       let url = URL(string: checkUrlString())
        if let url {
            webView.load(URLRequest(url: url))
        }
@@ -46,10 +49,24 @@ final class WebViewViewController: UIViewController {
     }
 }
 
+// MARK: - WKNavigationDelegate
+
+extension WebViewViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        UIBlockingProgressHUD.dismiss()
+    }
+
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        UIBlockingProgressHUD.dismiss()
+    }
+}
+
 // MARK: - Private methods
 
 private extension WebViewViewController {
     @objc func backButtonCLicked() {
+        webView.stopLoading()
+        UIBlockingProgressHUD.dismiss()
         navigationController?.popViewController(animated: true)
     }
 }
@@ -76,6 +93,20 @@ private extension WebViewViewController {
     func configureElementValues() {
         backButton.setImage(Statistics.SfSymbols.backward, for: .normal)
         backButton.addTarget(self, action: #selector(backButtonCLicked), for: .touchUpInside)
+    }
+
+    func checkUrlString() -> String {
+        let urlProtocol = "https://"
+        let mockWebsite = "https://practicum.yandex.ru/"
+        guard let urlString else { return mockWebsite }
+        var currentUrlString = urlString
+        if currentUrlString.isEmpty {
+            currentUrlString = mockWebsite
+        }
+        if !currentUrlString.contains(urlProtocol) {
+            currentUrlString = urlProtocol + currentUrlString
+        }
+        return currentUrlString
     }
 
     func configureConstraints() {
