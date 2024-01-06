@@ -82,6 +82,11 @@ final class PageViewController: UIViewController {
         return button
     }()
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.actionButton.accessibilityIdentifier = "ActionButton"
+    }
+
     // MARK: - Objective-C functions
     @objc
     func didTapActionButton(sender: UIButton) {
