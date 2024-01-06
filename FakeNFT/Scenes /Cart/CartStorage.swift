@@ -3,6 +3,7 @@ import Foundation
 protocol CartStorage {
     var sortCondition: Int { get set }
     var isNotFisrtStart: Bool { get set }
+    func getFirstStartBoolValue() -> Bool
 }
 
 final class CartStorageImpl {
@@ -36,6 +37,10 @@ extension CartStorageImpl: CartStorage {
         set {
             userDefaults.set(newValue, forKey: CartStorageKeys.sortCondition.rawValue)
         }
+    }
+
+    func getFirstStartBoolValue() -> Bool {
+        return userDefaults.bool(forKey: CartStorageKeys.isFirstStart.rawValue)
     }
 
     func resetDefaults() {
