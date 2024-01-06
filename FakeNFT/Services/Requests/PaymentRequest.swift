@@ -2,9 +2,9 @@ import Foundation
 
 struct PaymentRequest: NetworkRequest {
 
-    let currency_id: String
+    let currencyID: String
 
     var endpoint: URL? {
-        URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1/payment/\(currency_id)")
+        URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1/payment/\(currencyID)")
     }
 }

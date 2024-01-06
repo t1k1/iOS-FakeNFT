@@ -10,19 +10,19 @@ protocol OrderDetailProtocol: AnyObject {
 }
 
 final class OrderDetailImpl {
-    
+
     private let servicesAssembly: ServicesAssembly
     private let service: OrderServiceProtocol
-    
+
     weak var delegete: OrderDetailProtocol?
-    
+
     private var order: OrderResultModel = OrderResultModel(nfts: [], id: "")
     private var state = OrderDetailState.initial {
         didSet {
             stateDidChanged()
         }
     }
-    
+
     private var httpMethod = HttpMethod.get
 
     init(servicesAssembly: ServicesAssembly, service: OrderServiceProtocol, delegate: OrderDetailProtocol) {
@@ -30,13 +30,13 @@ final class OrderDetailImpl {
         self.service = service
         self.delegete = delegate
     }
-    
+
     func startLoading(order: OrderResultModel, httpMethod: HttpMethod) {
         self.httpMethod = httpMethod
         self.order = order
         state = .loading
     }
-    
+
     private func stateDidChanged() {
         switch state {
         case .initial:
@@ -51,18 +51,18 @@ final class OrderDetailImpl {
                     id: order.id)
                 putOrder(order: orderToPut)
             }
-            
+
         case .data(let orderResult):
             let orderModel = OrderResultModel(
                 nfts: orderResult.nfts,
                 id: orderResult.id)
             self.order = orderModel
             self.delegete?.sendLoaded(order: self.order)
-        case .failed(_):
+        case .failed:
             UIBlockingProgressHUD.dismissCustom()
         }
     }
-    
+
     private func loadOrder(id: String) {
         service.loadOrder(id: "1") { [weak self] result in
             switch result {
@@ -73,7 +73,7 @@ final class OrderDetailImpl {
             }
         }
     }
-    
+
     private func putOrder(order: OrderNetworkModel) {
         service.putOrder(order: order) { [weak self] result in
             switch result {

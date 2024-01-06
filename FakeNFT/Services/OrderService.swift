@@ -14,7 +14,7 @@ final class OrderServiceImpl: OrderServiceProtocol {
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
-    
+
     func loadOrder(id: String, completion: @escaping OrderCompletion) {
         let request = OrderRequest(id: id)
         networkClient.send(request: request, type: OrderNetworkModel.self) { result in
@@ -26,7 +26,7 @@ final class OrderServiceImpl: OrderServiceProtocol {
             }
         }
     }
-    
+
     func putOrder(order: OrderNetworkModel, completion: @escaping OrderCompletion) {
         let request = OrderPutRequest(order: order)
         networkClient.send(request: request, type: OrderNetworkModel.self) { result in
@@ -38,5 +38,5 @@ final class OrderServiceImpl: OrderServiceProtocol {
             }
         }
     }
-    
+
 }

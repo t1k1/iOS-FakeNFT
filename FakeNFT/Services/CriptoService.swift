@@ -13,7 +13,7 @@ final class CriptoServiceImpl: CriptoServiceProtocol {
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
-    
+
     func loadCriptos(completion: @escaping CriptoCompletion) {
         let request = CriptoRequest()
         networkClient.send(request: request, type: [CriptoNetworkModel].self) { result in

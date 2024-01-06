@@ -10,19 +10,19 @@ protocol CriptoDetailProtocol: AnyObject {
 }
 
 final class CriptoDetailImpl {
-    
+
     private let servicesAssembly: ServicesAssembly
     private let service: CriptoServiceProtocol
-    
+
     weak var delegete: CriptoDetailProtocol?
-    
+
     private var criptos: [CriptoResultModel] = []
     private var state = CriptoDetailState.initial {
         didSet {
             stateDidChanged()
         }
     }
-    
+
     private var httpMethod = HttpMethod.get
 
     init(servicesAssembly: ServicesAssembly, service: CriptoServiceProtocol, delegate: CriptoDetailProtocol) {
@@ -30,13 +30,13 @@ final class CriptoDetailImpl {
         self.service = service
         self.delegete = delegate
     }
-    
+
     func startLoading(criptos: [CriptoResultModel], httpMethod: HttpMethod) {
         self.httpMethod = httpMethod
         self.criptos = criptos
         state = .loading
     }
-    
+
     private func stateDidChanged() {
         switch state {
         case .initial:
@@ -55,11 +55,11 @@ final class CriptoDetailImpl {
                 self.criptos.append(cripto)
             }
             self.delegete?.sendLoaded(criptos: self.criptos)
-        case .failed(_):
+        case .failed:
             UIBlockingProgressHUD.dismissCustom()
         }
     }
-    
+
     private func loadCriptos() {
         service.loadCriptos { [weak self] result in
             switch result {

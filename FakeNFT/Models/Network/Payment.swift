@@ -11,4 +11,3 @@ struct PaymentResultModel {
     let orderId: String
     let id: String
 }
-

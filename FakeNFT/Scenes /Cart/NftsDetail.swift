@@ -11,36 +11,36 @@ protocol NftsDetailProtocol: AnyObject {
 }
 
 final class NftsDetailImpl {
-    
+
     private let servicesAssembly: ServicesAssembly
     private let service: NftsServiceProtocol
-    
+
     weak var delegate: NftsDetailProtocol?
-    
+
     private var ids: [String] = []
     private var loadedNfts: [NftResultModel] = [] {
         didSet {
             self.delegate?.sendLoaded(nfts: loadedNfts)
         }
-    }    
+    }
     private var state = NftsDetailState.initial {
         didSet {
             stateDidChanged()
         }
     }
-    
+
     init(servicesAssembly: ServicesAssembly, service: NftsServiceProtocol, delegate: NftsDetailProtocol) {
         self.servicesAssembly = servicesAssembly
         self.service = service
         self.delegate = delegate
     }
-    
+
     func startNftLoading(nftIds: [String]) {
         self.ids = nftIds
         self.loadedNfts = []
         state = .loading
     }
-    
+
     private func stateDidChanged() {
         switch state {
         case .initial:
@@ -62,11 +62,11 @@ final class NftsDetailImpl {
                 )
                 self.loadedNfts.append(nftModel)
             }
-        case .failed(_):
+        case .failed:
             UIBlockingProgressHUD.dismissCustom()
         }
     }
-    
+
     private func loadNfts(ids: [String]) {
         service.loadNfts(ids: ids) { [weak self] result in
             switch result {

@@ -1,9 +1,9 @@
 import UIKit
 
 final class CartPayCollectionViewCell: UICollectionViewCell {
-    
+
     let cellIdentifier = "CartPayCollectionViewCell"
-    
+
     private lazy var cellBackgroundSquare: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 12
@@ -14,7 +14,7 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         view.frame = CGRect(x: 0, y: 0, width: contentView.bounds.width, height: contentView.bounds.height)
         return view
     }()
-    
+
     private lazy var cellCriptoLabel: UILabel = {
         var label = UILabel()
         label.text = "Bitcoin"
@@ -24,7 +24,7 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var cellAbbreviatedLabel: UILabel = {
         var label = UILabel()
         label.text = "BTC"
@@ -34,7 +34,7 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     lazy var cellCriptoImageView: UIImageView = {
         let image = UIImage.criptoBTC
         let imageView = UIImageView(image: image)
@@ -43,26 +43,26 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
+
     lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.stopAnimating()
         indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
     }()
-    
+
     private var indexPath: IndexPath?
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = UIColor.ypWhiteDay
         configureConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func configure(
         name: String,
         title: String,
@@ -74,7 +74,7 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         cellCriptoImageView.image = image
         cellBackgroundSquare.layer.borderWidth = borderWidth
     }
-    
+
     // MARK: - Configure Constraints
     private func configureConstraints() {
         addSubview(cellBackgroundSquare)
@@ -85,7 +85,7 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
             image: cellCriptoImageView
         )
     }
-    
+
     private func configureInsideElements(background: UIView, label: UILabel, abbreviated: UILabel, image: UIImageView) {
         background.addSubview(image)
         NSLayoutConstraint.activate([
@@ -94,13 +94,13 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
             image.topAnchor.constraint(equalTo: background.topAnchor, constant: 5),
             image.bottomAnchor.constraint(equalTo: background.bottomAnchor, constant: -5)
         ])
-        
+
         image.addSubview(activityIndicator)
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: image.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: image.centerYAnchor)
         ])
-        
+
         background.addSubview(label)
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: image.trailingAnchor, constant: 4),
@@ -115,4 +115,3 @@ final class CartPayCollectionViewCell: UICollectionViewCell {
         ])
     }
 }
-

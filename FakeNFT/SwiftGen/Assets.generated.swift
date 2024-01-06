@@ -17,9 +17,6 @@ public extension UIImage {
   static let criptoSHIB: UIImage = UIImage(named: "Cripto SHIB")!
   static let criptoSOL: UIImage = UIImage(named: "Cripto SOL")!
   static let criptoUSDT: UIImage = UIImage(named: "Cripto USDT")!
-  static let firstPage: UIImage = UIImage(named: "firstPage")!
-  static let secondPage: UIImage = UIImage(named: "secondPage")!
-  static let thirdPage: UIImage = UIImage(named: "thirdPage")!
   static let plusAdd: UIImage = UIImage(named: "Plus add")!
   static let profile: UIImage = UIImage(named: "Profile")!
   static let sort: UIImage = UIImage(named: "Sort")!
@@ -42,6 +39,9 @@ public extension UIImage {
   static let сart: UIImage = UIImage(named: "сart")!
   static let сatalog: UIImage = UIImage(named: "сatalog")!
   static let successPay: UIImage = UIImage(named: "Success Pay")!
+  static let firstPage: UIImage = UIImage(named: "firstPage")!
+  static let secondPage: UIImage = UIImage(named: "secondPage")!
+  static let thirdPage: UIImage = UIImage(named: "thirdPage")!
 }
 
 // MARK: - Colors

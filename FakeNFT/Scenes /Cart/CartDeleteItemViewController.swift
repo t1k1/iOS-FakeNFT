@@ -5,22 +5,22 @@ protocol CartDeleteItemViewControllerDelegate: AnyObject {
 }
 
 final class CartDeleteItemViewController: UIViewController {
-    
+
     weak var delegate: CartDeleteItemViewControllerDelegate?
-    
+
     // MARK: - Private constants
-    
+
     private let nftImage: UIImage
     private let indexPath: IndexPath
-    
+
     // MARK: - Private mutable properties
-    
+
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
+
     private lazy var imageView: UIImageView = {
         let image = UIImage.cartDeleteNFT
         let imageView = UIImageView(image: image)
@@ -29,7 +29,7 @@ final class CartDeleteItemViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
+
     private lazy var label: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("cart.cartDeleteItemViewController.infoText", comment: "")
@@ -41,7 +41,7 @@ final class CartDeleteItemViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var horizontalStack: UIStackView = {
         let stack = UIStackView()
         stack.spacing = 8
@@ -50,7 +50,7 @@ final class CartDeleteItemViewController: UIViewController {
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
-    
+
     private lazy var deleteButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(),
@@ -66,7 +66,7 @@ final class CartDeleteItemViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private lazy var backButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(),
@@ -82,7 +82,7 @@ final class CartDeleteItemViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private lazy var blurredView: UIView = {
         let containerView = UIView()
         let blurEffect = UIBlurEffect(style: .regular)
@@ -95,46 +95,46 @@ final class CartDeleteItemViewController: UIViewController {
         containerView.addSubview(dimmedView)
         return containerView
     }()
-    
+
     init(nftImage: UIImage, indexPath: IndexPath) {
         self.nftImage = nftImage
         self.indexPath = indexPath
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBlurView()
         configureConstraints()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         imageView.image = nftImage
     }
-    
+
     // MARK: - Objective-C functions
     @objc
     private func didTapDeleteButton() {
         delegate?.sendDeletedIndexPathBack(indexPath: indexPath)
     }
-    
+
     @objc
     private func didTapBackButton() {
         dismiss(animated: true)
     }
-    
+
     // MARK: - Configure constraints
     private func setupBlurView() {
         view.addSubview(blurredView)
         view.sendSubviewToBack(blurredView)
     }
-    
+
     private func configureConstraints() {
         view.addSubview(backgroundView)
         NSLayoutConstraint.activate([
@@ -143,19 +143,19 @@ final class CartDeleteItemViewController: UIViewController {
             backgroundView.widthAnchor.constraint(greaterThanOrEqualToConstant: 262),
             backgroundView.heightAnchor.constraint(greaterThanOrEqualToConstant: 220)
         ])
-        
+
         backgroundView.addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
             imageView.topAnchor.constraint(equalTo: backgroundView.topAnchor)
         ])
-        
+
         backgroundView.addSubview(label)
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 12),
             label.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor)
         ])
-        
+
         backgroundView.addSubview(horizontalStack)
         NSLayoutConstraint.activate([
             horizontalStack.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),

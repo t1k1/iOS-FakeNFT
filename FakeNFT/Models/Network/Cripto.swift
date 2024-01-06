@@ -13,4 +13,3 @@ struct CriptoResultModel {
     let image: URL
     let id: String
 }
-

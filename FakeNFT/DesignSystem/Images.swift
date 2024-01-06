@@ -40,5 +40,5 @@ public extension UIImage {
     static let secondPage: UIImage = UIImage(named: "secondPage")!
     static let thirdPage: UIImage = UIImage(named: "thirdPage")!
     static let successPay: UIImage = UIImage(named: "Success Pay")!
-    
+
 }

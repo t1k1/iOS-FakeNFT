@@ -7,15 +7,15 @@ protocol NftsServiceProtocol {
 }
 
 final class NftsServiceImpl: NftsServiceProtocol {
-    
+
     private let networkClient: NetworkClient
     private let storage: NftStorage
-    
+
     init(networkClient: NetworkClient, storage: NftStorage) {
         self.storage = storage
         self.networkClient = networkClient
     }
-    
+
     func loadNfts(ids: [String], completion: @escaping NftsCompletion) {
         var loadedNfts: [NftNetworkModel] = []
         let dispatchGroup = DispatchGroup()

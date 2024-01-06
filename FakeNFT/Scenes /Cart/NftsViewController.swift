@@ -7,12 +7,12 @@ enum NftsDetailState {
 }
 
 final class NftsDetail {
-    
+
     private let servicesAssembly: ServicesAssembly
     private let service: NftServiceProtocol
-    
+
     private let idsFromOrder: [String]
-    
+
     private var nfts: [NftResultModel] = [] {
         didSet {
             updateLabel()
@@ -23,24 +23,24 @@ final class NftsDetail {
             stateDidChanged()
         }
     }
-    
+
     init(servicesAssembly: ServicesAssembly, service: NftServiceProtocol, idsFromOrder: [String]) {
         self.servicesAssembly = servicesAssembly
         self.service = service
         self.idsFromOrder = idsFromOrder
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.frame = CGRect(x: 50, y: 100, width: 200, height: 200)
         return imageView
     }()
-    
+
     private lazy var nftsLabel: UILabel = {
         let label = UILabel()
         label.text = "Hello text"
@@ -53,7 +53,7 @@ final class NftsDetail {
         label.textAlignment = .center
         return label
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .gray
@@ -61,13 +61,13 @@ final class NftsDetail {
         view.addSubview(imageView)
         state = .loading
     }
-    
+
     private func updateLabel() {
         self.nftsLabel.text = "\(nfts)"
     }
-    
+
     private func stateDidChanged() {
-        
+
         switch state {
         case .initial:
             assertionFailure("can`t move to initial state")
@@ -79,7 +79,7 @@ final class NftsDetail {
         case .data(let nftResult):
             ProgressHUD.dismiss()
             var nftImage = UIImage()
-            KingfisherManager.shared.retrieveImage(with:  nftResult.images[0]) { result in
+            KingfisherManager.shared.retrieveImage(with: nftResult.images[0]) { result in
                 switch result {
                 case .success(let image):
                     nftImage = image.image
@@ -104,9 +104,9 @@ final class NftsDetail {
             UIBlockingProgressHUD.dismiss()
             print("error \(error)")
         }
-        
+
     }
-    
+
     private func loadNft(id: String) {
         service.loadNft(id: id) { [weak self] result in
             switch result {
@@ -117,5 +117,5 @@ final class NftsDetail {
             }
         }
     }
-    
+
 }
