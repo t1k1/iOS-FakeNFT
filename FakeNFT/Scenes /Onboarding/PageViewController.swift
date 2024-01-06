@@ -109,8 +109,9 @@ final class PageViewController: UIViewController {
         let gradientView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
-            UIColor.ypBlackUniversal.withAlphaComponent(1.0).cgColor,
-            UIColor.ypBlackUniversal.withAlphaComponent(0.0).cgColor
+
+            blackColor(with: 1.0),
+            blackColor(with: 0.0)
         ]
         gradientLayer.locations = [0.0, 1.0]
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
@@ -118,6 +119,10 @@ final class PageViewController: UIViewController {
         gradientLayer.frame = gradientView.bounds
         gradientView.layer.addSublayer(gradientLayer)
         view.addSubview(gradientView)
+    }
+
+    private func blackColor(with alpha: CGFloat) -> CGColor {
+        return UIColor.ypBlackUniversal.withAlphaComponent(alpha).cgColor
     }
 
     private func addActionButton() {

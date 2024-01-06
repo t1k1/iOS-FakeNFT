@@ -58,8 +58,8 @@ final class CartPaySuccessViewController: UIViewController {
     // MARK: - Objective-C function
     @objc
     private func didTapBackToCatalogButton() {
-        let vc = TabBarController()
-        navigationController?.pushViewController(vc, animated: true)
+        let tabBarViewController = TabBarController()
+        navigationController?.pushViewController(tabBarViewController, animated: true)
     }
 }
 

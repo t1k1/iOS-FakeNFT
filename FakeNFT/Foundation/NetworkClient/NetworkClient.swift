@@ -108,20 +108,6 @@ struct DefaultNetworkClient: NetworkClient {
     }
 
     // MARK: - Private
-
-    private enum NetworkConstants {
-        static let putValue = "application/x-www-form-urlencoded"
-        static let putHeader = "Content-Type"
-        static let connectionValue = "Keep-alive"
-        static let connectionHeader = "Connection"
-        static let acceptValue = "application/json"
-        static let acceptHeader = "Accept"
-        static let acceptEncodingValue = "gzip, deflate, br"
-        static let acceptEncodingHeader = "Accept-Encoding"
-        static let tokenValue = "a66690d9-233c-4541-a539-179c0a04d8da"
-        static let tokenHeader = "X-Practicum-Mobile-Token"
-    }
-
     private func create(request: NetworkRequest) -> URLRequest? {
         guard let endpoint = request.endpoint else {
             assertionFailure("Empty endpoint")
@@ -139,9 +125,19 @@ struct DefaultNetworkClient: NetworkClient {
             }
         }
 
-        urlRequest.setValue(NetworkConstants.connectionValue, forHTTPHeaderField: NetworkConstants.connectionHeader)
-        urlRequest.setValue(NetworkConstants.acceptValue, forHTTPHeaderField: NetworkConstants.acceptHeader)
-        urlRequest.setValue(NetworkConstants.acceptEncodingValue, forHTTPHeaderField: NetworkConstants.acceptEncodingHeader)
+        urlRequest.setValue(
+
+            NetworkConstants.connectionValue,
+            forHTTPHeaderField: NetworkConstants.connectionHeader
+        )
+        urlRequest.setValue(
+            NetworkConstants.acceptValue,
+            forHTTPHeaderField: NetworkConstants.acceptHeader
+        )
+        urlRequest.setValue(
+            NetworkConstants.acceptEncodingValue,
+            forHTTPHeaderField: NetworkConstants.acceptEncodingHeader
+        )
 
         urlRequest.setValue(NetworkConstants.tokenValue, forHTTPHeaderField: NetworkConstants.tokenHeader)
 

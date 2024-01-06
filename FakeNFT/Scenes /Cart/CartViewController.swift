@@ -18,7 +18,12 @@ final class CartViewController: UIViewController {
         service: servicesAssembly.orderService,
         delegate: self
     )
-    private lazy var nftDetail = NftsDetailImpl(servicesAssembly: servicesAssembly, service: servicesAssembly.nftsService, delegate: self)
+    private lazy var nftDetail = NftsDetailImpl(
+
+        servicesAssembly: servicesAssembly,
+        service: servicesAssembly.nftsService,
+        delegate: self
+    )
     private lazy var emptyCartLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("cart.cartViewController.empty", comment: "")
@@ -143,8 +148,14 @@ final class CartViewController: UIViewController {
         updateTotalAndCostLabels()
     }
     private func updateTotalAndCostLabels() {
-        totalLabel.text = "\(calculateTotalNftNumber()) \(NSLocalizedString("cart.cartViewController.nft", comment: ""))"
-        costLabel.text = "\(calculateTotalNfsPrice()) \(NSLocalizedString("cart.cartViewController.eth", comment: ""))"
+        totalLabel.text =
+        """
+        \(calculateTotalNftNumber()) \(NSLocalizedString("cart.cartViewController.nft", comment: ""))
+        """
+        costLabel.text =
+        """
+        \(calculateTotalNfsPrice()) \(NSLocalizedString("cart.cartViewController.eth", comment: ""))
+        """
     }
     private func calculateTotalNftNumber() -> Int {
         return visibleNftArray.count
@@ -201,9 +212,9 @@ final class CartViewController: UIViewController {
     }
     @objc
     private func didTapPayButton() {
-        let vc = CartPayViewController(orderId: order.id)
-        vc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc, animated: true)
+        let payViewController = CartPayViewController(orderId: order.id)
+        payViewController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(payViewController, animated: true)
     }
 }
 
@@ -251,7 +262,6 @@ extension CartViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cartTableViewCell.configCell(
-            at: indexPath,
             image: UIImage(),
             name: visibleNftArray[indexPath.row].name,
             price: visibleNftArray[indexPath.row].price,
@@ -267,7 +277,10 @@ extension CartViewController: UITableViewDataSource {
         if visibleNftArray[indexPath.row].images.count > 0 {
             cartTableViewCell.activityIndicator.startAnimating()
             let processor = DownsamplingImageProcessor(size: CGSize(width: 108, height: 108))
-            cartTableViewCell.previewImage.kf.setImage(with: self.visibleNftArray[indexPath.row].images[0], options: [.processor(processor)]) { _ in
+            cartTableViewCell.previewImage.kf.setImage(
+                with: self.visibleNftArray[indexPath.row].images[0],
+                options: [.processor(processor)]
+            ) { _ in
                 cartTableViewCell.activityIndicator.stopAnimating()
             }
         }
@@ -281,11 +294,14 @@ extension CartViewController: CartTableViewCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }
-        let vc = CartDeleteItemViewController(nftImage: cell.previewImage.image ?? UIImage(), indexPath: indexPath)
-        vc.delegate = self
-        vc.modalPresentationStyle = .overCurrentContext
-        vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true)
+        let viewController = CartDeleteItemViewController(
+            nftImage: cell.previewImage.image ?? UIImage(),
+            indexPath: indexPath
+        )
+        viewController.delegate = self
+        viewController.modalPresentationStyle = .overCurrentContext
+        viewController.modalTransitionStyle = .crossDissolve
+        present(viewController, animated: true)
     }
 }
 
@@ -329,19 +345,16 @@ private extension CartViewController {
                 payUIView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 payUIView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
             ])
-
             payUIView.addSubview(totalLabel)
             NSLayoutConstraint.activate([
                 totalLabel.topAnchor.constraint(equalTo: payUIView.topAnchor, constant: 16),
                 totalLabel.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 16)
             ])
-
             payUIView.addSubview(costLabel)
             NSLayoutConstraint.activate([
                 costLabel.bottomAnchor.constraint(equalTo: payUIView.bottomAnchor, constant: -16),
                 costLabel.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 16)
             ])
-
             payUIView.addSubview(payButton)
             NSLayoutConstraint.activate([
                 payButton.topAnchor.constraint(equalTo: payUIView.topAnchor, constant: 16),
@@ -349,7 +362,6 @@ private extension CartViewController {
                 payButton.trailingAnchor.constraint(equalTo: payUIView.trailingAnchor, constant: -16),
                 payButton.leadingAnchor.constraint(equalTo: payUIView.leadingAnchor, constant: 119)
             ])
-
             view.addSubview(tableView)
             NSLayoutConstraint.activate([
                 tableView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: 20),

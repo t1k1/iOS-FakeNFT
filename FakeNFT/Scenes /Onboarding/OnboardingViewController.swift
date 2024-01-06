@@ -120,7 +120,6 @@ extension OnboardingViewController: UIPageViewControllerDelegate {
 
 // MARK: - Configure constraints
 private extension OnboardingViewController {
-
     func configConstraints() {
         view.addSubview(customPageControl)
         NSLayoutConstraint.activate([

@@ -92,7 +92,6 @@ final class CartTableViewCell: UITableViewCell {
     }
 
     func configCell(
-        at indexPath: IndexPath,
         image: UIImage,
         name: String,
         price: Float,

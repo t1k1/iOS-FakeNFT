@@ -59,7 +59,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         return label
     }()
 
-    private lazy var bottomBackgroundView: UIView = {
+    private lazy var bottomView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.ypLightGreyDay
         view.layer.cornerRadius = 12
@@ -143,7 +143,10 @@ final class CartPayViewController: UIViewController, ErrorView {
     private func collectionViewConfig() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(CartPayCollectionViewCell.self, forCellWithReuseIdentifier: CartPayCollectionViewCell().cellIdentifier)
+        collectionView.register(
+            CartPayCollectionViewCell.self,
+            forCellWithReuseIdentifier: CartPayCollectionViewCell().cellIdentifier
+        )
         collectionView.allowsMultipleSelection = false
     }
 
@@ -165,8 +168,8 @@ final class CartPayViewController: UIViewController, ErrorView {
 
     @objc
     private func userAgreementTapped() {
-        let vc = WebViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        let webViewController = WebViewController()
+        navigationController?.pushViewController(webViewController, animated: true)
     }
 }
 
@@ -188,18 +191,24 @@ extension CartPayViewController: PaymentDetailProtocol {
         switch payment.success {
         case false:
             var error = ErrorModel(
-                title: NSLocalizedString("cart.cartPayViewController.errorMessage", comment: ""),
+                title: NSLocalizedString("cart.cartPayViewController.errorMessage",
+                                         comment: ""),
                 message: "",
-                actionText: NSLocalizedString("cart.cartPayViewController.errorCancel", comment: ""),
-                action: {})
-            error.setSecondActionText(NSLocalizedString("cart.cartPayViewController.errorRepeat", comment: ""))
+                actionText: NSLocalizedString("cart.cartPayViewController.errorCancel",
+                                              comment: ""),
+                action: {}
+            )
+            error.setSecondActionText(
+                NSLocalizedString("cart.cartPayViewController.errorRepeat",
+                                  comment: "")
+            )
             error.setSecondAction {
                 self.didTapPayButton()
             }
             return showError(error)
         default:
-            let vc = CartPaySuccessViewController()
-            navigationController?.pushViewController(vc, animated: true)
+            let successViewController = CartPaySuccessViewController()
+            navigationController?.pushViewController(successViewController, animated: true)
         }
 
     }
@@ -233,8 +242,12 @@ extension CartPayViewController: UICollectionViewDataSource {
     }
 
     /// Cell for item
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CartPayCollectionViewCell().cellIdentifier, for: indexPath) as? CartPayCollectionViewCell else {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CartPayCollectionViewCell().cellIdentifier,
+            for: indexPath
+        ) as? CartPayCollectionViewCell else {
             return UICollectionViewCell()
         }
         cell.configure(
@@ -252,16 +265,18 @@ extension CartPayViewController: UICollectionViewDataSource {
         if criptoArray.count > 0 {
             cell.activityIndicator.startAnimating()
             let processor = DownsamplingImageProcessor(size: CGSize(width: 36, height: 36))
-            cell.cellCriptoImageView.kf.setImage(with: self.criptoArray[indexPath.row].image, options: [.processor(processor)]) { result in
-                cell.activityIndicator.stopAnimating()
-                switch result {
-                case .success:
-                    return
-                case .failure:
-                    cell.cellCriptoImageView.image = UIImage(systemName: "nosign") ?? UIImage()
-                    cell.cellCriptoImageView.tintColor = UIColor.ypBlackDay
+            cell.cellCriptoImageView.kf.setImage(
+                with: self.criptoArray[indexPath.row].image,
+                options: [.processor(processor)]) { result in
+                    cell.activityIndicator.stopAnimating()
+                    switch result {
+                    case .success:
+                        return
+                    case .failure:
+                        cell.cellCriptoImageView.image = UIImage(systemName: "nosign") ?? UIImage()
+                        cell.cellCriptoImageView.tintColor = UIColor.ypBlackDay
+                    }
                 }
-            }
         }
     }
 }
@@ -269,20 +284,28 @@ extension CartPayViewController: UICollectionViewDataSource {
 // MARK: - CollectionViewDelegateFlowLayout
 extension CartPayViewController: UICollectionViewDelegateFlowLayout {
     /// Set layout width and height
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let automaticWidth = (collectionView.bounds.width / 2 - 3.5) - 16
         return CGSize(width: automaticWidth, height: 46)
     }
     /// Set layout horizontal spacing
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 7
     }
     /// Set layout vertical spacing
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 7
     }
     /// Set section insets
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         let sectionInsets = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
         return sectionInsets
     }
@@ -307,40 +330,40 @@ private extension CartPayViewController {
             cartPayLabel.trailingAnchor.constraint(equalTo: titleBackgroundView.trailingAnchor)
         ])
 
-        view.addSubview(bottomBackgroundView)
+        view.addSubview(bottomView)
         NSLayoutConstraint.activate([
-            bottomBackgroundView.heightAnchor.constraint(equalToConstant: 186),
-            bottomBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomBackgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            bottomView.heightAnchor.constraint(equalToConstant: 186),
+            bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
-        bottomBackgroundView.addSubview(payButton)
+        bottomView.addSubview(payButton)
         NSLayoutConstraint.activate([
             payButton.heightAnchor.constraint(equalToConstant: 60),
-            payButton.leadingAnchor.constraint(equalTo: bottomBackgroundView.leadingAnchor, constant: 12),
-            payButton.trailingAnchor.constraint(equalTo: bottomBackgroundView.trailingAnchor, constant: -12),
-            payButton.bottomAnchor.constraint(equalTo: bottomBackgroundView.bottomAnchor, constant: -50)
+            payButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 12),
+            payButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -12),
+            payButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -50)
         ])
 
-        bottomBackgroundView.addSubview(userAgreementLabel)
+        bottomView.addSubview(userAgreementLabel)
         NSLayoutConstraint.activate([
-            userAgreementLabel.leadingAnchor.constraint(equalTo: bottomBackgroundView.leadingAnchor, constant: 16),
-            userAgreementLabel.trailingAnchor.constraint(equalTo: bottomBackgroundView.trailingAnchor, constant: -16),
-            userAgreementLabel.topAnchor.constraint(equalTo: bottomBackgroundView.topAnchor, constant: 16)
+            userAgreementLabel.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 16),
+            userAgreementLabel.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -16),
+            userAgreementLabel.topAnchor.constraint(equalTo: bottomView.topAnchor, constant: 16)
         ])
 
-        bottomBackgroundView.addSubview(userAgreementLinkLabel)
+        bottomView.addSubview(userAgreementLinkLabel)
         NSLayoutConstraint.activate([
-            userAgreementLinkLabel.leadingAnchor.constraint(equalTo: bottomBackgroundView.leadingAnchor, constant: 16),
-            userAgreementLinkLabel.trailingAnchor.constraint(equalTo: bottomBackgroundView.trailingAnchor, constant: -16),
+            userAgreementLinkLabel.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 16),
+            userAgreementLinkLabel.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -16),
             userAgreementLinkLabel.topAnchor.constraint(equalTo: userAgreementLabel.bottomAnchor, constant: 4)
         ])
 
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: titleBackgroundView.bottomAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomBackgroundView.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])

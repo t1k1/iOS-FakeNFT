@@ -61,7 +61,11 @@ final class AuthorizationViewController: UIViewController {
     private lazy var forgotPasswordButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(didTapForgotPassword), for: .touchUpInside)
-        button.setTitle(NSLocalizedString("authorization.viewController.forgotPasswordButton", comment: ""), for: .normal)
+        button.setTitle(
+            NSLocalizedString("authorization.viewController.forgotPasswordButton",
+                              comment: ""),
+            for: .normal
+        )
         button.setTitleColor(UIColor.ypBlackDay, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -71,7 +75,10 @@ final class AuthorizationViewController: UIViewController {
     private lazy var registerButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
-        button.setTitle(NSLocalizedString("authorization.viewController.registerButton", comment: ""), for: .normal)
+        button.setTitle(
+            NSLocalizedString("authorization.viewController.registerButton", comment: ""),
+            for: .normal
+        )
         button.setTitleColor(UIColor.ypBlackDay, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -89,7 +96,9 @@ final class AuthorizationViewController: UIViewController {
     // MARK: - Objective-C functions
     @objc
     private func didTapLoginButton() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration of switchToTabBarController") }
+        guard let window = UIApplication.shared.windows.first else {
+            fatalError("Invalid Configuration of switchToTabBarController")
+        }
         let tabBarController = TabBarController()
         window.rootViewController = tabBarController
     }
