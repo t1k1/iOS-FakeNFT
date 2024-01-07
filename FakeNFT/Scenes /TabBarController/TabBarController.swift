@@ -12,6 +12,11 @@ final class TabBarController: UITabBarController {
         image: UIImage(systemName: "rectangle.stack.fill"),
         tag: 0
     )
+    private let profileTabBarItem = UITabBarItem(
+        title: "Профиль",
+        image: UIImage(named: "Profile"),
+        tag: 0
+    )
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,11 +28,14 @@ final class TabBarController: UITabBarController {
             service: servicesAssembly.collectionsService
         )
 
-        let navigationController = UINavigationController(rootViewController: catalogViewController)
+        let catalogNavigationController = UINavigationController(rootViewController: catalogViewController)
+        catalogNavigationController.tabBarItem = catalogTabBarItem
 
-        navigationController.tabBarItem = catalogTabBarItem
-
-        viewControllers = [navigationController]
+        let profileController = ProfileViewController()
+        profileController.tabBarItem = profileTabBarItem
+        let profileNavigationController = UINavigationController(rootViewController: profileController)
+        
+        viewControllers = [profileNavigationController, catalogNavigationController]
         selectedIndex = 0
 
         view.backgroundColor = .systemBackground

@@ -2,7 +2,7 @@
 //  ProfileRequests.swift
 //  FakeNFT
 //
-//  Created by Iurii on 25.12.23.
+//  Created by Aleksey Kolesnikov on 15.12.2023.
 //
 
 import Foundation
@@ -19,7 +19,7 @@ struct PutProfileRequest: NetworkRequest {
     }
     var httpMethod = HttpMethod.put
     var body: Data?
-
+    
     init(profile: ProfileUpdate) {
         var dataString = "name=\(profile.name)&description=\(profile.description)&website=\(profile.website)"
         profile.likes.forEach { likeId in

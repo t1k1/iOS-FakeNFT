@@ -15,6 +15,10 @@ protocol NftService {
 
 final class NftServiceImpl: NftService {
 
+    static let shared = NftServiceImpl(
+        networkClient: DefaultNetworkClient(),
+        storage: NftStorageImpl()
+    )
     private let networkClient: NetworkClient
     private let storage: NftStorage
 
