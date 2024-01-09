@@ -37,9 +37,9 @@ final class CollectionCell: UICollectionViewCell, ReuseIdentifying {
     private let star3ImageView = UIImageView()
     private let star4ImageView = UIImageView()
     private let star5ImageView = UIImageView()
-    // TODO: Need to make real buttons
-    private let likeButtonDummyView = UIView()
-    private let cartButtonDummyView = UIView()
+
+    private let likeButton = UIButton()
+    private let cartButton = UIButton()
 
     private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
@@ -81,23 +81,41 @@ final class CollectionCell: UICollectionViewCell, ReuseIdentifying {
         return label
     }()
 
-    // MARK: - Public properties
+    // MARK: - Private properties
 
-    var viewModel: NftModel? {
-        didSet {
-            generateMockCell()
-        }
-    }
+    private let profileService = ProfileService.shared
+    private let profileStorage = ProfileStorageImpl.shared
+    private let orderService = OrderServiceImpl.shared
 
-    var isLiked = false {
+    private var currentNftId: String = ""
+    private var profile: ProfileUpdate = ProfileUpdate(name: "", description: "", website: "", likes: [])
+    private var order: OrderResultModel = OrderResultModel(nfts: [], id: "")
+
+    private var isLiked = false {
         didSet {
             likeImageView.tintColor = isLiked ? .ypRedUniversal : .ypLightGreyDay
         }
     }
-
-    var isInCart = false {
+    private var isInCart = false {
         didSet {
             cartImageView.image = isInCart ? Statistics.Images.iconCartDelete : Statistics.Images.iconCartEmpty
+        }
+    }
+
+    // MARK: - Public properties
+
+    var viewModel: NftCellViewModel? {
+        didSet {
+            guard let nft = viewModel, let nftImageSource = nft.images.first else { return }
+            generateRating(rating: nft.rating / 2) // now the API rating's value is from 0 to 9
+            nftImageView.fetchNftBy(url: nftImageSource, for: self.nftImageView)
+            nftNameLabel.text = nft.name
+            nftPriceLabel.text = nft.price.priceFormatted
+            currentNftId = nft.id
+            profile = nft.profile
+            order = nft.order
+            isLiked = !profile.likes.filter { $0.contains(nft.id)}.isEmpty
+            isInCart = !order.nfts.filter { $0.contains(nft.id)}.isEmpty
         }
     }
 
@@ -113,19 +131,84 @@ final class CollectionCell: UICollectionViewCell, ReuseIdentifying {
     }
 }
 
-// MARK: - Configure TrackerCell UI Section
+// MARK: - Private methods
 
 private extension CollectionCell {
+    @objc func likeButtonCLicked() {
+        isLiked.toggle()
+        let likes = isLiked ? profile.likes + [currentNftId] : profile.likes.filter { $0 != currentNftId }
+        updateProfileWith(new: likes)
+    }
+
+    @objc func cartButtonCLicked() {
+        isInCart.toggle()
+        let nfts = isInCart ? order.nfts + [currentNftId] : order.nfts.filter { $0 != currentNftId }
+        updateOrderWith(new: nfts)
+    }
+
+    func generateRating(rating: Int) {
+        switch rating {
+        case 1: star1ImageView.tintColor = .ypYellowUniversal
+        case 2: [star1ImageView, star2ImageView].forEach { $0.tintColor = .ypYellowUniversal }
+        case 3: [star1ImageView, star2ImageView, star3ImageView].forEach { $0.tintColor = .ypYellowUniversal }
+        case 4: [star1ImageView, star2ImageView, star3ImageView, star4ImageView]
+                .forEach { $0.tintColor = .ypYellowUniversal }
+        case 5: [star1ImageView, star2ImageView, star3ImageView, star4ImageView, star5ImageView]
+                .forEach { $0.tintColor = .ypYellowUniversal }
+        default: break
+        }
+    }
+
+    private func updateProfileWith(new likes: [String]) {
+        let profileUpdate = ProfileUpdate(
+            name: profile.name,
+            description: profile.description,
+            website: profile.website,
+            likes: likes
+        )
+
+        UIBlockingProgressHUD.show()
+        profileService.updateProfile(with: profileUpdate) { result in
+            switch result {
+            case .success:
+                self.profile = profileUpdate
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                assertionFailure("Error updating profile: \(error)")
+            }
+        }
+    }
+
+    private func updateOrderWith(new nfts: [String]) {
+        let orderUpdate = OrderNetworkModel(
+            nfts: nfts,
+            id: order.id
+        )
+
+        UIBlockingProgressHUD.show()
+        orderService.putOrder(order: orderUpdate) { result in
+            switch result {
+            case .success:
+                self.order = OrderResultModel(nfts: nfts, id: self.order.id)
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                UIBlockingProgressHUD.dismiss()
+                assertionFailure("Error updating order: \(error)")
+            }
+        }
+    }
 
     func configureUI() {
         configureViews()
+        configureElementValues()
         configureConstraints()
     }
 
     func configureViews() {
         [nftNameLabel, nftPriceLabel].forEach { verticalStackView.addArrangedSubview($0) }
 
-        [verticalStackView, cartButtonDummyView].forEach { horizontalStackView.addArrangedSubview($0) }
+        [verticalStackView, cartButton].forEach { horizontalStackView.addArrangedSubview($0) }
 
         [star1ImageView, star2ImageView, star3ImageView, star4ImageView, star5ImageView].forEach { object in
             object.image = Statistics.SfSymbols.iconStar
@@ -133,11 +216,16 @@ private extension CollectionCell {
             ratingStackView.addArrangedSubview(object)
         }
 
-        [nftImageView, likeButtonDummyView, likeImageView, ratingStackView, horizontalStackView, cartImageView
+        [nftImageView, likeButton, likeImageView, ratingStackView, horizontalStackView, cartImageView
         ].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview(object)
         }
+    }
+
+    func configureElementValues() {
+        likeButton.addTarget(self, action: #selector(likeButtonCLicked), for: .touchUpInside)
+        cartButton.addTarget(self, action: #selector(cartButtonCLicked), for: .touchUpInside)
     }
 
     func configureConstraints() {
@@ -147,13 +235,13 @@ private extension CollectionCell {
             nftImageView.widthAnchor.constraint(equalToConstant: .nftSize),
             nftImageView.heightAnchor.constraint(equalToConstant: .nftSize),
 
-            likeButtonDummyView.topAnchor.constraint(equalTo: nftImageView.topAnchor),
-            likeButtonDummyView.trailingAnchor.constraint(equalTo: nftImageView.trailingAnchor),
-            likeButtonDummyView.widthAnchor.constraint(equalToConstant: .buttonHeight),
-            likeButtonDummyView.heightAnchor.constraint(equalToConstant: .buttonHeight),
+            likeButton.topAnchor.constraint(equalTo: nftImageView.topAnchor),
+            likeButton.trailingAnchor.constraint(equalTo: nftImageView.trailingAnchor),
+            likeButton.widthAnchor.constraint(equalToConstant: .buttonHeight),
+            likeButton.heightAnchor.constraint(equalToConstant: .buttonHeight),
 
-            likeImageView.centerXAnchor.constraint(equalTo: likeButtonDummyView.centerXAnchor),
-            likeImageView.centerYAnchor.constraint(equalTo: likeButtonDummyView.centerYAnchor),
+            likeImageView.centerXAnchor.constraint(equalTo: likeButton.centerXAnchor),
+            likeImageView.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor),
             likeImageView.widthAnchor.constraint(equalToConstant: .iconSize2),
             likeImageView.heightAnchor.constraint(equalToConstant: .iconSize2),
 
@@ -169,68 +257,13 @@ private extension CollectionCell {
             verticalStackView.widthAnchor.constraint(equalToConstant: .ratingWidth),
             verticalStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: .buttonHeight),
 
-            cartButtonDummyView.widthAnchor.constraint(equalToConstant: .buttonHeight),
-            cartButtonDummyView.heightAnchor.constraint(equalToConstant: .buttonHeight),
+            cartButton.widthAnchor.constraint(equalToConstant: .buttonHeight),
+            cartButton.heightAnchor.constraint(equalToConstant: .buttonHeight),
 
-            cartImageView.centerXAnchor.constraint(equalTo: cartButtonDummyView.centerXAnchor),
-            cartImageView.centerYAnchor.constraint(equalTo: cartButtonDummyView.centerYAnchor),
+            cartImageView.centerXAnchor.constraint(equalTo: cartButton.centerXAnchor),
+            cartImageView.centerYAnchor.constraint(equalTo: cartButton.centerYAnchor),
             cartImageView.widthAnchor.constraint(equalToConstant: .iconSize2),
             cartImageView.heightAnchor.constraint(equalToConstant: .iconSize2)
         ])
-    }
-}
-
-// MARK: - Mock data
-
-private extension CollectionCell {
-    func generateMockCell() {
-        genegateMockRating()
-        genegateMockNftImage()
-        genegateMockName()
-        nftPriceLabel.text = Float.random(in: 10...50).priceFormatted
-    }
-
-    func genegateMockRating() {
-        switch Int.random(in: 1...5) {
-        case 1:
-            star1ImageView.tintColor = .ypYellowUniversal
-        case 2:
-            [star1ImageView, star2ImageView].forEach { $0.tintColor = .ypYellowUniversal }
-        case 3:
-            [star1ImageView, star2ImageView, star3ImageView].forEach { $0.tintColor = .ypYellowUniversal }
-        case 4:
-            [star1ImageView, star2ImageView, star3ImageView, star4ImageView]
-                .forEach { $0.tintColor = .ypYellowUniversal }
-        case 5:
-            [star1ImageView, star2ImageView, star3ImageView, star4ImageView, star5ImageView]
-                .forEach { $0.tintColor = .ypYellowUniversal }
-
-        default: break
-        }
-    }
-
-    func genegateMockName() {
-        switch Int.random(in: 1...8) {
-        case 1: nftNameLabel.text = "Archie"
-        case 2: nftNameLabel.text = "Emma"
-        case 3: nftNameLabel.text = "Stella"
-        case 4: nftNameLabel.text = "Tomas"
-        case 5: nftNameLabel.text = "Toast"
-        case 6: nftNameLabel.text = "Fresh"
-        case 7: nftNameLabel.text = "Zeus"
-        case 8: nftNameLabel.text = "Odin"
-        default: break
-        }
-    }
-
-    func genegateMockNftImage() {
-        switch Int.random(in: 1...5) {
-        case 1: nftImageView.image = Statistics.Images.nft1
-        case 2: nftImageView.image = Statistics.Images.nft2
-        case 3: nftImageView.image = Statistics.Images.nft3
-        case 4: nftImageView.image = Statistics.Images.nft4
-        case 5: nftImageView.image = Statistics.Images.nft5
-        default: break
-        }
     }
 }
