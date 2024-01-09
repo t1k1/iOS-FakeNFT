@@ -92,7 +92,8 @@ private extension UserDetailsViewController {
     @objc func collectionButtonCLicked() {
         let nextController = CollectionViewController(
             servicesAssembly: servicesAssembly,
-            user: userDetails
+            nfts: userDetails.nfts,
+            nftsService: servicesAssembly.nftsService
         )
         navigationController?.pushViewController(nextController, animated: true)
     }

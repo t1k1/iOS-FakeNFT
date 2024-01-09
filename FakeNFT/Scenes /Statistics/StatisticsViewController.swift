@@ -10,7 +10,7 @@ import UIKit
 // MARK: - State enums
 
 enum StatisticsState {
-    case initial, loading, failed(Error), data([UserModel])
+    case initial, loading, failed(Error), data([UserNetworkModel])
 }
 
 enum SortingState: String {
@@ -185,7 +185,7 @@ private extension StatisticsViewController {
         }
     }
 
-    func fetchUsers(from usersResult: [UserModel]) {
+    func fetchUsers(from usersResult: [UserNetworkModel]) {
         let usersModel = usersResult.compactMap { result in
             UserViewModel(
                 name: result.name,
@@ -211,7 +211,7 @@ extension StatisticsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         usersTableView.deselectRow(at: indexPath, animated: false)
-         let nextController = UserDetailsViewController(
+        let nextController = UserDetailsViewController(
             servicesAssembly: servicesAssembly,
             user: visibleUsers[indexPath.row]
         )
