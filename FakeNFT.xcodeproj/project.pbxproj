@@ -142,6 +142,7 @@
 		E90DF5E82B28EF44001E0BDC /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		E90DF5EA2B28FBDF001E0BDC /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		E90EFB842B2AED8A003645C9 /* Float+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+Extensions.swift"; sourceTree = "<group>"; };
+		E90FFF402B4DDF8600683CC8 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E91E09372B45962700CBD0CD /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		E91E093D2B45C23C00CBD0CD /* UIImageView+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extensions.swift"; sourceTree = "<group>"; };
 		E964375B2B2A474700C2CB06 /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
@@ -563,6 +564,7 @@
 				en,
 				Base,
 				ru,
+				he,
 			);
 			mainGroup = 3F68068A29CBBAF100B4F915;
 			packageReferences = (
@@ -740,6 +742,7 @@
 			children = (
 				E96B03D62B4D0DD50021624D /* ru */,
 				E96B03D82B4D0DEE0021624D /* en */,
+				E90FFF402B4DDF8600683CC8 /* he */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

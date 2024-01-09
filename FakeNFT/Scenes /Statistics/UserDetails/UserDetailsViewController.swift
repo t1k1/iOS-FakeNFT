@@ -130,8 +130,9 @@ private extension UserDetailsViewController {
         siteButton.setTitle(Statistics.Labels.siteButtonTitle, for: .normal)
         nameLabel.text = userDetails.name
         descLabel.text = userDetails.description
-        let useMockCollection = userDetails.nfts.isEmpty ? "mock data" : String(userDetails.nfts.count)
-        collectionLabel.text = Statistics.Labels.collectionTitle + " (\(useMockCollection))"
+        collectionLabel.text = userDetails.nfts.isEmpty
+            ? Statistics.Labels.collectionMockTitle
+            : Statistics.Labels.collectionTitle + " (\(userDetails.nfts.count))"
         backButton.addTarget(self, action: #selector(backButtonCLicked), for: .touchUpInside)
         siteButton.addTarget(self, action: #selector(siteButtonCLicked), for: .touchUpInside)
         collectionButton.addTarget(self, action: #selector(collectionButtonCLicked), for: .touchUpInside)

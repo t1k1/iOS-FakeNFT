@@ -13,4 +13,5 @@
 "statistics.sort.byRating" = "По рейтингу";
 "statistics.sort.close" = "Закрыть";
 "statistics.collection.title" = "Коллекция NFT";
+"statistics.collection.mockTitle" = "Коллекция NFT  (mock data)";
 "statistics.siteButton.title" = "Перейти на сайт пользователя";

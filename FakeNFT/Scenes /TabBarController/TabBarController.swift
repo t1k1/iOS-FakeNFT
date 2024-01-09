@@ -55,16 +55,17 @@ final class TabBarController: UITabBarController {
             navStatisticsController
         ]
         selectedIndex = 3
-        tabBar.backgroundColor = .ypWhiteDay
-        tabBar.isTranslucent = false
-        tabBar.unselectedItemTintColor = .ypBlackDay
 
         let appearance = tabBar.standardAppearance
-        appearance.configureWithOpaqueBackground()
+        appearance.configureWithDefaultBackground()
         appearance.shadowImage = nil
         appearance.shadowColor = nil
+        appearance.backgroundColor = .ypWhiteDay
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes =
+            [NSAttributedString.Key.foregroundColor: UIColor.ypBlackDay as Any]
+        appearance.stackedLayoutAppearance.normal.iconColor = .ypBlackDay
         tabBar.standardAppearance = appearance
 
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .ypWhiteDay
     }
 }

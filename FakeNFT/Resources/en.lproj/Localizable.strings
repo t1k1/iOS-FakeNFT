@@ -13,4 +13,5 @@
 "statistics.sort.byRating" = "By Rating";
 "statistics.sort.close" = "Close";
 "statistics.collection.title" = "NFT Collection";
+"statistics.collection.mockTitle" = "NFT Collection (mock data)";
 "statistics.siteButton.title" = "Open User's Site";
