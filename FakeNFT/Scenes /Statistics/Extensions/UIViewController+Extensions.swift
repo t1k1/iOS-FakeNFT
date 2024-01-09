@@ -22,4 +22,17 @@ extension UIViewController {
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
     }
+
+    func presentNetworkAlert(errorDescription: String, completion: @escaping () -> Void) {
+        let alertController = UIAlertController(
+            title: NSLocalizedString("Error.title", comment: ""),
+            message: errorDescription,
+            preferredStyle: .alert
+        )
+        let action = UIAlertAction(title: NSLocalizedString("Error.repeat", comment: ""), style: .default) { _ in
+            completion()
+        }
+        alertController.addAction(action)
+        present(alertController, animated: true, completion: nil)
+    }
 }

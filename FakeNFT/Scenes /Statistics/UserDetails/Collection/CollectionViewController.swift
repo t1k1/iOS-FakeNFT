@@ -184,6 +184,10 @@ private extension CollectionViewController {
             UIBlockingProgressHUD.dismiss()
         case .failed(let error):
             UIBlockingProgressHUD.dismiss()
+            presentNetworkAlert(errorDescription: error.localizedDescription) {
+                self.state = .loading
+            }
+//            assertionFailure("Error: \(error)")
         }
     }
 
@@ -252,6 +256,10 @@ private extension CollectionViewController {
                 )
                 collectionView.reloadData()
             case .failure(let error):
+                presentNetworkAlert(errorDescription: error.localizedDescription) {
+                    self.state = .loading
+                }
+//                assertionFailure("Error: \(error)")
             }
         }
     }
@@ -268,6 +276,10 @@ private extension CollectionViewController {
                 )
                 collectionView.reloadData()
             case .failure(let error):
+                presentNetworkAlert(errorDescription: error.localizedDescription) {
+                    self.state = .loading
+                }
+//                assertionFailure("Error: \(error)")
             }
         }
     }

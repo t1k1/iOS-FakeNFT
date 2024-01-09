@@ -166,11 +166,14 @@ private extension StatisticsViewController {
             UIBlockingProgressHUD.show()
             loadUsers()
         case .data(let usersResult):
-            self.fetchUsers(from: usersResult)
+            fetchUsers(from: usersResult)
             UIBlockingProgressHUD.dismiss()
         case .failed(let error):
             UIBlockingProgressHUD.dismiss()
-            assertionFailure("Error: \(error)")
+            presentNetworkAlert(errorDescription: error.localizedDescription) {
+                self.state = .loading
+            }
+//            assertionFailure("Error: \(error)")
         }
     }
 
