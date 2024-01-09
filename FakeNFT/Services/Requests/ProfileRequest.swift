@@ -20,7 +20,7 @@ import Foundation
     var httpMethod = HttpMethod.put
     var body: Data?
 
-    init(profile: ProfileModel) {
+    init(profile: ProfileUpdate) {
        let description = String(describing: profile.description)
        let website = String(describing: profile.website)
 
