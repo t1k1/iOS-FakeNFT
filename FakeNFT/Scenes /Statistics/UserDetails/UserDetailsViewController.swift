@@ -110,7 +110,7 @@ private extension UserDetailsViewController {
     }
 
     func configureViews() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .ypWhiteDay
         nameLabel.font = .headline3
         siteButton.setTitleColor(.ypBlackDay, for: .normal)
 
@@ -118,6 +118,7 @@ private extension UserDetailsViewController {
         collectionLabel, forwardImageView].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             object.tintColor = .ypBlackDay
+            object.backgroundColor = .ypWhiteDay
             view.addSubview(object)
         }
     }

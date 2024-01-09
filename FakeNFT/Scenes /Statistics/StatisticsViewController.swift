@@ -33,6 +33,7 @@ final class StatisticsViewController: UIViewController {
         table.isScrollEnabled = true
         table.allowsSelection = true
         table.separatorColor = .clear
+        table.backgroundColor = .ypWhiteDay
         return table
     }()
 
@@ -234,6 +235,7 @@ extension StatisticsViewController: UITableViewDataSource {
         }
         let bgColorView = UIView()
         bgColorView.backgroundColor = .ypWhiteDay
+        cell.backgroundColor = .ypWhiteDay
         cell.selectedBackgroundView = bgColorView
         cell.configureCell(counter: indexPath.row + 1, user: visibleUsers[indexPath.row])
         return cell
@@ -250,7 +252,7 @@ private extension StatisticsViewController {
     }
 
     func configureViews() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .ypWhiteDay
         view.addSubview(usersTableView)
     }
 

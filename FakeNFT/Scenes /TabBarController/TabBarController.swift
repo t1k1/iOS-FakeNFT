@@ -55,6 +55,7 @@ final class TabBarController: UITabBarController {
             navStatisticsController
         ]
         selectedIndex = 3
+        tabBar.backgroundColor = .ypWhiteDay
         tabBar.isTranslucent = false
         tabBar.unselectedItemTintColor = .ypBlackDay
 

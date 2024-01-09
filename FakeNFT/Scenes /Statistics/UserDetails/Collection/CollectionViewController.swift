@@ -142,10 +142,11 @@ private extension CollectionViewController {
     }
 
     func configureViews() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .ypWhiteDay
         [customNavView, backButton, collectionLabel, collectionView].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             object.tintColor = .ypBlackDay
+            object.backgroundColor = .ypWhiteDay
             view.addSubview(object)
         }
     }
