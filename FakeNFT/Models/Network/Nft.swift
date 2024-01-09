@@ -1,6 +1,6 @@
 import Foundation
 
-struct NftNetworkModel: Decodable {
+ struct NftNetworkModel: Decodable {
     let createdAt: String
     let name: String
     let images: [URL]
@@ -9,9 +9,9 @@ struct NftNetworkModel: Decodable {
     let price: Float
     let author: URL?
     let id: String
-}
+ }
 
-struct NftResultModel {
+ struct NftResultModel {
     let createdAt: Date
     let name: String
     let images: [URL]
@@ -20,4 +20,4 @@ struct NftResultModel {
     let price: Float
     let author: URL?
     let id: String
-}
+ }

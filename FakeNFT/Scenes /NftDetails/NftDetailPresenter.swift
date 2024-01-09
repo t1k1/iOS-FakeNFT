@@ -60,7 +60,8 @@ final class NftDetailPresenterImpl: NftDetailPresenter {
         service.loadNft(id: input.id) { [weak self] result in
             switch result {
             case .success(let nft):
-                self?.state = .data(nft)
+                // self?.state = .data(nft)
+                print(nft)
             case .failure(let error):
                 self?.state = .failed(error)
             }
