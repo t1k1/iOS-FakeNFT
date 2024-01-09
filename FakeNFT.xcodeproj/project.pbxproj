@@ -47,7 +47,6 @@
 		E1A1B9DA2AA01CE400C3AFBC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1B9D92AA01CE400C3AFBC /* TabBarController.swift */; };
 		E90DF5DA2B25EB50001E0BDC /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DF5D92B25EB50001E0BDC /* StatisticsViewController.swift */; };
 		E90DF5DC2B25EC89001E0BDC /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DF5DB2B25EC89001E0BDC /* Statistics.swift */; };
-		E90DF5DF2B2642E3001E0BDC /* StatisticsTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DF5DE2B2642E3001E0BDC /* StatisticsTableViewModel.swift */; };
 		E90DF5E12B264A5F001E0BDC /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DF5E02B264A5F001E0BDC /* UserCell.swift */; };
 		E90DF5E32B26E52E001E0BDC /* UserDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DF5E22B26E52E001E0BDC /* UserDetailsViewController.swift */; };
 		E90DF5E52B28D22F001E0BDC /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90DF5E42B28D22F001E0BDC /* UIViewController+Extensions.swift */; };
@@ -136,7 +135,6 @@
 		E1CD40D92A96BE7D00BE7FE8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		E90DF5D92B25EB50001E0BDC /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		E90DF5DB2B25EC89001E0BDC /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
-		E90DF5DE2B2642E3001E0BDC /* StatisticsTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsTableViewModel.swift; sourceTree = "<group>"; };
 		E90DF5E02B264A5F001E0BDC /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		E90DF5E22B26E52E001E0BDC /* UserDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsViewController.swift; sourceTree = "<group>"; };
 		E90DF5E42B28D22F001E0BDC /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
@@ -348,7 +346,6 @@
 		3F6806C929CBBCAF00B4F915 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E90DF5DD2B2642A7001E0BDC /* Statistics */,
 				3F6806D829CC979D00B4F915 /* Network */,
 				D5DC43A92B299B5B0018BDBD /* ProfileModel.swift */,
 				E977E1122B49D8D300732160 /* ProfileResult.swift */,
@@ -438,14 +435,6 @@
 				E90DF5D92B25EB50001E0BDC /* StatisticsViewController.swift */,
 				E9905F622B2D01E800D2627F /* UserDetails */,
 				E9905F602B2CF75D00D2627F /* Extensions */,
-			);
-			path = Statistics;
-			sourceTree = "<group>";
-		};
-		E90DF5DD2B2642A7001E0BDC /* Statistics */ = {
-			isa = PBXGroup;
-			children = (
-				E90DF5DE2B2642E3001E0BDC /* StatisticsTableViewModel.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -702,7 +691,6 @@
 				E90DF5E12B264A5F001E0BDC /* UserCell.swift in Sources */,
 				0C79EE632A76DD1900EE90EA /* RequestConstants.swift in Sources */,
 				E977E1172B49DAA700732160 /* ProfileStorage.swift in Sources */,
-				E90DF5DF2B2642E3001E0BDC /* StatisticsTableViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

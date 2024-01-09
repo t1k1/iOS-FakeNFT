@@ -173,7 +173,6 @@ private extension StatisticsViewController {
             presentNetworkAlert(errorDescription: error.localizedDescription) {
                 self.state = .loading
             }
-//            assertionFailure("Error: \(error)")
         }
     }
 

@@ -47,13 +47,11 @@ final class CollectionViewController: UIViewController {
     private var profile: ProfileUpdate = ProfileUpdate(name: "", description: "", website: "", likes: []) {
         didSet {
             collectionView.reloadData()
-            print(#fileID, #line, #function, profile)
         }
     }
     private var order: OrderResultModel = OrderResultModel(nfts: [], id: "") {
         didSet {
             collectionView.reloadData()
-            print(#fileID, #line, #function, order)
         }
     }
     private var state = NftsState.initial {
@@ -187,7 +185,6 @@ private extension CollectionViewController {
             presentNetworkAlert(errorDescription: error.localizedDescription) {
                 self.state = .loading
             }
-//            assertionFailure("Error: \(error)")
         }
     }
 
@@ -259,13 +256,11 @@ private extension CollectionViewController {
                 presentNetworkAlert(errorDescription: error.localizedDescription) {
                     self.state = .loading
                 }
-//                assertionFailure("Error: \(error)")
             }
         }
     }
 
     private func loadOrder() {
-//        print(#fileID, #line, #function)
         orderService.loadOrder(id: "1") { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -279,7 +274,6 @@ private extension CollectionViewController {
                 presentNetworkAlert(errorDescription: error.localizedDescription) {
                     self.state = .loading
                 }
-//                assertionFailure("Error: \(error)")
             }
         }
     }
