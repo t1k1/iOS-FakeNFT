@@ -1,0 +1,16 @@
+"Tab.profile" = "Profile";
+"Tab.catalog" = "Catalog";
+"Tab.cart" = "Cart";
+"Tab.statistics" = "Statistics";
+"Catalog.openNft" = "Open Nft";
+"Error.network" = "A network error occurred";
+"Error.unknown" = "An unknown error occurred";
+"Error.repeat" = "Repeat";
+"Error.title" = "Error";
+
+"statistics.sort.title" = "Sorting";
+"statistics.sort.byName" = "By Name";
+"statistics.sort.byRating" = "By Rating";
+"statistics.sort.close" = "Close";
+"statistics.collection.title" = "NFT Collection";
+"statistics.siteButton.title" = "Open User's Site";
