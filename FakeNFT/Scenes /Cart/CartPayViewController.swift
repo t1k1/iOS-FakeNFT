@@ -1,62 +1,45 @@
 import UIKit
+import Kingfisher
 
 final class CartPayViewController: UIViewController, ErrorView {
-    
-    // MARK: - Mock properties
-    private var criptoArray: [CriptoViewModel] = [
-        CriptoViewModel(
-            title: "BTC",
-            name: "Bitcoin",
-            image: UIImage.criptoBTC,
-            id: "1"),
-        CriptoViewModel(
-            title: "DOGE",
-            name: "Dogecoin",
-            image: UIImage.criptoDOGE,
-            id: "2"),
-        CriptoViewModel(
-            title: "USDT",
-            name: "Tether",
-            image: UIImage.criptoUSDT,
-            id: "3"),
-        CriptoViewModel(
-            title: "APE",
-            name: "Apecoin",
-            image: UIImage.criptoAPE,
-            id: "4"),
-        CriptoViewModel(
-            title: "SOL",
-            name: "Solana",
-            image: UIImage.criptoSOL,
-            id: "5"),
-        CriptoViewModel(
-            title: "ETH",
-            name: "Ethereum",
-            image: UIImage.criptoETH,
-            id: "6"),
-        CriptoViewModel(
-            title: "ADA",
-            name: "Cardano",
-            image: UIImage.criptoADA,
-            id: "7"),
-        CriptoViewModel  (
-            title: "SHIB",
-            name: "Shiba Inu",
-            image: UIImage.criptoSHIB,
-            id: "8"),
-    ]
-    
-    private var selectionArray: [CGFloat] = []
-    private var selectedCripto: CriptoViewModel?
-    
+
+    // MARK: - Private constants
+
+    private let servicesAssembly = ServicesAssembly(
+        networkClient: DefaultNetworkClient(),
+        nftStorage: NftStorageImpl()
+    )
+
     // MARK: - Private mutable properties
+
+    private var orderId: String?
+
+    private lazy var criptoArray: [CriptoResultModel] = []
+
+    private lazy var criptoDetail = CriptoDetailImpl(
+        servicesAssembly: servicesAssembly,
+        service: servicesAssembly.criptoService,
+        delegate: self
+    )
+
+    private lazy var payment: PaymentResultModel = PaymentResultModel(success: false, orderId: orderId ?? "", id: "")
+
+    private lazy var paymentDetail = PaymentDetailImpl(
+        servicesAssembly: servicesAssembly,
+        service: servicesAssembly.paymentService,
+        delegate: self
+    )
+
+    private var selectionArray: [CGFloat] = []
+    private var selectedCripto: CriptoResultModel?
+
     private lazy var titleBackgroundView: UIView = {
         let view = UIView()
         view.layer.backgroundColor = UIColor.clear.cgColor
         view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 88)
         return view
     }()
-    
+
     private lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage.backward, for: .normal)
@@ -65,7 +48,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private lazy var cartPayLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("cart.cartPayViewController.title", comment: "")
@@ -75,8 +58,8 @@ final class CartPayViewController: UIViewController, ErrorView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    private lazy var bottomBackgroundView: UIView = {
+
+    private lazy var bottomView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.ypLightGreyDay
         view.layer.cornerRadius = 12
@@ -85,7 +68,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
+
     private lazy var userAgreementLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -95,7 +78,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var userAgreementLinkLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -107,7 +90,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var payButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(),
@@ -123,75 +106,111 @@ final class CartPayViewController: UIViewController, ErrorView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
-    
+
+    init(orderId: String?) {
+        self.orderId = orderId
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // MARK: - View controller lifecycle methods
+    override func loadView() {
+        super.loadView()
+        self.criptoDetail.startLoading(criptos: criptoArray, httpMethod: HttpMethod.get)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypWhiteDay
-        criptoArray.enumerated().forEach { (index, item) in
-            selectionArray.append(0)
-        }
         collectionViewConfig()
         configureConstraints()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
     }
-    
+
     private func collectionViewConfig() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(CartPayCollectionViewCell.self, forCellWithReuseIdentifier: CartPayCollectionViewCell().cellIdentifier)
+        collectionView.register(
+            CartPayCollectionViewCell.self,
+            forCellWithReuseIdentifier: CartPayCollectionViewCell().cellIdentifier
+        )
         collectionView.allowsMultipleSelection = false
     }
-    
+
     // MARK: - Objective-C functions
     @objc
     private func didTapPayButton() {
-        switch selectedCripto?.name {
-        case nil:
-            let error = ErrorModel(
-                title: NSLocalizedString("cart.cartPayViewController.errorCurrency", comment: ""),
-                message: "",
-                actionText: NSLocalizedString("cart.cartPayViewController.errorRepeat", comment: ""),
-                action: {})
-            return showError(error)
-        
-        case "Bitcoin":
+        var selectedIndex = ""
+        if let selectedCripto = selectionArray.firstIndex(of: 1) {
+            selectedIndex = String(Int(selectedCripto))
+        }
+        let paymentToSend = PaymentResultModel(success: false, orderId: orderId ?? "", id: selectedIndex)
+        self.paymentDetail.startLoading(payment: paymentToSend, httpMethod: HttpMethod.get)
+    }
+
+    @objc
+    private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+
+    @objc
+    private func userAgreementTapped() {
+        let webViewController = WebViewController()
+        navigationController?.pushViewController(webViewController, animated: true)
+    }
+}
+
+// MARK: - CriptoDetailProtocol
+extension CartPayViewController: CriptoDetailProtocol {
+    func sendLoaded(criptos: [CriptoResultModel]) {
+        self.criptoArray = criptos
+        criptoArray.enumerated().forEach { (_, _) in
+            selectionArray.append(0)
+        }
+        collectionView.reloadData()
+    }
+}
+
+// MARK: - PaymentDateilProtocol
+extension CartPayViewController: PaymentDetailProtocol {
+    func sendLoaded(payment: PaymentResultModel) {
+        self.payment = payment
+        switch payment.success {
+        case false:
             var error = ErrorModel(
-                title: NSLocalizedString("cart.cartPayViewController.errorMessage", comment: ""),
+                title: NSLocalizedString("cart.cartPayViewController.errorMessage",
+                                         comment: ""),
                 message: "",
-                actionText: NSLocalizedString("cart.cartPayViewController.errorCancel", comment: ""),
-                action: {})
-            error.setSecondActionText(NSLocalizedString("cart.cartPayViewController.errorRepeat", comment: ""))
+                actionText: NSLocalizedString("cart.cartPayViewController.errorCancel",
+                                              comment: ""),
+                action: {}
+            )
+            error.setSecondActionText(
+                NSLocalizedString("cart.cartPayViewController.errorRepeat",
+                                  comment: "")
+            )
             error.setSecondAction {
                 self.didTapPayButton()
             }
             return showError(error)
         default:
-            let vc = CartPaySuccessViewController()
-            navigationController?.pushViewController(vc, animated: true)
+            let successViewController = CartPaySuccessViewController()
+            navigationController?.pushViewController(successViewController, animated: true)
         }
-        
-    }
-    
-    @objc
-    private func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @objc
-    private func userAgreementTapped() {
-        let vc = WebViewController()
-        navigationController?.pushViewController(vc, animated: true)
+
     }
 }
 
@@ -199,7 +218,7 @@ final class CartPayViewController: UIViewController, ErrorView {
 extension CartPayViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         var array: [CGFloat] = []
-        criptoArray.enumerated().forEach { (index, item) in
+        criptoArray.enumerated().forEach { (_, _) in
             array.append(0)
         }
         let selectedItem = indexPath.row
@@ -207,7 +226,6 @@ extension CartPayViewController: UICollectionViewDelegate {
         array.insert(1, at: selectedItem)
         selectionArray = array
         selectedCripto = criptoArray[selectedItem]
-        print("\(String(describing: selectedCripto?.name)) selected")
         collectionView.reloadData()
     }
 }
@@ -222,37 +240,77 @@ extension CartPayViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return criptoArray.count
     }
-    
+
     /// Cell for item
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CartPayCollectionViewCell().cellIdentifier, for: indexPath) as? CartPayCollectionViewCell else {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CartPayCollectionViewCell().cellIdentifier,
+            for: indexPath
+        ) as? CartPayCollectionViewCell else {
             return UICollectionViewCell()
         }
         cell.configure(
-            name: "\(criptoArray[indexPath.row].name)",
-            title: "\(criptoArray[indexPath.row].title)",
-            image: criptoArray[indexPath.row].image,
+            name: "\(criptoArray[indexPath.row].title)",
+            title: "\(criptoArray[indexPath.row].id)",
+            image: UIImage(),
             borderWidth: selectionArray[indexPath.row])
+
+        updateImage(at: indexPath, cell: cell)
+
         return cell
+    }
+
+    private func updateImage(at indexPath: IndexPath, cell: CartPayCollectionViewCell) {
+        if criptoArray.count > 0 {
+            cell.activityIndicator.startAnimating()
+            let processor = DownsamplingImageProcessor(size: CGSize(width: 36, height: 36))
+            cell.cellCriptoImageView.kf.setImage(
+                with: self.criptoArray[indexPath.row].image,
+                options: [.processor(processor)]) { result in
+                    cell.activityIndicator.stopAnimating()
+                    switch result {
+                    case .success:
+                        return
+                    case .failure:
+                        cell.cellCriptoImageView.image = UIImage(systemName: "nosign") ?? UIImage()
+                        cell.cellCriptoImageView.tintColor = UIColor.ypBlackDay
+                    }
+                }
+        }
     }
 }
 
 // MARK: - CollectionViewDelegateFlowLayout
 extension CartPayViewController: UICollectionViewDelegateFlowLayout {
     /// Set layout width and height
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.bounds.width / 2 - 3.5) - 16, height: 46)
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellLeading: CGFloat = 16
+        let cellSpacing: CGFloat = 7
+        let cellCount: CGFloat = 2
+        let cellHeight: CGFloat = 46
+        let collectionViewWidth: CGFloat = collectionView.bounds.width
+        let automaticCellWidth = (collectionViewWidth / cellCount - cellSpacing / cellCount) - cellLeading
+        return CGSize(width: automaticCellWidth, height: cellHeight)
     }
     /// Set layout horizontal spacing
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 7
     }
     /// Set layout vertical spacing
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 7
     }
     /// Set section insets
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
         let sectionInsets = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
         return sectionInsets
     }
@@ -260,7 +318,7 @@ extension CartPayViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Configure constraints
 private extension CartPayViewController {
-    
+
     func configureConstraints() {
         view.addSubview(titleBackgroundView)
         titleBackgroundView.addSubview(backButton)
@@ -276,45 +334,44 @@ private extension CartPayViewController {
             cartPayLabel.leadingAnchor.constraint(equalTo: titleBackgroundView.leadingAnchor),
             cartPayLabel.trailingAnchor.constraint(equalTo: titleBackgroundView.trailingAnchor)
         ])
-        
-        view.addSubview(bottomBackgroundView)
+
+        view.addSubview(bottomView)
         NSLayoutConstraint.activate([
-            bottomBackgroundView.heightAnchor.constraint(equalToConstant: 186),
-            bottomBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomBackgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            bottomView.heightAnchor.constraint(equalToConstant: 186),
+            bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
-        bottomBackgroundView.addSubview(payButton)
+
+        bottomView.addSubview(payButton)
         NSLayoutConstraint.activate([
             payButton.heightAnchor.constraint(equalToConstant: 60),
-            payButton.leadingAnchor.constraint(equalTo: bottomBackgroundView.leadingAnchor, constant: 12),
-            payButton.trailingAnchor.constraint(equalTo: bottomBackgroundView.trailingAnchor, constant: -12),
-            payButton.bottomAnchor.constraint(equalTo: bottomBackgroundView.bottomAnchor, constant: -50)
+            payButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 12),
+            payButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -12),
+            payButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -50)
         ])
-        
-        bottomBackgroundView.addSubview(userAgreementLabel)
+
+        bottomView.addSubview(userAgreementLabel)
         NSLayoutConstraint.activate([
-            userAgreementLabel.leadingAnchor.constraint(equalTo: bottomBackgroundView.leadingAnchor, constant: 16),
-            userAgreementLabel.trailingAnchor.constraint(equalTo: bottomBackgroundView.trailingAnchor, constant: -16),
-            userAgreementLabel.topAnchor.constraint(equalTo: bottomBackgroundView.topAnchor, constant: 16)
+            userAgreementLabel.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 16),
+            userAgreementLabel.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -16),
+            userAgreementLabel.topAnchor.constraint(equalTo: bottomView.topAnchor, constant: 16)
         ])
-        
-        bottomBackgroundView.addSubview(userAgreementLinkLabel)
+
+        bottomView.addSubview(userAgreementLinkLabel)
         NSLayoutConstraint.activate([
-            userAgreementLinkLabel.leadingAnchor.constraint(equalTo: bottomBackgroundView.leadingAnchor, constant: 16),
-            userAgreementLinkLabel.trailingAnchor.constraint(equalTo: bottomBackgroundView.trailingAnchor, constant: -16),
+            userAgreementLinkLabel.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 16),
+            userAgreementLinkLabel.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -16),
             userAgreementLinkLabel.topAnchor.constraint(equalTo: userAgreementLabel.bottomAnchor, constant: 4)
         ])
-        
+
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: titleBackgroundView.bottomAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomBackgroundView.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        
+
     }
 }
-

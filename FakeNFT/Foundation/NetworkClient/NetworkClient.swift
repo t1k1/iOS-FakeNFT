@@ -108,7 +108,6 @@ struct DefaultNetworkClient: NetworkClient {
     }
 
     // MARK: - Private
-    
     private func create(request: NetworkRequest) -> URLRequest? {
         guard let endpoint = request.endpoint else {
             assertionFailure("Empty endpoint")
@@ -116,15 +115,31 @@ struct DefaultNetworkClient: NetworkClient {
         }
 
         var urlRequest = URLRequest(url: endpoint)
+
         urlRequest.httpMethod = request.httpMethod.rawValue
 
-        if let dto = request.dto,
-           let dtoEncoded = try? encoder.encode(dto) {
-            urlRequest.setValue("a66690d9-233c-4541-a539-179c0a04d8da", forHTTPHeaderField: "X-Practicum-Mobile-Token")
-            urlRequest.httpBody = dtoEncoded
+        if urlRequest.httpMethod == HttpMethod.put.rawValue {
+            urlRequest.setValue(NetworkConstants.putValue, forHTTPHeaderField: NetworkConstants.putHeader)
+            if let body = request.body {
+                urlRequest.httpBody = body
+            }
         }
-        
-        urlRequest.setValue("a66690d9-233c-4541-a539-179c0a04d8da", forHTTPHeaderField: "X-Practicum-Mobile-Token")
+
+        urlRequest.setValue(
+
+            NetworkConstants.connectionValue,
+            forHTTPHeaderField: NetworkConstants.connectionHeader
+        )
+        urlRequest.setValue(
+            NetworkConstants.acceptValue,
+            forHTTPHeaderField: NetworkConstants.acceptHeader
+        )
+        urlRequest.setValue(
+            NetworkConstants.acceptEncodingValue,
+            forHTTPHeaderField: NetworkConstants.acceptEncodingHeader
+        )
+
+        urlRequest.setValue(NetworkConstants.tokenValue, forHTTPHeaderField: NetworkConstants.tokenHeader)
 
         return urlRequest
     }

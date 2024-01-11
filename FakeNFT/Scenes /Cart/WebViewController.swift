@@ -3,7 +3,7 @@ import WebKit
 import ProgressHUD
 
 final class WebViewController: UIViewController {
-    
+
     // MARK: - Private mutable properties
     private lazy var titleBackgroundView: UIView = {
         let view = UIView()
@@ -11,7 +11,7 @@ final class WebViewController: UIViewController {
         view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 88)
         return view
     }()
-    
+
     private lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage.backward, for: .normal)
@@ -20,15 +20,15 @@ final class WebViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private lazy var webView: WKWebView = {
         let web = WKWebView()
         web.translatesAutoresizingMaskIntoConstraints = false
         return web
     }()
-    
+
     private var estimatedProgressObservation: NSKeyValueObservation?
-    
+
     // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ final class WebViewController: UIViewController {
         if let url = URL(string: "https://yandex.ru/legal/practicum_termsofuse/") {
             webView.load(URLRequest(url: url))
         }
-        ProgressHUD.show()
+        ProgressHUD.animate()
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              options: [],
@@ -45,13 +45,13 @@ final class WebViewController: UIViewController {
                  self.didUpdateProgressValue(self.webView.estimatedProgress)
              })
     }
-    
+
     private func didUpdateProgressValue(_ newValue: Double) {
         if newValue > 0.9 {
             ProgressHUD.dismiss()
         }
     }
-    
+
     // MARK: - Objective-C function
     @objc
     private func backButtonTapped() {
@@ -62,7 +62,7 @@ final class WebViewController: UIViewController {
 
 // MARK: - Configure constraints
 private extension WebViewController {
-    
+
     func configureConstraints() {
         view.addSubview(titleBackgroundView)
         titleBackgroundView.addSubview(backButton)
@@ -72,7 +72,7 @@ private extension WebViewController {
             backButton.leadingAnchor.constraint(equalTo: titleBackgroundView.leadingAnchor),
             backButton.bottomAnchor.constraint(equalTo: titleBackgroundView.bottomAnchor)
         ])
-        
+
         view.addSubview(webView)
         NSLayoutConstraint.activate([
             webView.topAnchor.constraint(equalTo: titleBackgroundView.bottomAnchor),
@@ -81,5 +81,5 @@ private extension WebViewController {
             webView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
+
 }

@@ -5,15 +5,15 @@ protocol CartTableViewCellDelegate: AnyObject {
 }
 
 final class CartTableViewCell: UITableViewCell {
-    
+
     // MARK: - Public mutable properties
     weak var delegate: CartTableViewCellDelegate?
-    
+
     // MARK: - Private constants
     static let reuseIdentifier = "CartTableViewCell"
-    
-    //MARK: - Private mutable properties
-    
+
+    // MARK: - Private mutable properties
+
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
@@ -21,8 +21,8 @@ final class CartTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    private lazy var previewImage: UIImageView = {
+
+    lazy var previewImage: UIImageView = {
         let image = UIImage()
         let imageView = UIImageView(image: image)
         imageView.layer.cornerRadius = 12
@@ -30,14 +30,21 @@ final class CartTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
+
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.stopAnimating()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+
     private lazy var ratingImage: UIImageView = {
         let image = UIImage.stars0
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
+
     private lazy var priceHeaderLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("cart.cartViewController.price", comment: "Price localized text")
@@ -46,7 +53,7 @@ final class CartTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
@@ -54,7 +61,7 @@ final class CartTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var deleteButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage.cartDelete,
@@ -65,21 +72,26 @@ final class CartTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     // MARK: - Inits
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureConstraints()
         backgroundColor = UIColor.ypWhiteDay
     }
-    
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        // отменяем загрузку чтобы избежать багов
+        previewImage.kf.cancelDownloadTask()
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func configCell(
-        at indexPath: IndexPath,
         image: UIImage,
         name: String,
         price: Float,
@@ -92,19 +104,27 @@ final class CartTableViewCell: UITableViewCell {
         let correctRating: Int = Int(round(Double(rating/2)))
         self.ratingImage.image = UIImage(named: "stars\(correctRating)")
     }
-    
+
     // MARK: - Objective-C functions
     @objc
     private func didTapDeleteButton(sender: Any) {
         delegate?.didTapCellDeleteButton(self)
     }
-    
+
     // MARK: - Configure constraints
     private func configureConstraints() {
         addSubview(previewImage)
         NSLayoutConstraint.activate([
             previewImage.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            previewImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16)
+            previewImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            previewImage.widthAnchor.constraint(greaterThanOrEqualToConstant: 108),
+            previewImage.heightAnchor.constraint(greaterThanOrEqualToConstant: 108)
+        ])
+
+        previewImage.addSubview(activityIndicator)
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: previewImage.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: previewImage.centerYAnchor)
         ])
 
         addSubview(nameLabel)
@@ -132,7 +152,7 @@ final class CartTableViewCell: UITableViewCell {
             priceLabel.topAnchor.constraint(equalTo: priceHeaderLabel.bottomAnchor, constant: 2),
             priceLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor)
         ])
-        
+
         contentView.addSubview(deleteButton)
         NSLayoutConstraint.activate([
             deleteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
@@ -141,5 +161,5 @@ final class CartTableViewCell: UITableViewCell {
             deleteButton.widthAnchor.constraint(equalToConstant: 44)
         ])
     }
-    
+
 }

@@ -4,6 +4,7 @@ import UIKit
 
 // MARK: - Images
 public extension UIImage {
+  static let launchLogo: UIImage = UIImage(named: "LaunchLogo")!
   static let cartDeleteNFT: UIImage = UIImage(named: "Cart Delete NFT")!
   static let cartImage0: UIImage = UIImage(named: "Cart Image 0")!
   static let cartImage1: UIImage = UIImage(named: "Cart Image 1")!
@@ -38,6 +39,9 @@ public extension UIImage {
   static let сart: UIImage = UIImage(named: "сart")!
   static let сatalog: UIImage = UIImage(named: "сatalog")!
   static let successPay: UIImage = UIImage(named: "Success Pay")!
+  static let firstPage: UIImage = UIImage(named: "firstPage")!
+  static let secondPage: UIImage = UIImage(named: "secondPage")!
+  static let thirdPage: UIImage = UIImage(named: "thirdPage")!
 }
 
 // MARK: - Colors
