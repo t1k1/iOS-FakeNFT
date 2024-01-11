@@ -248,7 +248,7 @@ extension CatalogViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let collectionViewController = CollectionViewController(
             servicesAssembly: servicesAssembly,
-            nftService: (servicesAssembly.nftService as? NftServiceImpl)!
+            nftService: servicesAssembly.nftService
         )
         let collection = collections[indexPath.row]
         collectionViewController.catalogString = collection.name
