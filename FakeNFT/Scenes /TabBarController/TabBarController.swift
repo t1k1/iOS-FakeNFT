@@ -18,10 +18,14 @@ final class TabBarController: UITabBarController {
         tag: 0
     )
 
+    private let cartTabBarItem = UITabBarItem(
+        title: NSLocalizedString("Tab.cart", comment: ""),
+        image: UIImage(named: "сart"),
+        tag: 1
+    )
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .ypWhiteDay
-        tabBar.unselectedItemTintColor = UIColor.ypBlackDay
 
         let catalogViewController = CatalogViewController(
             servicesAssembly: servicesAssembly,
@@ -35,9 +39,15 @@ final class TabBarController: UITabBarController {
         profileController.tabBarItem = profileTabBarItem
         let profileNavigationController = UINavigationController(rootViewController: profileController)
 
-        viewControllers = [profileNavigationController, catalogNavigationController]
+        let cartNavigationController = UINavigationController(rootViewController: CartViewController())
+        cartNavigationController.tabBarItem = cartTabBarItem
+
+        viewControllers = [profileNavigationController, catalogNavigationController, cartNavigationController]
         selectedIndex = 0
 
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor.ypWhiteDay
+        tabBar.backgroundColor = UIColor.ypWhiteDay
+        tabBar.tintColor = UIColor.ypBlueUniversal
+        tabBar.unselectedItemTintColor = UIColor.ypBlackDay
     }
 }

@@ -41,14 +41,14 @@ final class CollectionViewController: UIViewController {
     private let topSpacing: CGFloat = 486.0
     private let cellHeight: CGFloat = 192.0
     private let numberOfCellsInRow: CGFloat = 3.0
-    private let nftService: NftService
+    private let nftService: NftServiceImpl
     private let profileService = ProfileService.shared
     private let orderService = OrderServiceImpl.shared
     private let servicesAssembly: ServicesAssembly
 
     // MARK: - Init
 
-    init(servicesAssembly: ServicesAssembly, nftService: NftService) {
+    init(servicesAssembly: ServicesAssembly, nftService: NftServiceImpl) {
         self.servicesAssembly = servicesAssembly
         self.nftService = nftService
         super.init(nibName: nil, bundle: nil)

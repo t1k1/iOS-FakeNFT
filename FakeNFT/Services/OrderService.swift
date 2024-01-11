@@ -15,6 +15,7 @@ protocol OrderServiceProtocol {
 }
 
 final class OrderServiceImpl: OrderServiceProtocol {
+
     static let shared = OrderServiceImpl(networkClient: DefaultNetworkClient())
 
     private let networkClient: NetworkClient
