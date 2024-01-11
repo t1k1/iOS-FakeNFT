@@ -200,6 +200,7 @@ private extension CollectionViewController {
         }
 
     }
+
     func fetchNfts(from nftsResult: [NftModel]) {
         let nftsModel = nftsResult.compactMap { result in
             NftViewModel(
@@ -234,10 +235,6 @@ private extension CollectionViewController {
             }
         }
         loadNftAtIndex(index: 0)
-    }
-    func loadNetworkData() {
-        loadLikes()
-        loadOrder()
     }
 
     func loadLikes() {
