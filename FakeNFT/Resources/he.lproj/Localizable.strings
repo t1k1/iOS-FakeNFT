@@ -1,0 +1,17 @@
+"Tab.profile" = "פרופיל";
+"Tab.catalog" = "קטלוג";
+"Tab.cart" = "עגלה";
+"Tab.statistics" = "סטטיסטיקה";
+"Catalog.openNft" = "פתח את Nft";
+"Error.network" = "אירעה שגיאת רשת";
+"Error.unknown" = "אירעה שגיאה לא ידועה";
+"Error.repeat" = "חזור";
+"Error.title" = "שגיאה";
+
+"statistics.sort.title" = "מיון";
+"statistics.sort.byName" = "לפי שם";
+"statistics.sort.byRating" = "לפי דירוג";
+"statistics.sort.close" = "סגור";
+"statistics.collection.title" = "אוסף NFT";
+"statistics.collection.mockTitle" = "אוסף NFT (נתונים מדומים)";
+"statistics.siteButton.title" = "פתח את האתר של המשתמש";

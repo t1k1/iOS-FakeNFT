@@ -92,7 +92,8 @@ private extension UserDetailsViewController {
     @objc func collectionButtonCLicked() {
         let nextController = CollectionViewController(
             servicesAssembly: servicesAssembly,
-            user: userDetails
+            nfts: userDetails.nfts,
+            nftsService: servicesAssembly.nftsService
         )
         navigationController?.pushViewController(nextController, animated: true)
     }
@@ -109,7 +110,7 @@ private extension UserDetailsViewController {
     }
 
     func configureViews() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .ypWhiteDay
         nameLabel.font = .headline3
         siteButton.setTitleColor(.ypBlackDay, for: .normal)
 
@@ -117,6 +118,7 @@ private extension UserDetailsViewController {
         collectionLabel, forwardImageView].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             object.tintColor = .ypBlackDay
+            object.backgroundColor = .ypWhiteDay
             view.addSubview(object)
         }
     }
@@ -128,8 +130,9 @@ private extension UserDetailsViewController {
         siteButton.setTitle(Statistics.Labels.siteButtonTitle, for: .normal)
         nameLabel.text = userDetails.name
         descLabel.text = userDetails.description
-        let useMockCollection = userDetails.nfts.isEmpty ? "mock data" : String(userDetails.nfts.count)
-        collectionLabel.text = Statistics.Labels.collectionTitle + " (\(useMockCollection))"
+        collectionLabel.text = userDetails.nfts.isEmpty
+            ? Statistics.Labels.collectionMockTitle
+            : Statistics.Labels.collectionTitle + " (\(userDetails.nfts.count))"
         backButton.addTarget(self, action: #selector(backButtonCLicked), for: .touchUpInside)
         siteButton.addTarget(self, action: #selector(siteButtonCLicked), for: .touchUpInside)
         collectionButton.addTarget(self, action: #selector(collectionButtonCLicked), for: .touchUpInside)

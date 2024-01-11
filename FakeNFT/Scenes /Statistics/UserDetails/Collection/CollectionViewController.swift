@@ -7,6 +7,12 @@
 
 import UIKit
 
+// MARK: - State
+
+enum NftsState {
+    case initial, loading, failed(Error), data([NftModel])
+}
+
 // MARK: - Class
 
 final class CollectionViewController: UIViewController {
@@ -31,15 +37,44 @@ final class CollectionViewController: UIViewController {
         return collectionView
     }()
 
-    private var userDetails: UserViewModel
+    private var userNfts: [String]
+    private var hasUserNfts: Bool
+    private var nfts: [NftViewModel] = [] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    private var profile: ProfileUpdate = ProfileUpdate(name: "", description: "", website: "", likes: []) {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    private var order: OrderResultModel = OrderResultModel(nfts: [], id: "") {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    private var state = NftsState.initial {
+        didSet {
+            stateDidChanged()
+        }
+    }
     private let servicesAssembly: ServicesAssembly
+    private let nftsService: NftsServiceProtocol
+    private let nftService: NftServiceProtocol
+    private let profileStorage: ProfileStorage = ProfileStorageImpl.shared
+    private let profileService = ProfileService.shared
+    private let orderService = OrderServiceImpl.shared
     private let cellID = "CollectionCell"
 
     // MARK: - Inits
 
-    init(servicesAssembly: ServicesAssembly, user: UserViewModel) {
+    init(servicesAssembly: ServicesAssembly, nfts: [String], nftsService: NftsServiceProtocol) {
         self.servicesAssembly = servicesAssembly
-        self.userDetails = user
+        self.userNfts = nfts
+        self.nftsService = nftsService
+        self.nftService = servicesAssembly.nftService
+        self.hasUserNfts = !userNfts.isEmpty
         super.init(nibName: nil, bundle: nil)
         hidesBottomBarWhenPushed = true
     }
@@ -53,6 +88,7 @@ final class CollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        state = .loading
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -96,7 +132,7 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
 
 extension CollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        30 // a dummy instead of the real nft array
+        nfts.count
     }
 
     func collectionView(
@@ -107,18 +143,16 @@ extension CollectionViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
                 as? CollectionCell else { return UICollectionViewCell()
         }
-        cell.viewModel = NftModel(
-            createdAt: Date(),
-            name: "",
-            images: [],
-            rating: 0,
-            description: "",
-            price: Float(0),
-            author: "",
-            id: ""
+        let nft = nfts[indexPath.item]
+        cell.viewModel = NftCellViewModel(
+            name: nft.name,
+            images: nft.images,
+            rating: nft.rating,
+            price: nft.price,
+            id: nft.id,
+            profile: profile,
+            order: order
         )
-        cell.isLiked = Bool.random()
-        cell.isInCart = Bool.random()
         return cell
     }
 }
@@ -128,6 +162,117 @@ extension CollectionViewController: UICollectionViewDataSource {
 private extension CollectionViewController {
     @objc func backButtonCLicked() {
         navigationController?.popViewController(animated: true)
+    }
+
+    func stateDidChanged() {
+        switch state {
+        case .initial:
+            assertionFailure("can't move to initial state")
+        case .loading:
+            UIBlockingProgressHUD.show()
+            loadLikes()
+            loadOrder()
+            if hasUserNfts {
+                loadNft()
+            } else {
+                loadAllNfts()
+            }
+        case .data(let nftsResult):
+            fetchNfts(from: nftsResult)
+            UIBlockingProgressHUD.dismiss()
+        case .failed(let error):
+            UIBlockingProgressHUD.dismiss()
+            presentNetworkAlert(errorDescription: error.localizedDescription) {
+                self.state = .loading
+            }
+        }
+    }
+
+    func loadAllNfts() {
+        nftsService.loadNfts { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let nftsResult):
+                self.state = .data(nftsResult)
+            case .failure(let error):
+                self.state = .failed(error)
+            }
+        }
+
+    }
+
+    func fetchNfts(from nftsResult: [NftModel]) {
+        let nftsModel = nftsResult.compactMap { result in
+            NftViewModel(
+                name: result.name,
+                images: result.images,
+                rating: result.rating,
+                price: result.price,
+                id: result.id
+            )
+        }
+        nfts = nftsModel
+    }
+
+    func loadNft() {
+        var loadedNftResults: [NftModel] = []
+
+        func loadNftAtIndex(index: Int) {
+            guard index < userNfts.count else {
+                self.state = .data(loadedNftResults)
+                return
+            }
+
+            let id = userNfts[index]
+            nftService.loadNft(id: id) { [weak self] result in
+                switch result {
+                case .success(let nftResult):
+                    loadedNftResults.append(nftResult)
+                case .failure(let error):
+                    self?.state = .failed(error)
+                }
+                loadNftAtIndex(index: index + 1)
+            }
+        }
+        loadNftAtIndex(index: 0)
+    }
+
+    func loadLikes() {
+        profileService.getProfile { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let profile):
+                self.profile = ProfileUpdate(
+                    name: profile.name,
+                    description: profile.description,
+                    website: profile.website,
+                    likes: profile.likes
+                )
+                collectionView.reloadData()
+            case .failure(let error):
+                presentNetworkAlert(errorDescription: error.localizedDescription) {
+                    self.state = .loading
+                }
+            }
+        }
+    }
+
+    private func loadOrder() {
+        orderService.loadOrder(id: "1") { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let order):
+                self.order = OrderResultModel(
+                    nfts: order.nfts,
+                    id: order.id
+                )
+                collectionView.reloadData()
+            case .failure(let error):
+                presentNetworkAlert(errorDescription: error.localizedDescription) {
+                    self.state = .loading
+                }
+            }
+        }
     }
 }
 
@@ -142,10 +287,11 @@ private extension CollectionViewController {
     }
 
     func configureViews() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .ypWhiteDay
         [customNavView, backButton, collectionLabel, collectionView].forEach { object in
             object.translatesAutoresizingMaskIntoConstraints = false
             object.tintColor = .ypBlackDay
+            object.backgroundColor = .ypWhiteDay
             view.addSubview(object)
         }
     }

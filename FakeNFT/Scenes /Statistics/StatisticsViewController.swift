@@ -10,7 +10,7 @@ import UIKit
 // MARK: - State enums
 
 enum StatisticsState {
-    case initial, loading, failed(Error), data([UserModel])
+    case initial, loading, failed(Error), data([UserNetworkModel])
 }
 
 enum SortingState: String {
@@ -33,6 +33,7 @@ final class StatisticsViewController: UIViewController {
         table.isScrollEnabled = true
         table.allowsSelection = true
         table.separatorColor = .clear
+        table.backgroundColor = .ypWhiteDay
         return table
     }()
 
@@ -165,11 +166,13 @@ private extension StatisticsViewController {
             UIBlockingProgressHUD.show()
             loadUsers()
         case .data(let usersResult):
-            self.fetchUsers(from: usersResult)
+            fetchUsers(from: usersResult)
             UIBlockingProgressHUD.dismiss()
         case .failed(let error):
             UIBlockingProgressHUD.dismiss()
-            assertionFailure("Error: \(error)")
+            presentNetworkAlert(errorDescription: error.localizedDescription) {
+                self.state = .loading
+            }
         }
     }
 
@@ -185,7 +188,7 @@ private extension StatisticsViewController {
         }
     }
 
-    func fetchUsers(from usersResult: [UserModel]) {
+    func fetchUsers(from usersResult: [UserNetworkModel]) {
         let usersModel = usersResult.compactMap { result in
             UserViewModel(
                 name: result.name,
@@ -211,7 +214,7 @@ extension StatisticsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         usersTableView.deselectRow(at: indexPath, animated: false)
-         let nextController = UserDetailsViewController(
+        let nextController = UserDetailsViewController(
             servicesAssembly: servicesAssembly,
             user: visibleUsers[indexPath.row]
         )
@@ -234,6 +237,7 @@ extension StatisticsViewController: UITableViewDataSource {
         }
         let bgColorView = UIView()
         bgColorView.backgroundColor = .ypWhiteDay
+        cell.backgroundColor = .ypWhiteDay
         cell.selectedBackgroundView = bgColorView
         cell.configureCell(counter: indexPath.row + 1, user: visibleUsers[indexPath.row])
         return cell
@@ -250,7 +254,7 @@ private extension StatisticsViewController {
     }
 
     func configureViews() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .ypWhiteDay
         view.addSubview(usersTableView)
     }
 

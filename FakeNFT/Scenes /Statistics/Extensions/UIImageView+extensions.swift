@@ -27,7 +27,7 @@ extension UIImageView {
             imageView.kf.indicatorType = .activity
             imageView.kf.setImage(
                 with: URL(string: url),
-                placeholder: Statistics.SfSymbols.placeholderNft
+                options: [.cacheMemoryOnly]
             )
         }
     }

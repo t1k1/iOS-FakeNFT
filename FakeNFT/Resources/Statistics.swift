@@ -19,14 +19,12 @@ enum Statistics {
         static let iconStatistics = UIImage(systemName: "flag.2.crossed.fill")
 
         static let iconStar = UIImage(systemName: "star.fill")
-        static let iconSort = UIImage(systemName: "text.alignleft")
 
         static let largeConfig = UIImage.SymbolConfiguration(pointSize: 17, weight: .bold, scale: .large)
         static let forward = UIImage(systemName: "chevron.forward", withConfiguration: largeConfig)
         static let backward = UIImage(systemName: "chevron.backward", withConfiguration: largeConfig)
 
         static let like = UIImage(systemName: "heart.fill")
-        static let placeholderNft = UIImage(systemName: "photo")
     }
 
     // MARK: - UI element's images
@@ -34,12 +32,6 @@ enum Statistics {
         static let iconCartEmpty = UIImage(named: "cart empty")
         static let iconCartDelete = UIImage(named: "cart delete")
         static let iconSort = UIImage(named: "sort")
-
-        static let nft1 = UIImage(named: "nft1")
-        static let nft2 = UIImage(named: "nft2")
-        static let nft3 = UIImage(named: "nft3")
-        static let nft4 = UIImage(named: "nft4")
-        static let nft5 = UIImage(named: "nft5")
     }
 
     // MARK: - UI element's labels
@@ -51,10 +43,9 @@ enum Statistics {
         static let sortingByRating = NSLocalizedString("statistics.sort.byRating", comment: "")
         static let sortingClose = NSLocalizedString("statistics.sort.close", comment: "")
         static let collectionTitle = NSLocalizedString("statistics.collection.title", comment: "")
+        static let collectionMockTitle = NSLocalizedString("statistics.collection.mockTitle", comment: "")
         static let siteButtonTitle = NSLocalizedString("statistics.siteButton.title", comment: "")
-        static let arrowDown = "   ↓" // "   \u{2193}"
-        static let arrowUp = "   ↑" // "   \u{2191}"
-        static let triangleUp = "   △" // "   \u{25B3}"
-        static let triangleDown = "   ▽" // "   ▽\u{25BD}"
+        static let arrowDown = "   ↓" // Unicode is "\u{2193}"
+        static let arrowUp = "   ↑" // Unicode is "\u{2191}"
     }
 }

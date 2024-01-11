@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserModel: Decodable {
+struct UserNetworkModel: Decodable {
     let name: String
     let avatar: String?
     let description: String?

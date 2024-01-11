@@ -1,0 +1,17 @@
+"Tab.profile" = "Профиль";
+"Tab.catalog" = "Каталог";
+"Tab.cart" = "Корзина";
+"Tab.statistics" = "Статистика";
+"Catalog.openNft" = "Открыть Nft";
+"Error.network" = "Произошла ошибка сети";
+"Error.unknown" = "Произошла неизвестная ошибка";
+"Error.repeat" = "Повторить";
+"Error.title" = "Ошибка";
+
+"statistics.sort.title" = "Сортировка";
+"statistics.sort.byName" = "По имени";
+"statistics.sort.byRating" = "По рейтингу";
+"statistics.sort.close" = "Закрыть";
+"statistics.collection.title" = "Коллекция NFT";
+"statistics.collection.mockTitle" = "Коллекция NFT  (mock data)";
+"statistics.siteButton.title" = "Перейти на сайт пользователя";
