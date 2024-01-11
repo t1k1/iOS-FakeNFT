@@ -32,6 +32,7 @@ final class WebViewController: UIViewController {
     // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .ypWhiteUniversal
         configureConstraints()
         if let url = URL(string: "https://yandex.ru/legal/practicum_termsofuse/") {
             webView.load(URLRequest(url: url))
