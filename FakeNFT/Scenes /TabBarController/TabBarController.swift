@@ -34,7 +34,7 @@ final class TabBarController: UITabBarController {
         let profileController = ProfileViewController()
         profileController.tabBarItem = profileTabBarItem
         let profileNavigationController = UINavigationController(rootViewController: profileController)
-        
+
         viewControllers = [profileNavigationController, catalogNavigationController]
         selectedIndex = 0
 

@@ -19,7 +19,7 @@ struct PutProfileRequest: NetworkRequest {
     }
     var httpMethod = HttpMethod.put
     var body: Data?
-    
+
     init(profile: ProfileUpdate) {
         var dataString = "name=\(profile.name)&description=\(profile.description)&website=\(profile.website)"
         profile.likes.forEach { likeId in

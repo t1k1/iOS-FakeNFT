@@ -9,14 +9,14 @@ import UIKit
 
 final class ProfileTableViewCell: UITableViewCell {
     static let cellName = "profileTableViewCell"
-    
-    //MARK: - Layout variables
+
+    // MARK: - Layout variables
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 17, weight: .bold)
         label.textColor = .ypBlackDay
-        
+
         return label
     }()
     private lazy var chevronView: UIImageView = {
@@ -24,39 +24,39 @@ final class ProfileTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image
-        
+
         return imageView
     }()
-    
-    //MARK: - Public functions
+
+    // MARK: - Public functions
     func configureCell(name: String, count: Int?) {
         backgroundColor = .ypWhiteDay
         selectionStyle = .none
-        
+
         if let count = count {
             nameLabel.text = "\(name) (\(count))"
         } else {
             nameLabel.text = name
         }
-        
+
         addSubViews()
         configureConstraints()
     }
 }
 
-//MARK: - Private functions
+// MARK: - Private functions
 private extension ProfileTableViewCell {
     func addSubViews() {
         contentView.addSubview(nameLabel)
         contentView.addSubview(chevronView)
     }
-    
+
     func configureConstraints() {
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             nameLabel.heightAnchor.constraint(equalToConstant: 22),
-            
+
             chevronView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             chevronView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
