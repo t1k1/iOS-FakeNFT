@@ -36,7 +36,7 @@ final class WebViewController: UIViewController {
         if let url = URL(string: "https://yandex.ru/legal/practicum_termsofuse/") {
             webView.load(URLRequest(url: url))
         }
-        ProgressHUD.animate()
+        ProgressHUD.show()
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              options: [],

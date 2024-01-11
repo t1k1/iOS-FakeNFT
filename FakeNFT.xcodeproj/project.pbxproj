@@ -39,11 +39,11 @@
 		4A2689832B3A26E700075D25 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2689822B3A26E700075D25 /* WebViewViewController.swift */; };
 		4A2689852B3ACF7800075D25 /* OrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2689842B3ACF7800075D25 /* OrderService.swift */; };
 		4A2689872B3ACFF200075D25 /* OrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2689862B3ACFF200075D25 /* OrderRequest.swift */; };
+		CE324C282B504A2C00373AA6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CE324C272B504A2C00373AA6 /* Kingfisher */; };
 		CE4446E12B4FF0E500239028 /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446DE2B4FF0E400239028 /* CustomPageControl.swift */; };
 		CE4446E22B4FF0E500239028 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446DF2B4FF0E500239028 /* PageViewController.swift */; };
 		CE4446E32B4FF0E500239028 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446E02B4FF0E500239028 /* OnboardingViewController.swift */; };
 		CE4446E62B4FF17500239028 /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446E52B4FF17500239028 /* Authorization.swift */; };
-		CE4446F62B4FF1AF00239028 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446E82B4FF1AE00239028 /* CartViewController.swift */; };
 		CE4446F72B4FF1AF00239028 /* CartPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446E92B4FF1AE00239028 /* CartPayViewController.swift */; };
 		CE4446F82B4FF1AF00239028 /* NftsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446EA2B4FF1AE00239028 /* NftsViewController.swift */; };
 		CE4446F92B4FF1AF00239028 /* PaymentDatail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446EB2B4FF1AE00239028 /* PaymentDatail.swift */; };
@@ -70,7 +70,6 @@
 		CE44471C2B4FF52500239028 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44471B2B4FF52500239028 /* NetworkConstants.swift */; };
 		CE4447202B4FF88600239028 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44471F2B4FF88600239028 /* Images.swift */; };
 		CE4447222B50195D00239028 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4447212B50195D00239028 /* Assets.xcassets */; };
-		CE4447252B501B2D00239028 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = CE4447242B501B2D00239028 /* ProgressHUD */; };
 		CE4447322B501D7600239028 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44472D2B501D7500239028 /* UIViewController+Extensions.swift */; };
 		CE4447332B501D7600239028 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44472E2B501D7500239028 /* UILabel+Extension.swift */; };
 		CE4447342B501D7600239028 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44472F2B501D7500239028 /* String+Extensions.swift */; };
@@ -80,7 +79,8 @@
 		CE44473C2B50207D00239028 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44473B2B50207D00239028 /* UIBlockingProgressHUD.swift */; };
 		CE44473E2B50230F00239028 /* CriptoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44473D2B50230F00239028 /* CriptoRequest.swift */; };
 		CE4447402B50231F00239028 /* PaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44473F2B50231F00239028 /* PaymentRequest.swift */; };
-		CE6ACA8E2B50318300B4A14B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CE6ACA8D2B50318300B4A14B /* Kingfisher */; };
+		CE6ACA942B5046F100B4A14B /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = CE6ACA932B5046F100B4A14B /* ProgressHUD */; };
+		CEB424F12B504C4300EFE939 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB424F02B504C4300EFE939 /* CartViewController.swift */; };
 		D52336CA2B4AB44100579580 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52336C92B4AB44100579580 /* ProfileViewController.swift */; };
 		D52336CD2B4AB45D00579580 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52336CC2B4AB45D00579580 /* ProfileTableViewCell.swift */; };
 		D52336CF2B4AB48800579580 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52336CE2B4AB48800579580 /* EditProfileViewController.swift */; };
@@ -151,7 +151,6 @@
 		CE4446DF2B4FF0E500239028 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		CE4446E02B4FF0E500239028 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		CE4446E52B4FF17500239028 /* Authorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
-		CE4446E82B4FF1AE00239028 /* CartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		CE4446E92B4FF1AE00239028 /* CartPayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartPayViewController.swift; sourceTree = "<group>"; };
 		CE4446EA2B4FF1AE00239028 /* NftsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NftsViewController.swift; sourceTree = "<group>"; };
 		CE4446EB2B4FF1AE00239028 /* PaymentDatail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentDatail.swift; sourceTree = "<group>"; };
@@ -187,6 +186,7 @@
 		CE44473B2B50207D00239028 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		CE44473D2B50230F00239028 /* CriptoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriptoRequest.swift; sourceTree = "<group>"; };
 		CE44473F2B50231F00239028 /* PaymentRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequest.swift; sourceTree = "<group>"; };
+		CEB424F02B504C4300EFE939 /* CartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		D52336C92B4AB44100579580 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		D52336CC2B4AB45D00579580 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		D52336CE2B4AB48800579580 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
@@ -205,8 +205,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE6ACA8E2B50318300B4A14B /* Kingfisher in Frameworks */,
-				CE4447252B501B2D00239028 /* ProgressHUD in Frameworks */,
+				CE324C282B504A2C00373AA6 /* Kingfisher in Frameworks */,
+				CE6ACA942B5046F100B4A14B /* ProgressHUD in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +419,7 @@
 		CE4446E72B4FF1AE00239028 /* Cart */ = {
 			isa = PBXGroup;
 			children = (
-				CE4446E82B4FF1AE00239028 /* CartViewController.swift */,
+				CEB424F02B504C4300EFE939 /* CartViewController.swift */,
 				CE4446E92B4FF1AE00239028 /* CartPayViewController.swift */,
 				CE4446EA2B4FF1AE00239028 /* NftsViewController.swift */,
 				CE4446EB2B4FF1AE00239028 /* PaymentDatail.swift */,
@@ -569,8 +569,8 @@
 			);
 			name = FakeNFT;
 			packageProductDependencies = (
-				CE4447242B501B2D00239028 /* ProgressHUD */,
-				CE6ACA8D2B50318300B4A14B /* Kingfisher */,
+				CE6ACA932B5046F100B4A14B /* ProgressHUD */,
+				CE324C272B504A2C00373AA6 /* Kingfisher */,
 			);
 			productName = FakeNFT;
 			productReference = 3F68069329CBBAF100B4F915 /* FakeNFT.app */;
@@ -646,8 +646,8 @@
 			);
 			mainGroup = 3F68068A29CBBAF100B4F915;
 			packageReferences = (
-				CE4447232B501B2D00239028 /* XCRemoteSwiftPackageReference "ProgressHUD" */,
-				CE6ACA8C2B50318300B4A14B /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				CE6ACA922B5046F100B4A14B /* XCRemoteSwiftPackageReference "ProgressHUD" */,
+				CE324C262B504A2C00373AA6 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 3F68069429CBBAF100B4F915 /* Products */;
 			projectDirPath = "";
@@ -764,8 +764,8 @@
 				D52336D32B4AB4AA00579580 /* MyNftTableViewCell.swift in Sources */,
 				4A07B4B72B29D50400B64AB8 /* CollectionsRequest.swift in Sources */,
 				D52336DA2B4AB52600579580 /* ProfileCellModel.swift in Sources */,
+				CEB424F12B504C4300EFE939 /* CartViewController.swift in Sources */,
 				4A07B4A12B25D2BD00B64AB8 /* CollectionViewController.swift in Sources */,
-				CE4446F62B4FF1AF00239028 /* CartViewController.swift in Sources */,
 				D52336D52B4AB4C800579580 /* FavoriteNftsViewController.swift in Sources */,
 				3F6806D329CBBE9600B4F915 /* NetworkRequest.swift in Sources */,
 				4A07B4B32B29C31A00B64AB8 /* CollectionsModel.swift in Sources */,
@@ -1121,34 +1121,34 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		CE4447232B501B2D00239028 /* XCRemoteSwiftPackageReference "ProgressHUD" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/relatedcode/ProgressHUD.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 14.1.0;
-			};
-		};
-		CE6ACA8C2B50318300B4A14B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+		CE324C262B504A2C00373AA6 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.10.2;
+				kind = exactVersion;
+				version = 7.6.2;
+			};
+		};
+		CE6ACA922B5046F100B4A14B /* XCRemoteSwiftPackageReference "ProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/relatedcode/ProgressHUD.git";
+			requirement = {
+				kind = exactVersion;
+				version = 13.6.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		CE4447242B501B2D00239028 /* ProgressHUD */ = {
+		CE324C272B504A2C00373AA6 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CE4447232B501B2D00239028 /* XCRemoteSwiftPackageReference "ProgressHUD" */;
-			productName = ProgressHUD;
-		};
-		CE6ACA8D2B50318300B4A14B /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CE6ACA8C2B50318300B4A14B /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			package = CE324C262B504A2C00373AA6 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		CE6ACA932B5046F100B4A14B /* ProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE6ACA922B5046F100B4A14B /* XCRemoteSwiftPackageReference "ProgressHUD" */;
+			productName = ProgressHUD;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
