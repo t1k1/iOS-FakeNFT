@@ -12,9 +12,7 @@ final class ServicesAssembly {
     }
 
     var collectionsService: CollectionsService {
-        CollectionsServiceImpl(
-            networkClient: networkClient
-        )
+        CollectionsServiceImpl(networkClient: networkClient)
     }
 
     var nftService: NftService {
@@ -32,20 +30,18 @@ final class ServicesAssembly {
     }
 
     var orderService: OrderServiceProtocol {
-        OrderServiceImpl(
-            networkClient: networkClient
-        )
+        OrderServiceImpl(networkClient: networkClient)
     }
 
     var criptoService: CriptoServiceProtocol {
-        CriptoServiceImpl(
-            networkClient: networkClient
-        )
+        CriptoServiceImpl(networkClient: networkClient)
     }
 
     var paymentService: PaymentServiceProtocol {
-        PaymentServiceImpl(
-            networkClient: networkClient
-        )
+        PaymentServiceImpl(networkClient: networkClient)
+    }
+
+    var usersService: UsersServiceProtocol {
+        UserServiceImpl(networkClient: networkClient)
     }
 }

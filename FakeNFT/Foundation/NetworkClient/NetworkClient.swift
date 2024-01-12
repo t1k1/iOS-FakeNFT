@@ -126,14 +126,15 @@ struct DefaultNetworkClient: NetworkClient {
         }
 
         urlRequest.setValue(
-
             NetworkConstants.connectionValue,
             forHTTPHeaderField: NetworkConstants.connectionHeader
         )
+
         urlRequest.setValue(
             NetworkConstants.acceptValue,
             forHTTPHeaderField: NetworkConstants.acceptHeader
         )
+
         urlRequest.setValue(
             NetworkConstants.acceptEncodingValue,
             forHTTPHeaderField: NetworkConstants.acceptEncodingHeader

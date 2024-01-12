@@ -7,21 +7,29 @@ final class TabBarController: UITabBarController {
         nftStorage: NftStorageImpl()
     )
 
-    private let catalogTabBarItem = UITabBarItem(
-        title: NSLocalizedString("Tab.catalog", comment: ""),
-        image: UIImage(systemName: "rectangle.stack.fill"),
-        tag: 0
-    )
     private let profileTabBarItem = UITabBarItem(
         title: "Профиль",
         image: UIImage(named: "Profile"),
         tag: 0
     )
+    private let catalogTabBarItem = UITabBarItem(
+        title: NSLocalizedString("Tab.catalog", comment: ""),
+        image: UIImage(named: "catalog"),
+//        image: UIImage(systemName: "rectangle.stack.fill"),
+        tag: 1
+    )
 
     private let cartTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.cart", comment: ""),
         image: UIImage(named: "сart"),
-        tag: 1
+        tag: 2
+    )
+
+    private let statisticsTabBarItem = UITabBarItem(
+        title: Statistics.Labels.tabBarStatistics,
+        image: UIImage(named: "statistics"),
+//        image: Statistics.SfSymbols.iconStatistics,
+        tag: 3
     )
 
     override func viewDidLoad() {
@@ -42,12 +50,37 @@ final class TabBarController: UITabBarController {
         let cartNavigationController = UINavigationController(rootViewController: CartViewController())
         cartNavigationController.tabBarItem = cartTabBarItem
 
-        viewControllers = [profileNavigationController, catalogNavigationController, cartNavigationController]
+        let statisticsController = StatisticsViewController(
+            servicesAssembly: servicesAssembly,
+            service: servicesAssembly.usersService
+        )
+        let statisticsNavigationController = UINavigationController(rootViewController: statisticsController)
+
+        statisticsController.tabBarItem = statisticsTabBarItem
+
+        viewControllers = [
+            profileNavigationController,
+            catalogNavigationController,
+            cartNavigationController,
+            statisticsNavigationController
+        ]
         selectedIndex = 0
 
         view.backgroundColor = UIColor.ypWhiteDay
         tabBar.backgroundColor = UIColor.ypWhiteDay
         tabBar.tintColor = UIColor.ypBlueUniversal
         tabBar.unselectedItemTintColor = UIColor.ypBlackDay
+
+//        let appearance = tabBar.standardAppearance
+//        appearance.configureWithDefaultBackground()
+//        appearance.shadowImage = nil
+//        appearance.shadowColor = nil
+//        appearance.backgroundColor = .ypWhiteDay
+//        appearance.stackedLayoutAppearance.normal.titleTextAttributes =
+//            [NSAttributedString.Key.foregroundColor: UIColor.ypBlackDay as Any]
+//        appearance.stackedLayoutAppearance.normal.iconColor = .ypBlackDay
+//        tabBar.standardAppearance = appearance
+
+        view.backgroundColor = .ypWhiteDay
     }
 }

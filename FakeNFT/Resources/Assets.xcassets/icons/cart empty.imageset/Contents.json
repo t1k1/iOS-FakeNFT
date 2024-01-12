@@ -1,17 +1,50 @@
 {
   "images" : [
     {
-      "filename" : "Property 1=Add.png",
+      "filename" : "cart.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "filename" : "cart empty@2x.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "cart_dark.png",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "cart@2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
-      "filename" : "cart empty@3x.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "cart_dark@2x.png",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "cart@3x.png",
+      "idiom" : "iphone",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "cart_dark@3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }

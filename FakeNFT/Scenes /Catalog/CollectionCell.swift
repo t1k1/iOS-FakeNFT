@@ -122,10 +122,12 @@ final class CollectionCell: UICollectionViewCell {
         updateLikeButtonImage()
         updateCartButtonImage()
     }
+}
 
+private extension CollectionCell {
     // MARK: - IBAction
 
-    @objc private func didTapLikeButton() {
+    @objc func didTapLikeButton() {
         let isCompleted = likeButton.currentImage == UIImage(named: "No active")
         if isCompleted {
             addNftToLikes()
@@ -137,7 +139,7 @@ final class CollectionCell: UICollectionViewCell {
         likeButton.setImage(image, for: .normal)
     }
 
-    @objc private func didTapCartButton() {
+    @objc func didTapCartButton() {
         let currentImage = cartButton.image(for: .normal)
         let emptyCartImage = UIImage(named: "cart empty")
 
@@ -155,7 +157,7 @@ final class CollectionCell: UICollectionViewCell {
 
     // MARK: - Private Methods
 
-    private func addNftToLikes() {
+    func addNftToLikes() {
         let profileUpdate = ProfileUpdate(
             name: currentProfile.name,
             description: currentProfile.description,
@@ -176,7 +178,7 @@ final class CollectionCell: UICollectionViewCell {
         }
     }
 
-    private func removeNftFromLikes() {
+    func removeNftFromLikes() {
         let profileUpdate = ProfileUpdate(
             name: currentProfile.name,
             description: currentProfile.description,
@@ -197,7 +199,7 @@ final class CollectionCell: UICollectionViewCell {
         }
     }
 
-    private func addNftToOrder() {
+    func addNftToOrder() {
         let nftsUpdate = currentOrder.nfts + [currentNftId]
         let orderUpdate = OrderNetworkModel(
             nfts: nftsUpdate,
@@ -217,7 +219,7 @@ final class CollectionCell: UICollectionViewCell {
         }
     }
 
-    private func removeNftFromOrder() {
+    func removeNftFromOrder() {
         let nftsUpdate = currentOrder.nfts.filter { $0 != currentNftId }
         let orderUpdate = OrderNetworkModel(
             nfts: nftsUpdate,
@@ -237,21 +239,21 @@ final class CollectionCell: UICollectionViewCell {
         }
     }
 
-    private func updateLikeButtonImage() {
+    func updateLikeButtonImage() {
         let isNftLiked = currentProfile.likes.contains(currentNftId)
         let imageName = isNftLiked ? "Active" : "No active"
         let image = UIImage(named: imageName)
         likeButton.setImage(image, for: .normal)
     }
 
-    private func updateCartButtonImage() {
+    func updateCartButtonImage() {
         let isNftCart = currentOrder.nfts.contains(currentNftId)
         let imageName = isNftCart ? "cart delete" : "cart empty"
         let image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
         cartButton.setImage(image, for: .normal)
     }
 
-    private func addSubViews() {
+    func addSubViews() {
         contentView.addSubview(nftImageView)
         [likeButton, starsImageView, nameLabel, priceLabel, cartButton].forEach {
             contentView.addSubview($0)
@@ -259,7 +261,7 @@ final class CollectionCell: UICollectionViewCell {
         }
     }
 
-    private func applyConstraints() {
+    func applyConstraints() {
         NSLayoutConstraint.activate([
             likeButton.heightAnchor.constraint(equalToConstant: 40),
             likeButton.widthAnchor.constraint(equalToConstant: 40),

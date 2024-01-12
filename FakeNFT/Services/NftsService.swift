@@ -4,6 +4,7 @@ typealias NftsCompletion = (Result<[NftResult], Error>) -> Void
 
 protocol NftsServiceProtocol {
     func loadNfts(ids: [String], completion: @escaping NftsCompletion)
+    func loadAllNfts(completion: @escaping NftsCompletion)
 }
 
 final class NftsServiceImpl: NftsServiceProtocol {
@@ -39,6 +40,20 @@ final class NftsServiceImpl: NftsServiceProtocol {
         }
         dispatchGroup.notify(queue: .main) {
             completion(.success(loadedNfts))
+        }
+    }
+
+    func loadAllNfts(completion: @escaping NftsCompletion) {
+
+        let request = NftsRequest()
+
+        networkClient.send(request: request, type: [NftResult].self, completionQueue: .main) { result in
+            switch result {
+            case .success(let nfts):
+                completion(.success(nfts))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
 }

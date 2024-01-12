@@ -17,3 +17,21 @@ public struct NftModel {
     let author: String
     let id: String
 }
+
+struct NftViewModel {
+    let name: String
+    let images: [String]
+    let rating: Int
+    let price: Float
+    let id: String
+}
+
+struct NftCellViewModel {
+    let name: String
+    let images: [String]
+    let rating: Int
+    let price: Float
+    let id: String
+    let profile: ProfileUpdate
+    let order: OrderResultModel
+}

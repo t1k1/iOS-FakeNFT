@@ -19,7 +19,7 @@ final class ProfileService: ProfileServiceProtocol {
 
     private let networkClient: NetworkClient
 
-    init(networkClient: NetworkClient) {
+    private init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
 

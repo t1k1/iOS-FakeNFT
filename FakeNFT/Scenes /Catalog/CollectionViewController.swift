@@ -14,6 +14,7 @@ enum NftDetailState {
     case initial, loading, failed(Error), data([NftResult])
 }
 
+// swiftlint:disable file_length
 final class CollectionViewController: UIViewController {
 
     // MARK: - Public Properties
@@ -173,7 +174,7 @@ final class CollectionViewController: UIViewController {
         addSubViews()
         applyConstraints()
     }
-
+// swiftlint:disable:next block_based_kvo
     override func observeValue(
         forKeyPath keyPath: String?,
         of object: Any?,
@@ -190,14 +191,16 @@ final class CollectionViewController: UIViewController {
             }
         }
     }
+}
 
+private extension CollectionViewController {
     // MARK: - IBAction
 
-    @objc private func didTapBackButton() {
+    @objc func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
 
-    @objc private func didTapAuthorNameButton() {
+    @objc func didTapAuthorNameButton() {
         let webViewViewController = WebViewViewController()
         webViewViewController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(webViewViewController, animated: true)
@@ -205,7 +208,7 @@ final class CollectionViewController: UIViewController {
 
     // MARK: - Private Methods
 
-    private func addSubViews() {
+    func addSubViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(catalogImageView)
         scrollView.addSubview(backButton)
@@ -220,7 +223,7 @@ final class CollectionViewController: UIViewController {
         }
     }
 
-    private func applyConstraints() {
+    func applyConstraints() {
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -259,7 +262,7 @@ final class CollectionViewController: UIViewController {
         ])
     }
 
-    private func updateScrollViewContentSize() {
+    func updateScrollViewContentSize() {
         let numberOfRows = ceil(CGFloat(nfts.count) / numberOfCellsInRow)
         scrollView.contentSize = CGSize(
             width: view.frame.width,
@@ -301,7 +304,7 @@ final class CollectionViewController: UIViewController {
         queue.addObserver(self, forKeyPath: #keyPath(OperationQueue.operationCount), options: .new, context: nil)
     }
 
-    private func loadCatalogImage() {
+    func loadCatalogImage() {
         guard let imageURL = URL(string: catalogImageString) else {
             return
         }
@@ -321,7 +324,7 @@ final class CollectionViewController: UIViewController {
         }
     }
 
-    private func stateDidChanged() {
+    func stateDidChanged() {
         switch state {
         case .initial:
             assertionFailure("can't move to initial state")
@@ -381,7 +384,7 @@ final class CollectionViewController: UIViewController {
         loadNftAtIndex(index: 0)
     }
 
-    private func loadLikes() {
+    func loadLikes() {
         UIBlockingProgressHUD.show()
         profileService.getProfile { [weak self] result in
             guard let self = self else { return }
@@ -402,7 +405,7 @@ final class CollectionViewController: UIViewController {
         }
     }
 
-    private func loadOrder(id: String) {
+    func loadOrder(id: String) {
         UIBlockingProgressHUD.show()
         orderService.loadOrder(id: "1") { [weak self] result in
             guard let self = self else { return }
