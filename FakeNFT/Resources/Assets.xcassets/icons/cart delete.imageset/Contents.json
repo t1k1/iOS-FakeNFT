@@ -1,8 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "cart delete.png",
-      "idiom" : "universal",
+      "filename" : "cart.png",
+      "idiom" : "iphone",
       "scale" : "1x"
     },
     {
@@ -13,12 +13,12 @@
         }
       ],
       "filename" : "cart_dark.png",
-      "idiom" : "universal",
+      "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "filename" : "cart delete@2x.png",
-      "idiom" : "universal",
+      "filename" : "cart@2x.png",
+      "idiom" : "iphone",
       "scale" : "2x"
     },
     {
@@ -29,12 +29,12 @@
         }
       ],
       "filename" : "cart_dark@2x.png",
-      "idiom" : "universal",
+      "idiom" : "iphone",
       "scale" : "2x"
     },
     {
-      "filename" : "cart delete@3x.png",
-      "idiom" : "universal",
+      "filename" : "cart@3x.png",
+      "idiom" : "iphone",
       "scale" : "3x"
     },
     {
@@ -45,7 +45,7 @@
         }
       ],
       "filename" : "cart_dark@3x.png",
-      "idiom" : "universal",
+      "idiom" : "iphone",
       "scale" : "3x"
     }
   ],

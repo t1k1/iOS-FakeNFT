@@ -1,0 +1,31 @@
+{
+  "images" : [
+    {
+      "filename" : "Light.png",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+<<<<<<< HEAD
+      "filename" : "backward@2x.png",
+=======
+      "filename" : "chevron.backward@2x.png",
+>>>>>>> cart
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+<<<<<<< HEAD
+      "filename" : "backward@3x.png",
+=======
+      "filename" : "chevron.backward@3x.png",
+>>>>>>> cart
+      "idiom" : "iphone",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

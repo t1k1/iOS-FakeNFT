@@ -108,7 +108,6 @@ struct DefaultNetworkClient: NetworkClient {
     }
 
     // MARK: - Private
-
     private func create(request: NetworkRequest) -> URLRequest? {
         guard let endpoint = request.endpoint else {
             assertionFailure("Empty endpoint")
@@ -116,22 +115,33 @@ struct DefaultNetworkClient: NetworkClient {
         }
 
         var urlRequest = URLRequest(url: endpoint)
+
         urlRequest.httpMethod = request.httpMethod.rawValue
 
         if urlRequest.httpMethod == HttpMethod.put.rawValue {
+            urlRequest.setValue(NetworkConstants.putValue, forHTTPHeaderField: NetworkConstants.putHeader)
             if let body = request.body {
-                urlRequest.setValue(RequestConstants.contentEncoded, forHTTPHeaderField: RequestConstants.contentType)
                 urlRequest.httpBody = body
-            }
-        } else {
-            urlRequest.setValue(RequestConstants.contentJson, forHTTPHeaderField: RequestConstants.contentType)
-            if let dto = request.dto,
-               let dtoEncoded = try? encoder.encode(dto) {
-                urlRequest.httpBody = dtoEncoded
             }
         }
 
-        urlRequest.setValue(RequestConstants.tokenValue, forHTTPHeaderField: RequestConstants.tokenName)
+        urlRequest.setValue(
+            NetworkConstants.connectionValue,
+            forHTTPHeaderField: NetworkConstants.connectionHeader
+        )
+
+        urlRequest.setValue(
+            NetworkConstants.acceptValue,
+            forHTTPHeaderField: NetworkConstants.acceptHeader
+        )
+
+        urlRequest.setValue(
+            NetworkConstants.acceptEncodingValue,
+            forHTTPHeaderField: NetworkConstants.acceptEncodingHeader
+        )
+
+        urlRequest.setValue(NetworkConstants.tokenValue, forHTTPHeaderField: NetworkConstants.tokenHeader)
+
         return urlRequest
     }
 
