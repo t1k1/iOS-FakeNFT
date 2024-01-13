@@ -24,5 +24,3 @@ class UserDefaultsManager {
         return .defaultSorting
     }
 }
-
-// TODO: Move into UserDefaults+Extension.swift ?

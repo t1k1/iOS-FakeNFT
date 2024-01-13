@@ -45,7 +45,7 @@ enum Statistics {
         static let collectionTitle = NSLocalizedString("statistics.collection.title", comment: "")
         static let collectionMockTitle = NSLocalizedString("statistics.collection.mockTitle", comment: "")
         static let siteButtonTitle = NSLocalizedString("statistics.siteButton.title", comment: "")
-        static let arrowDown = "   ↓" // Unicode is "\u{2193}"
-        static let arrowUp = "   ↑" // Unicode is "\u{2191}"
+        static let arrowDown = "   ↓"
+        static let arrowUp = "   ↑"
     }
 }

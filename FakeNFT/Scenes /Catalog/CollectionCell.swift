@@ -110,7 +110,7 @@ final class CollectionCell: UICollectionViewCell {
             case .success(let value):
                 self?.nftImageView.image = value.image
             case .failure(let error):
-                print("Error loading image: \(error)")
+                assertionFailure("Error loading image: \(error)")
             }
             self?.nftImageView.kf.indicatorType = .none
         }

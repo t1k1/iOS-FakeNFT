@@ -61,7 +61,6 @@
 		CE44470E2B4FF27D00239028 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4447092B4FF27D00239028 /* Order.swift */; };
 		CE4447102B4FF27D00239028 /* Cripto.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44470B2B4FF27D00239028 /* Cripto.swift */; };
 		CE4447112B4FF27D00239028 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44470C2B4FF27D00239028 /* Payment.swift */; };
-		CE4447122B4FF27D00239028 /* Currencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44470D2B4FF27D00239028 /* Currencies.swift */; };
 		CE4447162B4FF3F700239028 /* NftsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4447132B4FF3F500239028 /* NftsService.swift */; };
 		CE4447172B4FF3F700239028 /* CriptoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4447142B4FF3F600239028 /* CriptoService.swift */; };
 		CE4447182B4FF3F700239028 /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4447152B4FF3F600239028 /* PaymentService.swift */; };
@@ -185,7 +184,6 @@
 		CE4447092B4FF27D00239028 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		CE44470B2B4FF27D00239028 /* Cripto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cripto.swift; sourceTree = "<group>"; };
 		CE44470C2B4FF27D00239028 /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
-		CE44470D2B4FF27D00239028 /* Currencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currencies.swift; sourceTree = "<group>"; };
 		CE4447132B4FF3F500239028 /* NftsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NftsService.swift; sourceTree = "<group>"; };
 		CE4447142B4FF3F600239028 /* CriptoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriptoService.swift; sourceTree = "<group>"; };
 		CE4447152B4FF3F600239028 /* PaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
@@ -487,7 +485,6 @@
 				CE4447092B4FF27D00239028 /* Order.swift */,
 				CE44470B2B4FF27D00239028 /* Cripto.swift */,
 				CE44470C2B4FF27D00239028 /* Payment.swift */,
-				CE44470D2B4FF27D00239028 /* Currencies.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -872,7 +869,6 @@
 				CE4446E22B4FF0E500239028 /* PageViewController.swift in Sources */,
 				4A07B4992B24682000B64AB8 /* CatalogViewController.swift in Sources */,
 				E9FC7B272B51D43800BCF7ED /* CGFloat+Extensions.swift in Sources */,
-				CE4447122B4FF27D00239028 /* Currencies.swift in Sources */,
 				CE4447402B50231F00239028 /* PaymentRequest.swift in Sources */,
 				E9FC7B332B51ECEF00BCF7ED /* CellsReusingUtils.swift in Sources */,
 				4A07B4CA2B30904300B64AB8 /* UserDefaultsManager.swift in Sources */,

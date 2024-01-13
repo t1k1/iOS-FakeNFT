@@ -107,7 +107,7 @@ final class StatCollectionCell: UICollectionViewCell, ReuseIdentifying {
     var viewModel: NftCellViewModel? {
         didSet {
             guard let nft = viewModel, let nftImageSource = nft.images.first else { return }
-            generateRating(rating: nft.rating / 2) // now the API rating's value is from 0 to 9
+            generateRating(rating: nft.rating / 2)
             nftImageView.fetchNftBy(url: nftImageSource, for: self.nftImageView)
             nftNameLabel.text = nft.name
             nftPriceLabel.text = nft.price.priceFormatted

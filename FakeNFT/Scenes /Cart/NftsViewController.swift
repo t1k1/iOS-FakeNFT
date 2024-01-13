@@ -96,7 +96,7 @@ final class NftsDetail: UIViewController {
 
         case .failed(let error):
             UIBlockingProgressHUD.dismiss()
-            print("error \(error)")
+            assertionFailure("\(error)")
         }
 
     }

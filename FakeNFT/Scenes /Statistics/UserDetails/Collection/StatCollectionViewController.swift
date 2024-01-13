@@ -41,19 +41,16 @@ final class StatCollectionViewController: UIViewController {
     private var hasUserNfts: Bool
     private var nfts: [NftViewModel] = [] {
         didSet {
-            print(#fileID, #line, #function, nfts.count)
            collectionView.reloadData()
         }
     }
     private var profile: ProfileUpdate = ProfileUpdate(name: "", description: "", website: "", likes: []) {
         didSet {
-            print(#fileID, #line, #function, profile)
             collectionView.reloadData()
         }
     }
     private var order: OrderResultModel = OrderResultModel(nfts: [], id: "") {
         didSet {
-            print(#fileID, #line, #function, order)
             collectionView.reloadData()
         }
     }
@@ -192,8 +189,6 @@ private extension StatCollectionViewController {
     }
 
     func loadAllNfts() {
-        print(#fileID, #line, #function)
-
         nftsService.loadAllNfts() { [weak self] result in
             guard let self else { return }
             switch result {
@@ -207,7 +202,6 @@ private extension StatCollectionViewController {
     }
 
     func fetchNfts(from nftsResult: [NftResult]) {
-        print(#fileID, #line, #function)
 
         let nftsModel = nftsResult.compactMap { result in
             NftViewModel(
@@ -222,7 +216,6 @@ private extension StatCollectionViewController {
     }
 
     func loadNft() {
-        print(#fileID, #line, #function)
         var loadedNftResults: [NftResult] = []
 
         func loadNftAtIndex(index: Int) {
@@ -246,7 +239,6 @@ private extension StatCollectionViewController {
     }
 
     func loadLikes() {
-        print(#fileID, #line, #function)
         profileService.getProfile { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -267,7 +259,6 @@ private extension StatCollectionViewController {
     }
 
     private func loadOrder() {
-        print(#fileID, #line, #function)
         orderService.loadOrder(id: "1") { [weak self] result in
             guard let self = self else { return }
             switch result {

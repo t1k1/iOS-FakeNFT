@@ -104,11 +104,9 @@ final class AuthorizationViewController: UIViewController {
     }
 
     @objc func didTapForgotPassword() {
-        print("Forgot password tapped")
     }
 
     @objc func didTapRegisterButton() {
-        print("Register tapped")
     }
 }
 

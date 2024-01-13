@@ -158,7 +158,7 @@ extension ProfileViewController: ProfileViewControllerDelegate {
                 UIBlockingProgressHUD.dismiss()
             case .failure(let error):
                 UIBlockingProgressHUD.dismiss()
-                print(error)
+                assertionFailure("\(error)")
             }
         }
     }
@@ -193,7 +193,7 @@ extension ProfileViewController: ProfileViewControllerDelegate {
             case .success:
                 self.updateProfile()
             case .failure(let error):
-                print(error)
+                assertionFailure("\(error)")
             }
         }
     }

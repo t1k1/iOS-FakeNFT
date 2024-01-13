@@ -1,10 +1,6 @@
 import UIKit
 
 extension UIFont {
-    // Ниже приведены примеры шрифтов, настоящие шрифты надо взять из фигмы
-
-    // Headline Fonts
-
     /// SF Pro, size 34, bold
     static var headline1 = UIFont.systemFont(ofSize: 34, weight: .bold)
 
@@ -16,8 +12,6 @@ extension UIFont {
 
     /// SF Pro, size 20, bold
     static var headline4 = UIFont.systemFont(ofSize: 20, weight: .bold)
-
-    // Body Fonts
 
     /// SF Pro, size 17, regular
     static var bodyRegular = UIFont.systemFont(ofSize: 17, weight: .regular)

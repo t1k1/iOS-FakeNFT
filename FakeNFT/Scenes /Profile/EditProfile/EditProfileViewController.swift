@@ -263,7 +263,7 @@ private extension EditProfileViewController {
             case .success:
                 delegate.updateProfile()
             case .failure(let error):
-                print(error)
+                assertionFailure("\(error)")
             }
         }
     }

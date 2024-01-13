@@ -310,7 +310,6 @@ private extension MyNftViewController {
                     fetchedNFTs.append(nft)
                 case .failure(let error):
                     self.state = .failed(error)
-                    print("Failed to fetch NFT with ID \(nftId): \(error)")
                 }
                 group.leave()
             }
