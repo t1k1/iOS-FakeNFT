@@ -60,7 +60,7 @@ final class StatCollectionViewController: UIViewController {
         }
     }
     private let servicesAssembly: ServicesAssembly
-    private let nftsService: NftsServiceProtocol
+    private let nftsService: NftService
     private let nftService: NftService
     private let profileStorage: ProfileStorage = ProfileStorageImpl.shared
     private let profileService = ProfileService.shared
@@ -69,7 +69,7 @@ final class StatCollectionViewController: UIViewController {
 
     // MARK: - Inits
 
-    init(servicesAssembly: ServicesAssembly, nfts: [String], nftsService: NftsServiceProtocol) {
+    init(servicesAssembly: ServicesAssembly, nfts: [String], nftsService: NftService) {
         self.servicesAssembly = servicesAssembly
         self.userNfts = nfts
         self.nftsService = nftsService

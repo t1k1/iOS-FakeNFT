@@ -21,7 +21,7 @@ final class CartViewController: UIViewController {
     private lazy var nftDetail = NftsDetailImpl(
 
         servicesAssembly: servicesAssembly,
-        service: servicesAssembly.nftsService,
+        service: servicesAssembly.nftService,
         delegate: self
     )
     private lazy var emptyCartLabel: UILabel = {

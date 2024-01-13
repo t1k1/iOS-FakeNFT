@@ -9,7 +9,7 @@ protocol NftsDetailProtocol: AnyObject {
 final class NftsDetailImpl {
 
     private let servicesAssembly: ServicesAssembly
-    private let service: NftsServiceProtocol
+    private let service: NftService
 
     weak var delegate: NftsDetailProtocol?
 
@@ -25,7 +25,7 @@ final class NftsDetailImpl {
         }
     }
 
-    init(servicesAssembly: ServicesAssembly, service: NftsServiceProtocol, delegate: NftsDetailProtocol) {
+    init(servicesAssembly: ServicesAssembly, service: NftService, delegate: NftsDetailProtocol) {
         self.servicesAssembly = servicesAssembly
         self.service = service
         self.delegate = delegate
@@ -64,13 +64,25 @@ final class NftsDetailImpl {
     }
 
     private func loadNfts(ids: [String]) {
-        service.loadNfts(ids: ids) { [weak self] result in
-            switch result {
-            case .success(let nftsResult):
-                self?.state = .data(nftsResult)
-            case .failure(let error):
-                self?.state = .failed(error)
+        var nftsResult: [NftResult] = []
+        let group = DispatchGroup()
+        
+        for id in ids {
+            group.enter()
+            
+            service.loadNft(id: id) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                    case .success(let nft):
+                        nftsResult.append(nft)
+                    case .failure(let error):
+                        self.state = .failed(error)
+                }
+                group.leave()
             }
+        }
+        group.notify(queue: .main) {
+            self.state = .data(nftsResult)
         }
     }
 }

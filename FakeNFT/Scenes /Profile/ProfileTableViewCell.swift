@@ -22,6 +22,7 @@ final class ProfileTableViewCell: UITableViewCell {
     private lazy var chevronView: UIImageView = {
         let image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysOriginal)
         let imageView = UIImageView()
+        imageView.tintColor = .ypBlackDay
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image
 

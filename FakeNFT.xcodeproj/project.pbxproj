@@ -61,10 +61,8 @@
 		CE44470E2B4FF27D00239028 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4447092B4FF27D00239028 /* Order.swift */; };
 		CE4447102B4FF27D00239028 /* Cripto.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44470B2B4FF27D00239028 /* Cripto.swift */; };
 		CE4447112B4FF27D00239028 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44470C2B4FF27D00239028 /* Payment.swift */; };
-		CE4447162B4FF3F700239028 /* NftsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4447132B4FF3F500239028 /* NftsService.swift */; };
 		CE4447172B4FF3F700239028 /* CriptoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4447142B4FF3F600239028 /* CriptoService.swift */; };
 		CE4447182B4FF3F700239028 /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4447152B4FF3F600239028 /* PaymentService.swift */; };
-		CE44471A2B4FF48200239028 /* NftRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4447192B4FF48200239028 /* NftRequest.swift */; };
 		CE44471C2B4FF52500239028 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44471B2B4FF52500239028 /* NetworkConstants.swift */; };
 		CE4447202B4FF88600239028 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE44471F2B4FF88600239028 /* Images.swift */; };
 		CE4447222B50195D00239028 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE4447212B50195D00239028 /* Assets.xcassets */; };
@@ -184,10 +182,8 @@
 		CE4447092B4FF27D00239028 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		CE44470B2B4FF27D00239028 /* Cripto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cripto.swift; sourceTree = "<group>"; };
 		CE44470C2B4FF27D00239028 /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
-		CE4447132B4FF3F500239028 /* NftsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NftsService.swift; sourceTree = "<group>"; };
 		CE4447142B4FF3F600239028 /* CriptoService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriptoService.swift; sourceTree = "<group>"; };
 		CE4447152B4FF3F600239028 /* PaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
-		CE4447192B4FF48200239028 /* NftRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NftRequest.swift; sourceTree = "<group>"; };
 		CE44471B2B4FF52500239028 /* NetworkConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		CE44471F2B4FF88600239028 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		CE4447212B50195D00239028 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -349,16 +345,15 @@
 		3F6806C629CBBC4E00B4F915 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				D55ED0482B52B48300C64404 /* UsersService.swift */,
 				3FC8C38F29D245250081F015 /* Requests */,
 				0C79EE6B2A76DE2E00EE90EA /* ServicesAssemly.swift */,
 				4A07B4B82B29D8B100B64AB8 /* CollectionsService.swift */,
 				CE4447142B4FF3F600239028 /* CriptoService.swift */,
-				CE4447132B4FF3F500239028 /* NftsService.swift */,
 				CE4447152B4FF3F600239028 /* PaymentService.swift */,
 				E92038B62B51BEEF00C67C6C /* NftService.swift */,
 				4A26897D2B39A28900075D25 /* ProfileService.swift */,
 				4A2689842B3ACF7800075D25 /* OrderService.swift */,
+				D55ED0482B52B48300C64404 /* UsersService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -418,13 +413,12 @@
 		3FC8C38F29D245250081F015 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				0C79EE622A76DD1900EE90EA /* RequestConstants.swift */,
 				D55ED04B2B52B4A000C64404 /* NftsRequest.swift */,
 				D55ED04A2B52B4A000C64404 /* UsersRequest.swift */,
-				0C79EE622A76DD1900EE90EA /* RequestConstants.swift */,
 				4A07B4B62B29D50300B64AB8 /* CollectionsRequest.swift */,
 				CE44473F2B50231F00239028 /* PaymentRequest.swift */,
 				CE44473D2B50230F00239028 /* CriptoRequest.swift */,
-				CE4447192B4FF48200239028 /* NftRequest.swift */,
 				4A26897B2B39A21400075D25 /* ProfileRequests.swift */,
 				4A2689862B3ACFF200075D25 /* OrderRequest.swift */,
 			);
@@ -788,14 +782,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE4447162B4FF3F700239028 /* NftsService.swift in Sources */,
 				CE4447102B4FF27D00239028 /* Cripto.swift in Sources */,
 				3F478ECF29DB474E00F6D39E /* Colors.swift in Sources */,
 				4A26897A2B39A13A00075D25 /* ProfileUpdate.swift in Sources */,
 				D55ED04D2B52B4A000C64404 /* NftsRequest.swift in Sources */,
 				CE4447322B501D7600239028 /* UIViewController+Extensions.swift in Sources */,
 				4A07B4A32B26068800B64AB8 /* CollectionCell.swift in Sources */,
-				CE44471A2B4FF48200239028 /* NftRequest.swift in Sources */,
 				4A07B4C72B2CC43E00B64AB8 /* NftStorage.swift in Sources */,
 				D55ED0442B52B41B00C64404 /* StatCollectionCell.swift in Sources */,
 				CE44473E2B50230F00239028 /* CriptoRequest.swift in Sources */,
