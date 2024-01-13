@@ -89,8 +89,8 @@
 		D52336D72B4AB4D400579580 /* FavoriteNftsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52336D62B4AB4D400579580 /* FavoriteNftsCollectionViewCell.swift */; };
 		D52336DA2B4AB52600579580 /* ProfileCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52336D92B4AB52600579580 /* ProfileCellModel.swift */; };
 		E1A1B9DA2AA01CE400C3AFBC /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A1B9D92AA01CE400C3AFBC /* TabBarController.swift */; };
+		E905C8F52B529FCA001F4BDA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E92038B92B51C26500C67C6C /* Localizable.strings */; };
 		E92038B72B51BEEF00C67C6C /* NftService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92038B62B51BEEF00C67C6C /* NftService.swift */; };
-		E92038BC2B51C26500C67C6C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E92038B92B51C26500C67C6C /* Localizable.strings */; };
 		E9FC7B1F2B51D2D000BCF7ED /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC7B1E2B51D2D000BCF7ED /* UserModel.swift */; };
 		E9FC7B212B51D3F300BCF7ED /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC7B202B51D3F300BCF7ED /* UserDefaults+Extension.swift */; };
 		E9FC7B232B51D3FE00BCF7ED /* UIImageView+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC7B222B51D3FD00BCF7ED /* UIImageView+extensions.swift */; };
@@ -745,7 +745,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F6806A329CBBAF200B4F915 /* LaunchScreen.storyboard in Resources */,
-				E92038BC2B51C26500C67C6C /* Localizable.strings in Resources */,
+				E905C8F52B529FCA001F4BDA /* Localizable.strings in Resources */,
 				CE4447222B50195D00239028 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1080,9 +1080,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.practicum.FakeNFT;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1107,9 +1110,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.practicum.FakeNFT;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
