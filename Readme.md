@@ -2,6 +2,10 @@
 
 # Ссылки
 
+[Скринкаст профиля](https://disk.yandex.ru/i/OD154S_ZC6J-PQ)
+[Скринкаст каталога](https://disk.yandex.ru/i/dkGM2Yx7AnELgA)
+[Скринкаст корзины](https://disk.yandex.ru/i/pnN7cFlJsX-uxQ)
+[Скринкаст статистики](https://disk.yandex.ru/i/97JiXs-NQUbGFg)
 [Дизайн Figma](https://www.figma.com/file/k1LcgXHGTHIeiCv4XuPbND/FakeNFT-(YP)?node-id=96-5542&t=YdNbOI8EcqdYmDeg-0)
 
 # Назначение и цели приложения
