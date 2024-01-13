@@ -85,12 +85,12 @@ private extension UserDetailsViewController {
     }
 
     @objc func siteButtonCLicked() {
-        let nextController = WebViewViewController(urlString: userDetails.website)
+        let nextController = StatWebViewViewController(urlString: userDetails.website)
         navigationController?.pushViewController(nextController, animated: true)
     }
 
     @objc func collectionButtonCLicked() {
-        let nextController = CollectionViewController(
+        let nextController = StatCollectionViewController(
             servicesAssembly: servicesAssembly,
             nfts: userDetails.nfts,
             nftsService: servicesAssembly.nftsService

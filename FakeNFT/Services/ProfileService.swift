@@ -2,7 +2,7 @@
 //  ProfileService.swift
 //  FakeNFT
 //
-//  Created by Aleksey Kolesnikov on 15.12.2023.
+//  Created by Sergey Kemenov on 06.01.2024.
 //
 
 import Foundation

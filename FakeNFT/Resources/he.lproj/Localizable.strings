@@ -8,6 +8,50 @@
 "Error.repeat" = "חזור";
 "Error.title" = "שגיאה";
 
+"cart.cartViewController.empty" = "העגלה ריקה";
+"cart.cartViewController.pay" = "ניתן לתשלום";
+"cart.cartViewController.nft" = "NFT";
+"cart.cartViewController.eth" = "ETH";
+"cart.cartViewController.price" = "מחיר";
+"cart.cartViewController.bottomAlertSort" = "מיין";
+"cart.cartViewController.bottomAlertSortByPrice" = "לפי מחיר";
+"cart.cartViewController.bottomAlertSortByRating" = "לפי דירוג";
+"cart.cartViewController.bottomAlertSortByName" = "לפי השם";
+"cart.cartDeleteItemViewController.delete" = "מחק";
+"cart.cartDeleteItemViewController.back" = "חזרה";
+"cart.cartDeleteItemViewController.infoText" = "האם אתה בטוח שברצונך למחוק את הפריט מהסל?";
+
+"cart.cartPayViewController.title" = "בחר אמצעי תשלום";
+"cart.cartPayViewController.pay" = "תשלום";
+"cart.cartPayViewController.agreement" = "בביצוע רכישה, אתה מסכים לתנאים וההגבלות";
+"cart.cartPayViewController.agreementLink" = "הסכם משתמש";
+"cart.cartPayViewController.errorMessage" = "התשלום נכשל";
+"cart.cartPayViewController.errorCancel" = "בטל";
+"cart.cartPayViewController.errorRepeat" = "חזור";
+"cart.cartPayViewController.errorCurrency" = "תחילה בחר מטבע לתשלום";
+
+"cart.cartPaySuccessViewController.title" = "הצלחה! התשלום הושלם, ברכות על הרכישה!";
+"cart.cartPaySuccessViewController.backToCatalog" = "חזור לקטלוג";
+
+"extensions.uiViewController.bottomAlertCancel" = "בטל";
+
+"common.protocols.errorTitle" = "שגיאה";
+
+"onboarding.firstPageVC.mainLabel" = "חקר";
+"onboarding.firstPageVC.mainInfoText" = "הצטרף וגלה עולם חדש של NFTs ייחודיים לאספנים";
+"onboarding.secondPageVC.mainLabel" = "איסוף";
+"onboarding.secondPageVC.mainInfoText" = "הרחב את האוסף שלך עם תמונות בלעדיות שנוצרו על ידי הרשת העצבית!";
+"onboarding.thirdPageVC.mainLabel" = "התחרות";
+"onboarding.thirdPageVC.mainInfoText" = "ראה נתונים סטטיסטיים של אחרים והראה לכולם שיש לך את האוסף היקר ביותר";
+"onboarding.thirdPageVC.actionButton" = "מה יש בפנים?";
+
+"authorization.viewController.mainLabel" = "כניסה";
+"authorization.viewController.emailPlaceholder" = "אימייל";
+"authorization.viewController.passwordPlaceholder" = "סיסמה";
+"authorization.viewController.loginButtonTitle" = "כניסה";
+"authorization.viewController.forgotPasswordButton" = "שכחת את הסיסמה שלך?";
+"authorization.viewController.registerButton" = "כדי להירשם";
+
 "statistics.sort.title" = "מיון";
 "statistics.sort.byName" = "לפי שם";
 "statistics.sort.byRating" = "לפי דירוג";

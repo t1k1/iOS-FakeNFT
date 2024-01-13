@@ -31,7 +31,7 @@ enum Statistics {
     enum Images {
         static let iconCartEmpty = UIImage(named: "cart empty")
         static let iconCartDelete = UIImage(named: "cart delete")
-        static let iconSort = UIImage(named: "sort")
+        static let iconSort = UIImage(named: "Sort")
     }
 
     // MARK: - UI element's labels

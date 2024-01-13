@@ -8,78 +8,63 @@ final class TabBarController: UITabBarController {
     )
 
     private let profileTabBarItem = UITabBarItem(
-        title: "Профиль",
-        image: UIImage(named: "Profile"),
+        title: NSLocalizedString("Tab.profile", comment: ""),
+        image: Statistics.SfSymbols.iconProfile,
         tag: 0
     )
     private let catalogTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.catalog", comment: ""),
-        image: UIImage(named: "catalog"),
-//        image: UIImage(systemName: "rectangle.stack.fill"),
+        image: Statistics.SfSymbols.iconCatalog,
         tag: 1
     )
-
     private let cartTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.cart", comment: ""),
-        image: UIImage(named: "сart"),
+        image: Statistics.SfSymbols.iconCart,
         tag: 2
     )
-
     private let statisticsTabBarItem = UITabBarItem(
         title: Statistics.Labels.tabBarStatistics,
-        image: UIImage(named: "statistics"),
-//        image: Statistics.SfSymbols.iconStatistics,
+        image: Statistics.SfSymbols.iconStatistics,
         tag: 3
     )
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // mock data
+        let profileController = TestCatalogViewController(servicesAssembly: servicesAssembly)
+        let catalogController = TestCatalogViewController(servicesAssembly: servicesAssembly)
+        let cartController = TestCatalogViewController(servicesAssembly: servicesAssembly)
 
-        let catalogViewController = CatalogViewController(
-            servicesAssembly: servicesAssembly,
-            service: servicesAssembly.collectionsService
-        )
-
-        let catalogNavigationController = UINavigationController(rootViewController: catalogViewController)
-        catalogNavigationController.tabBarItem = catalogTabBarItem
-
-        let profileController = ProfileViewController()
-        profileController.tabBarItem = profileTabBarItem
-        let profileNavigationController = UINavigationController(rootViewController: profileController)
-
-        let cartNavigationController = UINavigationController(rootViewController: CartViewController())
-        cartNavigationController.tabBarItem = cartTabBarItem
+        // my epic
 
         let statisticsController = StatisticsViewController(
             servicesAssembly: servicesAssembly,
             service: servicesAssembly.usersService
         )
-        let statisticsNavigationController = UINavigationController(rootViewController: statisticsController)
+        let navStatisticsController = UINavigationController(rootViewController: statisticsController)
 
+        profileController.tabBarItem = profileTabBarItem
+        catalogController.tabBarItem = catalogTabBarItem
+        cartController.tabBarItem = cartTabBarItem
         statisticsController.tabBarItem = statisticsTabBarItem
 
         viewControllers = [
-            profileNavigationController,
-            catalogNavigationController,
-            cartNavigationController,
-            statisticsNavigationController
+            profileController,
+            catalogController,
+            cartController,
+            navStatisticsController
         ]
-        selectedIndex = 0
+        selectedIndex = 3
 
-        view.backgroundColor = UIColor.ypWhiteDay
-        tabBar.backgroundColor = UIColor.ypWhiteDay
-        tabBar.tintColor = UIColor.ypBlueUniversal
-        tabBar.unselectedItemTintColor = UIColor.ypBlackDay
-
-//        let appearance = tabBar.standardAppearance
-//        appearance.configureWithDefaultBackground()
-//        appearance.shadowImage = nil
-//        appearance.shadowColor = nil
-//        appearance.backgroundColor = .ypWhiteDay
-//        appearance.stackedLayoutAppearance.normal.titleTextAttributes =
-//            [NSAttributedString.Key.foregroundColor: UIColor.ypBlackDay as Any]
-//        appearance.stackedLayoutAppearance.normal.iconColor = .ypBlackDay
-//        tabBar.standardAppearance = appearance
+        let appearance = tabBar.standardAppearance
+        appearance.configureWithDefaultBackground()
+        appearance.shadowImage = nil
+        appearance.shadowColor = nil
+        appearance.backgroundColor = .ypWhiteDay
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes =
+            [NSAttributedString.Key.foregroundColor: UIColor.ypBlackDay as Any]
+        appearance.stackedLayoutAppearance.normal.iconColor = .ypBlackDay
+        tabBar.standardAppearance = appearance
 
         view.backgroundColor = .ypWhiteDay
     }

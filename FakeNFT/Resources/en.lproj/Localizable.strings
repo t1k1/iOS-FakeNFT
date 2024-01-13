@@ -8,6 +8,50 @@
 "Error.repeat" = "Repeat";
 "Error.title" = "Error";
 
+"cart.cartViewController.empty" = "Cart is empty";
+"cart.cartViewController.pay" = "Payable";
+"cart.cartViewController.nft" = "NFT";
+"cart.cartViewController.eth" = "ETH";
+"cart.cartViewController.price" = "Price";
+"cart.cartViewController.bottomAlertSort" = "Sort";
+"cart.cartViewController.bottomAlertSortByPrice" = "By price";
+"cart.cartViewController.bottomAlertSortByRating" = "By rating";
+"cart.cartViewController.bottomAlertSortByName" = "By name";
+"cart.cartDeleteItemViewController.delete" = "Delete";
+"cart.cartDeleteItemViewController.back" = "Back";
+"cart.cartDeleteItemViewController.infoText" = "Are you sure you want to \ndelete the item from the cart?";
+
+"cart.cartPayViewController.title" = "Select a payment method";
+"cart.cartPayViewController.pay" = "Pay";
+"cart.cartPayViewController.agreement" = "By making a purchase, you agree to the terms and conditions";
+"cart.cartPayViewController.agreementLink" = "User Agreement";
+"cart.cartPayViewController.errorMessage" = "Payment failed";
+"cart.cartPayViewController.errorCancel" = "Cancel";
+"cart.cartPayViewController.errorRepeat" = "Repeat";
+"cart.cartPayViewController.errorCurrency" = "Select a currency for the payment first";
+
+"cart.cartPaySuccessViewController.title" = "Success! Payment completed, congratulations on your purchase!";
+"cart.cartPaySuccessViewController.backToCatalog" = "Return to catalog";
+
+"extensions.uiViewController.bottomAlertCancel" = "Cancel";
+
+"common.protocols.errorTitle" = "Error";
+
+"onboarding.firstPageVC.mainLabel" = "Explore";
+"onboarding.firstPageVC.mainInfoText" = "Join and discover a new world of unique NFTs for collectors";
+"onboarding.secondPageVC.mainLabel" = "Collect";
+"onboarding.secondPageVC.mainInfoText" = "Expand your collection with exclusive pictures created by the neural network!";
+"onboarding.thirdPageVC.mainLabel" = "Compete";
+"onboarding.thirdPageVC.mainInfoText" = "See others' stats and show everyone that you have the most valuable collection";
+"onboarding.thirdPageVC.actionButton" = "What's inside?";
+
+"authorization.viewController.mainLabel" = "Login";
+"authorization.viewController.emailPlaceholder" = "Email";
+"authorization.viewController.passwordPlaceholder" = "Password";
+"authorization.viewController.loginButtonTitle" = "Login";
+"authorization.viewController.forgotPasswordButton" = "Forgot your password?";
+"authorization.viewController.registerButton" = "To register";
+
 "statistics.sort.title" = "Sorting";
 "statistics.sort.byName" = "By Name";
 "statistics.sort.byRating" = "By Rating";
