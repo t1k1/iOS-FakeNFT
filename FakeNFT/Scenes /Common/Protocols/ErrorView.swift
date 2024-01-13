@@ -7,22 +7,22 @@ struct ErrorModel {
     let action: () -> Void
     var secondActionText: String?
     var secondAction: (() -> Void)?
-
+    
     init(title: String, message: String, actionText: String, action: @escaping () -> Void) {
         self.title = title
         self.message = message
         self.actionText = actionText
         self.action = action
     }
-
+    
     mutating func setSecondAction(_ completion: (() -> Void)?) {
         self.secondAction = completion
     }
-
+    
     mutating func setSecondActionText(_ text: String?) {
         self.secondActionText = text
     }
-
+    
 }
 
 protocol ErrorView {
@@ -30,7 +30,7 @@ protocol ErrorView {
 }
 
 extension ErrorView where Self: UIViewController {
-
+    
     func showError(_ model: ErrorModel) {
         let title = model.title
         let alert = UIAlertController(

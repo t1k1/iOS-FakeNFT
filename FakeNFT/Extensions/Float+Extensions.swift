@@ -15,7 +15,7 @@ extension Float {
         formatter.maximumFractionDigits = 2
         return formatter
     }()
-
+    
     var priceFormatted: String {
         let string = Float.twoFractionDigits.string(for: self) ?? ""
         let changeDotToComma = String(string.map { $0 == "." ? "," : $0 })

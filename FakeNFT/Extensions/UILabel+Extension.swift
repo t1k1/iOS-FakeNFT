@@ -11,7 +11,7 @@ extension UILabel {
             .paragraphStyle,
             value: paragraphStyle,
             range: NSRange(location: 0, length: attributedString.length
-        ))
+                          ))
         attributedText = attributedString
     }
 }

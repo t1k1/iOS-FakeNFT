@@ -1,32 +1,32 @@
 import UIKit
 
 final class OnboardingViewController: UIPageViewController {
-
+    
     private let firstPageVC = PageViewController(
         label: NSLocalizedString("onboarding.firstPageVC.mainLabel", comment: ""),
         infoText: NSLocalizedString("onboarding.firstPageVC.mainInfoText", comment: ""),
         buttonShow: false,
         image: UIImage.firstPage
     )
-
+    
     private let secondPageVC = PageViewController(
         label: NSLocalizedString("onboarding.secondPageVC.mainLabel", comment: ""),
         infoText: NSLocalizedString("onboarding.secondPageVC.mainInfoText", comment: ""),
         buttonShow: false,
         image: UIImage.secondPage
     )
-
+    
     private let thirdPageVC = PageViewController(
         label: NSLocalizedString("onboarding.thirdPageVC.mainLabel", comment: ""),
         infoText: NSLocalizedString("onboarding.thirdPageVC.mainInfoText", comment: ""),
         buttonShow: true,
         image: UIImage.thirdPage
     )
-
+    
     private lazy var pages: [UIViewController] = {
         return [firstPageVC, secondPageVC, thirdPageVC]
     }()
-
+    
     private lazy var customPageControl: CustomPageControl = {
         let control = CustomPageControl(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
         control.numberOfPages = pages.count
@@ -36,7 +36,7 @@ final class OnboardingViewController: UIPageViewController {
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
-
+    
     override init(
         transitionStyle: UIPageViewController.TransitionStyle,
         navigationOrientation: UIPageViewController.NavigationOrientation,
@@ -44,11 +44,11 @@ final class OnboardingViewController: UIPageViewController {
     ) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
@@ -60,7 +60,7 @@ final class OnboardingViewController: UIPageViewController {
         customPageControl.delegate = self
         overrideUserInterfaceStyle = .dark
     }
-
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -83,14 +83,14 @@ extension OnboardingViewController: UIPageViewControllerDataSource {
             return nil
         }
         let previousIndex = viewControllerIndex - 1
-
+        
         guard previousIndex >= 0 else {
             return pages.last
         }
-
+        
         return pages[previousIndex]
     }
-
+    
     func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = pages.firstIndex(of: viewController) else {

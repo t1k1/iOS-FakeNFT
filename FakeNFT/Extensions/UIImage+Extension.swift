@@ -1,4 +1,5 @@
 import UIKit
+
 extension UIImage {
     func scalePreservingAspectRatio(targetSizeScale: Double) -> UIImage {
         let scaledImageSize = CGSize(
@@ -10,7 +11,7 @@ extension UIImage {
         }
         return scaledImage
     }
-
+    
     func alpha(_ value: CGFloat) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(size, false, scale)
         draw(at: CGPoint.zero, blendMode: .normal, alpha: value)

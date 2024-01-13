@@ -4,7 +4,7 @@ extension UIColor {
     static var ypBlackDay: UIColor! { UIColor(named: "Black [day]")}
     static var ypLightGreyDay: UIColor! { UIColor(named: "Light grey [day]")}
     static var ypWhiteDay: UIColor! { UIColor(named: "White [day]")}
-
+    
     static var ypBackgroundUniversal: UIColor! { UIColor(named: "Background Universal")}
     static var ypBlackUniversal: UIColor! { UIColor(named: "Black Universal")}
     static var ypBlueUniversal: UIColor! { UIColor(named: "Blue Universal")}

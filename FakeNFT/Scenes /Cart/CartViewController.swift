@@ -2,7 +2,7 @@ import UIKit
 import Kingfisher
 
 final class CartViewController: UIViewController {
-
+    
     // MARK: - Private constants
     private let cartStorage = UserDefaultsManager.shared
     private let servicesAssembly = ServicesAssembly(
@@ -19,7 +19,7 @@ final class CartViewController: UIViewController {
         delegate: self
     )
     private lazy var nftDetail = NftsDetailImpl(
-
+        
         servicesAssembly: servicesAssembly,
         service: servicesAssembly.nftService,
         delegate: self
@@ -107,7 +107,7 @@ final class CartViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,7 +122,7 @@ final class CartViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         self.orderDetail.startLoading(order: order, httpMethod: HttpMethod.get)
     }
-
+    
     private func setFirstStartSortConfiguration() {
         if !cartStorage.isCartFirstStart {
             cartStorage.sortCondition = SortCondition.byName.rawValue
@@ -138,7 +138,7 @@ final class CartViewController: UIViewController {
         let orderToPut = OrderResultModel(nfts: nfts, id: order.id)
         self.orderDetail.startLoading(order: orderToPut, httpMethod: HttpMethod.put)
     }
-
+    
     private func updateTableView() {
         visibleNftArray = nftArray
         let sortCondition = cartStorage.sortCondition
@@ -181,14 +181,14 @@ final class CartViewController: UIViewController {
     private func filterVisibleNFTArray(by sortCondition: Int) -> [NftModel] {
         var filteredNFTs: [NftModel] = []
         switch sortCondition {
-        case SortCondition.byPrice.rawValue:
-            filteredNFTs = visibleNftArray.sorted { $0.price < $1.price }
-        case SortCondition.byRating.rawValue:
-            filteredNFTs = visibleNftArray.sorted { $0.rating < $1.rating }
-        case SortCondition.byName.rawValue:
-            filteredNFTs = visibleNftArray.sorted { $0.name < $1.name }
-        default:
-            break
+            case SortCondition.byPrice.rawValue:
+                filteredNFTs = visibleNftArray.sorted { $0.price < $1.price }
+            case SortCondition.byRating.rawValue:
+                filteredNFTs = visibleNftArray.sorted { $0.rating < $1.rating }
+            case SortCondition.byName.rawValue:
+                filteredNFTs = visibleNftArray.sorted { $0.name < $1.name }
+            default:
+                break
         }
         return filteredNFTs
     }
@@ -204,7 +204,7 @@ final class CartViewController: UIViewController {
                 self.updateTableView()
             }
     }
-
+    
     // MARK: - Objective-C functions
     @objc
     private func didTapSortButton() {
@@ -254,7 +254,7 @@ extension CartViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return calculateTotalNftNumber()
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.reuseIdentifier, for: indexPath)
         cell.selectionStyle = .none
@@ -272,7 +272,7 @@ extension CartViewController: UITableViewDataSource {
         cartTableViewCell.delegate = self
         return cartTableViewCell
     }
-
+    
     private func updateImage(at indexPath: IndexPath, cartTableViewCell: CartTableViewCell) {
         if visibleNftArray[indexPath.row].images.count > 0 {
             cartTableViewCell.activityIndicator.startAnimating()
@@ -285,7 +285,7 @@ extension CartViewController: UITableViewDataSource {
             }
         }
     }
-
+    
 }
 
 // MARK: - TableViewCellDelegate
@@ -322,7 +322,7 @@ extension CartViewController: UITableViewDelegate {
 
 // MARK: - Configure constraints
 private extension CartViewController {
-
+    
     func sortButton(isVisible: Bool) {
         if isVisible {
             navigationBar.addSubview(sortButton)
@@ -336,7 +336,7 @@ private extension CartViewController {
             sortButton.removeFromSuperview()
         }
     }
-
+    
     func payUIView(isVisible: Bool) {
         if isVisible {
             view.addSubview(payUIView)
@@ -375,13 +375,13 @@ private extension CartViewController {
             payUIView.removeFromSuperview()
         }
     }
-
+    
     func configureConstraints() {
         view.addSubview(navigationBar)
         sortButton(isVisible: true)
         payUIView(isVisible: true)
     }
-
+    
     func isEmptyCartLabelVisible(_ bool: Bool) {
         if bool {
             sortButton(isVisible: false)

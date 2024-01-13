@@ -1,7 +1,7 @@
 import UIKit
 
 final class CartPaySuccessViewController: UIViewController {
-
+    
     // MARK: - Private mutable properties
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
@@ -10,7 +10,7 @@ final class CartPaySuccessViewController: UIViewController {
         stack.spacing = 20
         return stack
     }()
-
+    
     private lazy var paySuccessLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("cart.cartPaySuccessViewController.title", comment: "")
@@ -23,14 +23,14 @@ final class CartPaySuccessViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     private lazy var paySuccessImageView: UIImageView = {
         let image = UIImage(named: "Success Pay")
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
+    
     private lazy var backToCatalogButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(),
@@ -46,7 +46,7 @@ final class CartPaySuccessViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     // MARK: - View controller lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +54,7 @@ final class CartPaySuccessViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         configureConstraints()
     }
-
+    
     // MARK: - Objective-C function
     @objc
     private func didTapBackToCatalogButton() {
@@ -65,9 +65,9 @@ final class CartPaySuccessViewController: UIViewController {
 
 // MARK: - Configure constraints
 private extension CartPaySuccessViewController {
-
+    
     func configureConstraints() {
-
+        
         view.addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -76,10 +76,10 @@ private extension CartPaySuccessViewController {
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 36),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -36)
         ])
-
+        
         stackView.addArrangedSubview(paySuccessImageView)
         stackView.addArrangedSubview(paySuccessLabel)
-
+        
         view.addSubview(backToCatalogButton)
         NSLayoutConstraint.activate([
             backToCatalogButton.heightAnchor.constraint(equalToConstant: 60),
