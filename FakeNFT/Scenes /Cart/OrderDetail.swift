@@ -1,5 +1,4 @@
 import UIKit
-import ProgressHUD
 
 enum OrderDetailState {
     case initial, loading, failed(Error), data(OrderNetworkModel)
@@ -42,7 +41,7 @@ final class OrderDetailImpl {
         case .initial:
             assertionFailure("can`t move to initial state")
         case .loading:
-            UIBlockingProgressHUD.showCustom()
+            UIBlockingProgressHUD.show()
             if httpMethod == HttpMethod.get {
                 loadOrder(id: order.id)
             } else {
@@ -59,7 +58,7 @@ final class OrderDetailImpl {
             self.order = orderModel
             self.delegete?.sendLoaded(order: self.order)
         case .failed:
-            UIBlockingProgressHUD.dismissCustom()
+            UIBlockingProgressHUD.dismiss()
         }
     }
 

@@ -1,5 +1,4 @@
 import UIKit
-import ProgressHUD
 import Kingfisher
 
 protocol NftsDetailProtocol: AnyObject {
@@ -44,7 +43,7 @@ final class NftsDetailImpl {
         case .loading:
             loadNfts(ids: ids)
         case .data(let nftsResult):
-            UIBlockingProgressHUD.dismissCustom()
+            UIBlockingProgressHUD.dismiss()
             nftsResult.forEach { nftResult in
                 let nftModel = NftModel(
                     createdAt: nftResult.createdAt.toDate(),
@@ -59,7 +58,7 @@ final class NftsDetailImpl {
                 self.loadedNfts.append(nftModel)
             }
         case .failed:
-            UIBlockingProgressHUD.dismissCustom()
+            UIBlockingProgressHUD.dismiss()
         }
     }
 

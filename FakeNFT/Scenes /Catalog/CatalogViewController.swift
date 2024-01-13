@@ -160,8 +160,6 @@ final class CatalogViewController: UIViewController {
     }
 
     private func applySorting() {
-        UIBlockingProgressHUD.show()
-
         switch currentSortingOption {
         case .name:
             collections = collections.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
@@ -173,7 +171,6 @@ final class CatalogViewController: UIViewController {
 
         tableView.reloadData()
         dismiss(animated: true)
-        UIBlockingProgressHUD.dismiss()
         userDefaults.saveSortingOption(currentSortingOption)
     }
 

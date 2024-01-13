@@ -1,8 +1,5 @@
 import UIKit
 import WebKit
-import ProgressHUD
-
-// TODO: Already have WebViewViewController & StatWebViewViewController
 
 final class WebViewController: UIViewController {
 
@@ -39,7 +36,7 @@ final class WebViewController: UIViewController {
         if let url = URL(string: "https://yandex.ru/legal/practicum_termsofuse/") {
             webView.load(URLRequest(url: url))
         }
-        ProgressHUD.show()
+        UIBlockingProgressHUD.showWithoutBloсking()
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              options: [],
@@ -51,14 +48,14 @@ final class WebViewController: UIViewController {
 
     private func didUpdateProgressValue(_ newValue: Double) {
         if newValue > 0.9 {
-            ProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismiss()
         }
     }
 
     // MARK: - Objective-C function
     @objc
     private func backButtonTapped() {
-        ProgressHUD.dismiss()
+        UIBlockingProgressHUD.dismiss()
         navigationController?.popViewController(animated: true)
     }
 }

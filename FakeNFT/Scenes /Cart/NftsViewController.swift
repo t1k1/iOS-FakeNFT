@@ -1,5 +1,4 @@
 import UIKit
-import ProgressHUD
 import Kingfisher
 
 enum NftsDetailState {
@@ -78,7 +77,7 @@ final class NftsDetail: UIViewController {
             }
         case .data(let nftResult):
 
-            ProgressHUD.dismiss()
+            UIBlockingProgressHUD.dismiss()
 
             let nftModel = NftModel(
                 createdAt: nftResult.createdAt.toDate(),

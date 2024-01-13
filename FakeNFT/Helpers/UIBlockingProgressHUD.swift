@@ -1,5 +1,4 @@
 import UIKit
-import ProgressHUD
 import Kingfisher
 
 final class UIBlockingProgressHUD {
@@ -9,23 +8,12 @@ final class UIBlockingProgressHUD {
 
     private static var customView: UIView?
 
-    static func show() {
-        window?.isUserInteractionEnabled = false
-        ProgressHUD.show()
-    }
-
     static func showWithoutBloсking() {
-        window?.isUserInteractionEnabled = true
-        ProgressHUD.show()
+        show(unBlock: true)
     }
 
-    static func dismiss() {
-        window?.isUserInteractionEnabled = true
-        ProgressHUD.dismiss()
-    }
-
-    static func showCustom() {
-        window?.isUserInteractionEnabled = false
+    static func show(unBlock: Bool = false) {
+        window?.isUserInteractionEnabled = unBlock
         self.customView = UIView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
         guard let customView = customView else { return }
         customView.backgroundColor = .clear
@@ -43,7 +31,7 @@ final class UIBlockingProgressHUD {
         customView.addSubview(activity)
     }
 
-    static func dismissCustom() {
+    static func dismiss() {
         window?.isUserInteractionEnabled = true
         customView?.removeFromSuperview()
     }

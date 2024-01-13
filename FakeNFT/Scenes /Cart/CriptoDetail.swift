@@ -1,5 +1,4 @@
 import UIKit
-import ProgressHUD
 
 enum CriptoDetailState {
     case initial, loading, failed(Error), data([CriptoNetworkModel])
@@ -42,10 +41,10 @@ final class CriptoDetailImpl {
         case .initial:
             assertionFailure("can`t move to initial state")
         case .loading:
-            UIBlockingProgressHUD.showCustom()
+            UIBlockingProgressHUD.show()
             loadCriptos()
         case .data(let criptos):
-            UIBlockingProgressHUD.dismissCustom()
+            UIBlockingProgressHUD.dismiss()
             criptos.forEach { cripto in
                 let cripto = CriptoResultModel(
                     title: cripto.title,
@@ -56,7 +55,7 @@ final class CriptoDetailImpl {
             }
             self.delegete?.sendLoaded(criptos: self.criptos)
         case .failed:
-            UIBlockingProgressHUD.dismissCustom()
+            UIBlockingProgressHUD.dismiss()
         }
     }
 
