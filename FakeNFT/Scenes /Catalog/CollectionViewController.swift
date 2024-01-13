@@ -302,6 +302,7 @@ private extension CollectionViewController {
         )
         
         queue.addObserver(self, forKeyPath: #keyPath(OperationQueue.operationCount), options: .new, context: nil)
+        UIBlockingProgressHUD.dismiss()
     }
     
     func loadCatalogImage() {
@@ -385,7 +386,6 @@ private extension CollectionViewController {
     }
     
     func loadLikes() {
-        UIBlockingProgressHUD.show()
         profileService.getProfile { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -397,7 +397,6 @@ private extension CollectionViewController {
                         likes: profile.likes
                     )
                     collectionView.reloadData()
-                    UIBlockingProgressHUD.dismiss()
                 case .failure(let error):
                     UIBlockingProgressHUD.dismiss()
                     assertionFailure("Error: \(error)")
@@ -406,7 +405,6 @@ private extension CollectionViewController {
     }
     
     func loadOrder(id: String) {
-        UIBlockingProgressHUD.show()
         orderService.loadOrder(id: "1") { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -416,7 +414,6 @@ private extension CollectionViewController {
                         id: order.id
                     )
                     collectionView.reloadData()
-                    UIBlockingProgressHUD.dismiss()
                 case .failure(let error):
                     UIBlockingProgressHUD.dismiss()
                     assertionFailure("Error: \(error)")
