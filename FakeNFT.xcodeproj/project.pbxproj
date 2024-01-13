@@ -35,21 +35,19 @@
 		4A26897A2B39A13A00075D25 /* ProfileUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2689792B39A13A00075D25 /* ProfileUpdate.swift */; };
 		4A26897C2B39A21400075D25 /* ProfileRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26897B2B39A21400075D25 /* ProfileRequests.swift */; };
 		4A26897E2B39A28900075D25 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26897D2B39A28900075D25 /* ProfileService.swift */; };
-		4A2689832B3A26E700075D25 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2689822B3A26E700075D25 /* WebViewViewController.swift */; };
 		4A2689852B3ACF7800075D25 /* OrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2689842B3ACF7800075D25 /* OrderService.swift */; };
 		4A2689872B3ACFF200075D25 /* OrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2689862B3ACFF200075D25 /* OrderRequest.swift */; };
 		CE324C282B504A2C00373AA6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CE324C272B504A2C00373AA6 /* Kingfisher */; };
 		CE4446E12B4FF0E500239028 /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446DE2B4FF0E400239028 /* CustomPageControl.swift */; };
 		CE4446E22B4FF0E500239028 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446DF2B4FF0E500239028 /* PageViewController.swift */; };
 		CE4446E32B4FF0E500239028 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446E02B4FF0E500239028 /* OnboardingViewController.swift */; };
-		CE4446E62B4FF17500239028 /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446E52B4FF17500239028 /* Authorization.swift */; };
+		CE4446E62B4FF17500239028 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446E52B4FF17500239028 /* AuthorizationViewController.swift */; };
 		CE4446F72B4FF1AF00239028 /* CartPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446E92B4FF1AE00239028 /* CartPayViewController.swift */; };
 		CE4446F82B4FF1AF00239028 /* NftsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446EA2B4FF1AE00239028 /* NftsViewController.swift */; };
 		CE4446F92B4FF1AF00239028 /* PaymentDatail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446EB2B4FF1AE00239028 /* PaymentDatail.swift */; };
 		CE4446FA2B4FF1AF00239028 /* CartDeleteItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446EC2B4FF1AE00239028 /* CartDeleteItemViewController.swift */; };
 		CE4446FB2B4FF1AF00239028 /* CartPayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446ED2B4FF1AE00239028 /* CartPayCollectionViewCell.swift */; };
 		CE4446FC2B4FF1AF00239028 /* CartStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446EE2B4FF1AE00239028 /* CartStorage.swift */; };
-		CE4446FD2B4FF1AF00239028 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446EF2B4FF1AE00239028 /* WebViewController.swift */; };
 		CE4446FE2B4FF1AF00239028 /* CartPaySuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446F02B4FF1AE00239028 /* CartPaySuccessViewController.swift */; };
 		CE4446FF2B4FF1AF00239028 /* OrderDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446F12B4FF1AE00239028 /* OrderDetail.swift */; };
 		CE4447002B4FF1AF00239028 /* CriptoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4446F22B4FF1AE00239028 /* CriptoDetail.swift */; };
@@ -102,7 +100,7 @@
 		E9FC7B232B51D3FE00BCF7ED /* UIImageView+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC7B222B51D3FD00BCF7ED /* UIImageView+extensions.swift */; };
 		E9FC7B252B51D42700BCF7ED /* Float+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC7B242B51D42600BCF7ED /* Float+Extensions.swift */; };
 		E9FC7B272B51D43800BCF7ED /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC7B262B51D43800BCF7ED /* CGFloat+Extensions.swift */; };
-		E9FC7B312B51E1DB00BCF7ED /* StatWebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC7B302B51E1DB00BCF7ED /* StatWebViewViewController.swift */; };
+		E9FC7B312B51E1DB00BCF7ED /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC7B302B51E1DB00BCF7ED /* WebViewViewController.swift */; };
 		E9FC7B332B51ECEF00BCF7ED /* CellsReusingUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FC7B322B51ECEF00BCF7ED /* CellsReusingUtils.swift */; };
 /* End PBXBuildFile section */
 
@@ -156,20 +154,18 @@
 		4A2689792B39A13A00075D25 /* ProfileUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUpdate.swift; sourceTree = "<group>"; };
 		4A26897B2B39A21400075D25 /* ProfileRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRequests.swift; sourceTree = "<group>"; };
 		4A26897D2B39A28900075D25 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
-		4A2689822B3A26E700075D25 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		4A2689842B3ACF7800075D25 /* OrderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderService.swift; sourceTree = "<group>"; };
 		4A2689862B3ACFF200075D25 /* OrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRequest.swift; sourceTree = "<group>"; };
 		CE4446DE2B4FF0E400239028 /* CustomPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
 		CE4446DF2B4FF0E500239028 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		CE4446E02B4FF0E500239028 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
-		CE4446E52B4FF17500239028 /* Authorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
+		CE4446E52B4FF17500239028 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		CE4446E92B4FF1AE00239028 /* CartPayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartPayViewController.swift; sourceTree = "<group>"; };
 		CE4446EA2B4FF1AE00239028 /* NftsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NftsViewController.swift; sourceTree = "<group>"; };
 		CE4446EB2B4FF1AE00239028 /* PaymentDatail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentDatail.swift; sourceTree = "<group>"; };
 		CE4446EC2B4FF1AE00239028 /* CartDeleteItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartDeleteItemViewController.swift; sourceTree = "<group>"; };
 		CE4446ED2B4FF1AE00239028 /* CartPayCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartPayCollectionViewCell.swift; sourceTree = "<group>"; };
 		CE4446EE2B4FF1AE00239028 /* CartStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartStorage.swift; sourceTree = "<group>"; };
-		CE4446EF2B4FF1AE00239028 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		CE4446F02B4FF1AE00239028 /* CartPaySuccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartPaySuccessViewController.swift; sourceTree = "<group>"; };
 		CE4446F12B4FF1AE00239028 /* OrderDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetail.swift; sourceTree = "<group>"; };
 		CE4446F22B4FF1AE00239028 /* CriptoDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriptoDetail.swift; sourceTree = "<group>"; };
@@ -225,7 +221,7 @@
 		E9FC7B222B51D3FD00BCF7ED /* UIImageView+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extensions.swift"; sourceTree = "<group>"; };
 		E9FC7B242B51D42600BCF7ED /* Float+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+Extensions.swift"; sourceTree = "<group>"; };
 		E9FC7B262B51D43800BCF7ED /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
-		E9FC7B302B51E1DB00BCF7ED /* StatWebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatWebViewViewController.swift; sourceTree = "<group>"; };
+		E9FC7B302B51E1DB00BCF7ED /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		E9FC7B322B51ECEF00BCF7ED /* CellsReusingUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellsReusingUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -359,10 +355,10 @@
 		3F6806C729CBBC5B00B4F915 /* Scenes  */ = {
 			isa = PBXGroup;
 			children = (
+				CE4446E42B4FF10800239028 /* Onboarding */,
+				D5EFB7CC2B52C7C70043CB77 /* Authorization */,
 				D55ED03B2B52B41B00C64404 /* Statistics */,
 				CE4447372B501DFA00239028 /* Common */,
-				CE4446E42B4FF10800239028 /* Onboarding */,
-				CE4446E52B4FF17500239028 /* Authorization.swift */,
 				4A2689812B3A26D500075D25 /* WebView */,
 				E1A1B9D82AA01C9700C3AFBC /* TabBarController */,
 				D52336C62B4AB40800579580 /* Profile */,
@@ -434,8 +430,7 @@
 		4A2689812B3A26D500075D25 /* WebView */ = {
 			isa = PBXGroup;
 			children = (
-				E9FC7B302B51E1DB00BCF7ED /* StatWebViewViewController.swift */,
-				4A2689822B3A26E700075D25 /* WebViewViewController.swift */,
+				E9FC7B302B51E1DB00BCF7ED /* WebViewViewController.swift */,
 			);
 			path = WebView;
 			sourceTree = "<group>";
@@ -460,7 +455,6 @@
 				CE4446EC2B4FF1AE00239028 /* CartDeleteItemViewController.swift */,
 				CE4446ED2B4FF1AE00239028 /* CartPayCollectionViewCell.swift */,
 				CE4446EE2B4FF1AE00239028 /* CartStorage.swift */,
-				CE4446EF2B4FF1AE00239028 /* WebViewController.swift */,
 				CE4446F02B4FF1AE00239028 /* CartPaySuccessViewController.swift */,
 				CE4446F12B4FF1AE00239028 /* OrderDetail.swift */,
 				CE4446F22B4FF1AE00239028 /* CriptoDetail.swift */,
@@ -596,6 +590,14 @@
 				D55ED0402B52B41B00C64404 /* StatCollectionViewController.swift */,
 			);
 			path = Collection;
+			sourceTree = "<group>";
+		};
+		D5EFB7CC2B52C7C70043CB77 /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
+				CE4446E52B4FF17500239028 /* AuthorizationViewController.swift */,
+			);
+			path = Authorization;
 			sourceTree = "<group>";
 		};
 		E1A1B9D82AA01C9700C3AFBC /* TabBarController */ = {
@@ -814,17 +816,15 @@
 				CE4447112B4FF27D00239028 /* Payment.swift in Sources */,
 				CE44471C2B4FF52500239028 /* NetworkConstants.swift in Sources */,
 				CE4447032B4FF1AF00239028 /* NftsDetail.swift in Sources */,
-				CE4446FD2B4FF1AF00239028 /* WebViewController.swift in Sources */,
 				CE4446FF2B4FF1AF00239028 /* OrderDetail.swift in Sources */,
 				CE44473A2B501DFA00239028 /* ErrorView.swift in Sources */,
-				CE4446E62B4FF17500239028 /* Authorization.swift in Sources */,
+				CE4446E62B4FF17500239028 /* AuthorizationViewController.swift in Sources */,
 				D55ED0492B52B48300C64404 /* UsersService.swift in Sources */,
 				4A07B49B2B2489C000B64AB8 /* CatalogCell.swift in Sources */,
 				4A26897C2B39A21400075D25 /* ProfileRequests.swift in Sources */,
 				CE4446FB2B4FF1AF00239028 /* CartPayCollectionViewCell.swift in Sources */,
 				CE4446F72B4FF1AF00239028 /* CartPayViewController.swift in Sources */,
 				CE4447002B4FF1AF00239028 /* CriptoDetail.swift in Sources */,
-				4A2689832B3A26E700075D25 /* WebViewViewController.swift in Sources */,
 				CE4447012B4FF1AF00239028 /* CartTableViewCell.swift in Sources */,
 				CE4447352B501D7600239028 /* UIImage+Extension.swift in Sources */,
 				CE44470E2B4FF27D00239028 /* Order.swift in Sources */,
@@ -846,7 +846,7 @@
 				4A2689782B39A0F400075D25 /* ProfileResult.swift in Sources */,
 				D55ED04C2B52B4A000C64404 /* UsersRequest.swift in Sources */,
 				4A07B4B52B29D38C00B64AB8 /* CollectionsResult.swift in Sources */,
-				E9FC7B312B51E1DB00BCF7ED /* StatWebViewViewController.swift in Sources */,
+				E9FC7B312B51E1DB00BCF7ED /* WebViewViewController.swift in Sources */,
 				CE4447362B501D7600239028 /* UITextField+Extension.swift in Sources */,
 				4A2689762B399FDC00075D25 /* ProfileStorage.swift in Sources */,
 				CE4447202B4FF88600239028 /* Images.swift in Sources */,
