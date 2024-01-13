@@ -58,7 +58,7 @@ final class StatisticsViewController: UIViewController {
         }
     }
     private var currentSortingState =
-        SortingState(rawValue: UserDefaults.standard.statisticsSorting) ?? SortingState.byRatingDescending
+    SortingState(rawValue: UserDefaultsManager.shared.statisticsSorting) ?? SortingState.byRatingDescending
     private let servicesAssembly: ServicesAssembly
     private let service: UsersServiceProtocol
     private let cellID = "UserCell"
@@ -128,7 +128,7 @@ private extension StatisticsViewController {
     }
 
     func saveStatisticsSortingState() {
-        UserDefaults.standard.statisticsSorting = currentSortingState.rawValue
+        UserDefaultsManager.shared.statisticsSorting = currentSortingState.rawValue
     }
 
     func applySortingState() {

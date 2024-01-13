@@ -4,7 +4,7 @@ import Kingfisher
 final class CartViewController: UIViewController {
 
     // MARK: - Private constants
-    private let cartStorage = CartStorageImpl()
+    private let cartStorage = UserDefaultsManager.shared
     private let servicesAssembly = ServicesAssembly(
         networkClient: DefaultNetworkClient(),
         nftStorage: NftStorageImpl()
@@ -124,9 +124,9 @@ final class CartViewController: UIViewController {
     }
 
     private func setFirstStartSortConfiguration() {
-        if cartStorage.isNotFisrtStart == false {
+        if !cartStorage.isCartFirstStart {
             cartStorage.sortCondition = SortCondition.byName.rawValue
-            cartStorage.isNotFisrtStart = true
+            cartStorage.isCartFirstStart = true
         }
     }
     private func deleteFromNftArray(at row: Int) {

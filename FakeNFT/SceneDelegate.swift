@@ -8,7 +8,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let tabBarController = TabBarController()
         let onboardingViewController = OnboardingViewController()
-        let cartStorage = CartStorageImpl(userDefaults: UserDefaults.standard)
+        let cartStorage = UserDefaultsManager.shared
 
         if cartStorage.getFirstStartBoolValue() == false {
             window.rootViewController = onboardingViewController

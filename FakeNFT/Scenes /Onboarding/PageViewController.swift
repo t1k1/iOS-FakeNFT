@@ -1,7 +1,7 @@
 import UIKit
 final class PageViewController: UIViewController {
 
-    private lazy var cartStorage = CartStorageImpl()
+    private lazy var cartStorage = UserDefaultsManager.shared
 
     private lazy var image = UIImage()
 
