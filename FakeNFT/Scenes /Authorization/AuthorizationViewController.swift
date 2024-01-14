@@ -1,6 +1,6 @@
 import UIKit
 final class AuthorizationViewController: UIViewController {
-    
+
     // MARK: - Private mutable properties
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
@@ -11,7 +11,7 @@ final class AuthorizationViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var userTextField: TextFieldWithPadding = {
         let field = TextFieldWithPadding()
         field.attributedPlaceholder = NSAttributedString(
@@ -27,7 +27,7 @@ final class AuthorizationViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
-    
+
     private lazy var passwordTextField: TextFieldWithPadding = {
         let field = TextFieldWithPadding()
         field.attributedPlaceholder = NSAttributedString(
@@ -44,7 +44,7 @@ final class AuthorizationViewController: UIViewController {
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
-    
+
     private lazy var loginButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
@@ -57,7 +57,7 @@ final class AuthorizationViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private lazy var forgotPasswordButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(didTapForgotPassword), for: .touchUpInside)
@@ -71,7 +71,7 @@ final class AuthorizationViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private lazy var registerButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
@@ -84,15 +84,15 @@ final class AuthorizationViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     // MARK: - View controller lifecycle methods
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypWhiteDay
         configureConstraints()
     }
-    
+
     // MARK: - Objective-C functions
     @objc
     private func didTapLoginButton() {
@@ -102,10 +102,10 @@ final class AuthorizationViewController: UIViewController {
         let tabBarController = TabBarController()
         window.rootViewController = tabBarController
     }
-    
+
     @objc func didTapForgotPassword() {
     }
-    
+
     @objc func didTapRegisterButton() {
     }
 }
@@ -119,7 +119,7 @@ private extension AuthorizationViewController {
             mainLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             mainLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 176)
         ])
-        
+
         view.addSubview(userTextField)
         NSLayoutConstraint.activate([
             userTextField.topAnchor.constraint(equalTo: mainLabel.topAnchor, constant: 61),
@@ -127,7 +127,7 @@ private extension AuthorizationViewController {
             userTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             userTextField.heightAnchor.constraint(equalToConstant: 46)
         ])
-        
+
         view.addSubview(passwordTextField)
         NSLayoutConstraint.activate([
             passwordTextField.topAnchor.constraint(equalTo: userTextField.bottomAnchor, constant: 16),
@@ -135,7 +135,7 @@ private extension AuthorizationViewController {
             passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             passwordTextField.heightAnchor.constraint(equalToConstant: 46)
         ])
-        
+
         view.addSubview(loginButton)
         NSLayoutConstraint.activate([
             loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 84),
@@ -143,7 +143,7 @@ private extension AuthorizationViewController {
             loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             loginButton.heightAnchor.constraint(equalToConstant: 60)
         ])
-        
+
         view.addSubview(forgotPasswordButton)
         NSLayoutConstraint.activate([
             forgotPasswordButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 16),
@@ -151,7 +151,7 @@ private extension AuthorizationViewController {
             forgotPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             forgotPasswordButton.heightAnchor.constraint(equalToConstant: 18)
         ])
-        
+
         view.addSubview(registerButton)
         NSLayoutConstraint.activate([
             registerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),

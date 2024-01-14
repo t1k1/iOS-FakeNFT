@@ -55,11 +55,11 @@ final class UserDefaultsManager {
         }
     }
     private let userDefaults = UserDefaults.standard
-    
+
     func getFirstStartBoolValue() -> Bool {
         return userDefaults.bool(forKey: StorageKeyNames.isFirstStart.rawValue)
     }
-    
+
     func resetDefaults() {
         let dictionary = userDefaults.dictionaryRepresentation()
         dictionary.keys.forEach { key in
@@ -67,11 +67,11 @@ final class UserDefaultsManager {
         }
         userDefaults.synchronize()
     }
-    
+
     func saveSortingOption(_ option: CatalogViewController.SortingOption) {
         userDefaults.set(option.rawValue, forKey: StorageKeyNames.sortingOptionKey.rawValue)
     }
-    
+
     func loadSortingOption() -> CatalogViewController.SortingOption {
         if let rawValue = userDefaults.value(forKey: StorageKeyNames.sortingOptionKey.rawValue) as? Int,
            let option = CatalogViewController.SortingOption(rawValue: rawValue) {

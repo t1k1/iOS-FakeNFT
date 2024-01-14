@@ -2,44 +2,44 @@ import UIKit
 import Kingfisher
 
 final class CartPayViewController: UIViewController, ErrorView {
-    
+
     // MARK: - Private constants
-    
+
     private let servicesAssembly = ServicesAssembly(
         networkClient: DefaultNetworkClient(),
         nftStorage: NftStorageImpl()
     )
-    
+
     // MARK: - Private mutable properties
-    
+
     private var orderId: String?
-    
+
     private lazy var criptoArray: [CriptoResultModel] = []
-    
+
     private lazy var criptoDetail = CriptoDetailImpl(
         servicesAssembly: servicesAssembly,
         service: servicesAssembly.criptoService,
         delegate: self
     )
-    
+
     private lazy var payment: PaymentResultModel = PaymentResultModel(success: false, orderId: orderId ?? "", id: "")
-    
+
     private lazy var paymentDetail = PaymentDetailImpl(
         servicesAssembly: servicesAssembly,
         service: servicesAssembly.paymentService,
         delegate: self
     )
-    
+
     private var selectionArray: [CGFloat] = []
     private var selectedCripto: CriptoResultModel?
-    
+
     private lazy var titleBackgroundView: UIView = {
         let view = UIView()
         view.layer.backgroundColor = UIColor.clear.cgColor
         view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 88)
         return view
     }()
-    
+
     private lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage.backward, for: .normal)
@@ -48,7 +48,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private lazy var cartPayLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("cart.cartPayViewController.title", comment: "")
@@ -58,7 +58,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var bottomView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.ypLightGreyDay
@@ -68,7 +68,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
+
     private lazy var userAgreementLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -78,7 +78,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var userAgreementLinkLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
@@ -90,7 +90,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var payButton: UIButton = {
         let button = UIButton.systemButton(
             with: UIImage(),
@@ -106,40 +106,40 @@ final class CartPayViewController: UIViewController, ErrorView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
-    
+
     init(orderId: String?) {
         self.orderId = orderId
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - View controller lifecycle methods
     override func loadView() {
         super.loadView()
         self.criptoDetail.startLoading(criptos: criptoArray, httpMethod: HttpMethod.get)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypWhiteDay
         collectionViewConfig()
         configureConstraints()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
     }
-    
+
     private func collectionViewConfig() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -149,7 +149,7 @@ final class CartPayViewController: UIViewController, ErrorView {
         )
         collectionView.allowsMultipleSelection = false
     }
-    
+
     // MARK: - Objective-C functions
     @objc
     private func didTapPayButton() {
@@ -160,12 +160,12 @@ final class CartPayViewController: UIViewController, ErrorView {
         let paymentToSend = PaymentResultModel(success: false, orderId: orderId ?? "", id: selectedIndex)
         self.paymentDetail.startLoading(payment: paymentToSend, httpMethod: HttpMethod.get)
     }
-    
+
     @objc
     private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
-    
+
     @objc
     private func userAgreementTapped() {
         let webViewController = WebViewViewController(
@@ -191,28 +191,25 @@ extension CartPayViewController: PaymentDetailProtocol {
     func sendLoaded(payment: PaymentResultModel) {
         self.payment = payment
         switch payment.success {
-            case false:
-                var error = ErrorModel(
-                    title: NSLocalizedString("cart.cartPayViewController.errorMessage",
-                                             comment: ""),
-                    message: "",
-                    actionText: NSLocalizedString("cart.cartPayViewController.errorCancel",
-                                                  comment: ""),
-                    action: {}
-                )
-                error.setSecondActionText(
-                    NSLocalizedString("cart.cartPayViewController.errorRepeat",
-                                      comment: "")
-                )
-                error.setSecondAction {
-                    self.didTapPayButton()
-                }
-                return showError(error)
-            default:
-                let successViewController = CartPaySuccessViewController()
-                navigationController?.pushViewController(successViewController, animated: true)
+        case false:
+            var error = ErrorModel(
+                title: NSLocalizedString("cart.cartPayViewController.errorMessage", comment: ""),
+                message: "",
+                actionText: NSLocalizedString("cart.cartPayViewController.errorCancel", comment: ""),
+                action: {}
+            )
+            error.setSecondActionText(
+                NSLocalizedString("cart.cartPayViewController.errorRepeat", comment: "")
+            )
+            error.setSecondAction {
+                self.didTapPayButton()
+            }
+            return showError(error)
+        default:
+            let successViewController = CartPaySuccessViewController()
+            navigationController?.pushViewController(successViewController, animated: true)
         }
-        
+
     }
 }
 
@@ -242,7 +239,7 @@ extension CartPayViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return criptoArray.count
     }
-    
+
     /// Cell for item
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -257,12 +254,12 @@ extension CartPayViewController: UICollectionViewDataSource {
             title: "\(criptoArray[indexPath.row].id)",
             image: UIImage(),
             borderWidth: selectionArray[indexPath.row])
-        
+
         updateImage(at: indexPath, cell: cell)
-        
+
         return cell
     }
-    
+
     private func updateImage(at indexPath: IndexPath, cell: CartPayCollectionViewCell) {
         if criptoArray.count > 0 {
             cell.activityIndicator.startAnimating()
@@ -272,11 +269,11 @@ extension CartPayViewController: UICollectionViewDataSource {
                 options: [.processor(processor)]) { result in
                     cell.activityIndicator.stopAnimating()
                     switch result {
-                        case .success:
-                            return
-                        case .failure:
-                            cell.cellCriptoImageView.image = UIImage(systemName: "nosign") ?? UIImage()
-                            cell.cellCriptoImageView.tintColor = UIColor.ypBlackDay
+                    case .success:
+                        return
+                    case .failure:
+                        cell.cellCriptoImageView.image = UIImage(systemName: "nosign") ?? UIImage()
+                        cell.cellCriptoImageView.tintColor = UIColor.ypBlackDay
                     }
                 }
         }
@@ -320,7 +317,7 @@ extension CartPayViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Configure constraints
 private extension CartPayViewController {
-    
+
     func configureConstraints() {
         view.addSubview(titleBackgroundView)
         titleBackgroundView.addSubview(backButton)
@@ -336,7 +333,7 @@ private extension CartPayViewController {
             cartPayLabel.leadingAnchor.constraint(equalTo: titleBackgroundView.leadingAnchor),
             cartPayLabel.trailingAnchor.constraint(equalTo: titleBackgroundView.trailingAnchor)
         ])
-        
+
         view.addSubview(bottomView)
         NSLayoutConstraint.activate([
             bottomView.heightAnchor.constraint(equalToConstant: 186),
@@ -344,7 +341,7 @@ private extension CartPayViewController {
             bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
+
         bottomView.addSubview(payButton)
         NSLayoutConstraint.activate([
             payButton.heightAnchor.constraint(equalToConstant: 60),
@@ -352,21 +349,21 @@ private extension CartPayViewController {
             payButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -12),
             payButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -50)
         ])
-        
+
         bottomView.addSubview(userAgreementLabel)
         NSLayoutConstraint.activate([
             userAgreementLabel.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 16),
             userAgreementLabel.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -16),
             userAgreementLabel.topAnchor.constraint(equalTo: bottomView.topAnchor, constant: 16)
         ])
-        
+
         bottomView.addSubview(userAgreementLinkLabel)
         NSLayoutConstraint.activate([
             userAgreementLinkLabel.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 16),
             userAgreementLinkLabel.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -16),
             userAgreementLinkLabel.topAnchor.constraint(equalTo: userAgreementLabel.bottomAnchor, constant: 4)
         ])
-        
+
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: titleBackgroundView.bottomAnchor),
@@ -374,6 +371,6 @@ private extension CartPayViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        
+
     }
 }
