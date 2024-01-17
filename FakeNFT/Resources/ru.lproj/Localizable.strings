@@ -1,0 +1,61 @@
+"Tab.profile" = "Профиль";
+"Tab.catalog" = "Каталог";
+"Tab.cart" = "Корзина";
+"Tab.statistics" = "Статистика";
+"Catalog.openNft" = "Открыть Nft";
+"Error.network" = "Произошла ошибка сети";
+"Error.unknown" = "Произошла неизвестная ошибка";
+"Error.repeat" = "Повторить";
+"Error.title" = "Ошибка";
+
+"cart.cartViewController.empty" = "Корзина пуста";
+"cart.cartViewController.pay" = "К оплате";
+"cart.cartViewController.nft" = "NFT";
+"cart.cartViewController.eth" = "ETH";
+"cart.cartViewController.price" = "Цена";
+"cart.cartViewController.bottomAlertSort" = "Сортировка";
+"cart.cartViewController.bottomAlertSortByPrice" = "По цене";
+"cart.cartViewController.bottomAlertSortByRating" = "По рейнингу";
+"cart.cartViewController.bottomAlertSortByName" = "По названию";
+"cart.cartDeleteItemViewController.delete" = "Удалить";
+"cart.cartDeleteItemViewController.back" = "Вернуться";
+"cart.cartDeleteItemViewController.infoText" = "Вы уверены, что хотите \n удалить объект из корзины?";
+
+"cart.cartPayViewController.title" = "Выберите способ оплаты";
+"cart.cartPayViewController.pay" = "Оплатить";
+"cart.cartPayViewController.agreement" = "Совершая покупку, вы соглашаетесь с условиями";
+"cart.cartPayViewController.agreementLink" = "Пользовательского соглашения";
+"cart.cartPayViewController.errorMessage" = "Не удалось произвести оплату";
+"cart.cartPayViewController.errorCancel" = "Отмена";
+"cart.cartPayViewController.errorRepeat" = "Повторить";
+"cart.cartPayViewController.errorCurrency" = "Сначала выберите валюту для оплаты";
+
+"cart.cartPaySuccessViewController.title" = "Успех! Оплата прошла, поздравляем с покупкой!";
+"cart.cartPaySuccessViewController.backToCatalog" = "Вернуться в каталог";
+
+"extensions.uiViewController.bottomAlertCancel" = "Отмена";
+
+"common.protocols.errorTitle" = "Ошибка";
+
+"onboarding.firstPageVC.mainLabel" = "Исследуйте";
+"onboarding.firstPageVC.mainInfoText" = "Присоединяйтесь и откройте новый мир уникальных NFT для коллекционеров";
+"onboarding.secondPageVC.mainLabel" = "Коллекционируйте";
+"onboarding.secondPageVC.mainInfoText" = "Пополняйте свою коллекцию эксклюзивными картинками, созданными нейросетью!";
+"onboarding.thirdPageVC.mainLabel" = "Состязайтесь";
+"onboarding.thirdPageVC.mainInfoText" = "Смотрите статистику других и покажите всем, что у вас самая ценная коллекция";
+"onboarding.thirdPageVC.actionButton" = "Что внутри?";
+
+"authorization.viewController.mainLabel" = "Вход";
+"authorization.viewController.emailPlaceholder" = "Email";
+"authorization.viewController.passwordPlaceholder" = "Пароль";
+"authorization.viewController.loginButtonTitle" = "Войти";
+"authorization.viewController.forgotPasswordButton" = "Забыли пароль?";
+"authorization.viewController.registerButton" = "Зарегистрироваться";
+
+"statistics.sort.title" = "Сортировка";
+"statistics.sort.byName" = "По имени";
+"statistics.sort.byRating" = "По рейтингу";
+"statistics.sort.close" = "Закрыть";
+"statistics.collection.title" = "Коллекция NFT";
+"statistics.collection.mockTitle" = "Коллекция NFT (mock data)";
+"statistics.siteButton.title" = "Перейти на сайт пользователя";

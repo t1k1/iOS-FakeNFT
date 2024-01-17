@@ -1,0 +1,10 @@
+input_dir: ${PROJECT_DIR}/FakeNFT/Resources
+output_dir: ${PROJECT_DIR}/FakeNFT/SwiftGen
+xcassets:
+  inputs:
+    - Assets.xcassets
+  outputs:
+    - templatePath: ${PROJECT_DIR}/FakeNFT/SwiftGen/Template.stencil
+      params:
+        publicAccess: true
+      output: Assets.generated.swift

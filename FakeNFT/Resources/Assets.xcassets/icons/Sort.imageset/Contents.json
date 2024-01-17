@@ -1,0 +1,62 @@
+{
+  "images" : [
+    {
+      "filename" : "sort@1x.png",
+      "idiom" : "iphone",
+      "language-direction" : "left-to-right",
+      "scale" : "1x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "sort_dark.png",
+      "idiom" : "iphone",
+      "language-direction" : "left-to-right",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "sort@2x.png",
+      "idiom" : "iphone",
+      "language-direction" : "left-to-right",
+      "scale" : "2x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "sort_dark@2x.png",
+      "idiom" : "iphone",
+      "language-direction" : "left-to-right",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Sort@3x.png",
+      "idiom" : "iphone",
+      "language-direction" : "left-to-right",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "sort_dark@3x.png",
+      "idiom" : "iphone",
+      "language-direction" : "left-to-right",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

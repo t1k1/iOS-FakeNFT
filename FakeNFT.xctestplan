@@ -1,0 +1,35 @@
+{
+  "configurations" : [
+    {
+      "id" : "F97FE069-F9E1-46C3-A992-5FB38E209F0B",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:FakeNFT.xcodeproj",
+      "identifier" : "3F68069229CBBAF100B4F915",
+      "name" : "FakeNFT"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:FakeNFT.xcodeproj",
+        "identifier" : "3F6806A829CBBAF200B4F915",
+        "name" : "FakeNFTTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:FakeNFT.xcodeproj",
+        "identifier" : "3F6806B229CBBAF200B4F915",
+        "name" : "FakeNFTUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
